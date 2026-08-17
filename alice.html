@@ -21,7 +21,7 @@ body.dark{
 }
 body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
 a{color:var(--accent)}
-.wrap{max-width:760px;margin:0 auto;padding:28px 20px 140px}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 190px}
 .top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:20}
 .top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
 .top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
@@ -33,27 +33,40 @@ a{color:var(--accent)}
 .intro{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin:16px 0;box-shadow:var(--shadow);font-size:12.5px}
 .intro b{color:var(--accent-d)}
 
-.toc{display:flex;gap:6px;overflow-x:auto;padding:4px 0 14px;margin-bottom:6px}
-.toc button{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--sub);font-size:12.5px;font-weight:700;cursor:pointer}
+.toc{display:flex;gap:5px;overflow-x:auto;padding:4px 0 14px;margin-bottom:6px}
+.toc button{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--sub);font-size:11.5px;font-weight:700;cursor:pointer}
+.toc button.chapter-start{margin-left:10px}
 .toc button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 .page-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);min-height:260px}
-.page-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:6px}
+.chapter-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sub)}
+.page-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:6px;margin-top:2px}
 .page-title{font-size:19px;font-weight:800;color:var(--accent-d)}
 .page-title-en{font-size:12.5px;color:var(--sub);font-style:italic;margin-bottom:18px}
-.story{font-size:19px;line-height:2.1}
-.sent{padding:2px 3px;border-radius:5px;transition:background .2s}
+.story{font-size:19px;line-height:2.15}
+.sent{padding:2px 3px;border-radius:5px;transition:background .2s;cursor:pointer}
 .sent.reading{background:var(--accent-l)}
 .gw{border-bottom:1px dotted var(--sub);cursor:help}
+.gw.word-marked{background:var(--accent);color:#fff;border-radius:3px;border-bottom-color:transparent}
+
+.pageturn{display:flex;justify-content:space-between;margin-top:18px;gap:10px}
+.pageturn button{flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer}
+.pageturn button:hover:not(:disabled){border-color:var(--accent);color:var(--accent-d)}
+.pageturn button:disabled{opacity:.4;cursor:default}
 
 .player{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--border);box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:20}
 .player-inner{max-width:760px;margin:0 auto;padding:10px 20px 14px}
 .player-row{display:flex;align-items:center;gap:14px;justify-content:center}
-.player button{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center}
-.player button.play{width:52px;height:52px;background:var(--accent);color:#fff;border-color:var(--accent);font-size:19px}
+.player button{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.player button.play{width:50px;height:50px;background:var(--accent);color:#fff;border-color:var(--accent);font-size:18px}
 .player button:hover{border-color:var(--accent)}
-.scrub{width:100%;margin-top:10px;accent-color:var(--accent)}
+.scrub{width:100%;margin-top:9px;accent-color:var(--accent)}
 .player-label{font-size:11.5px;color:var(--sub);text-align:center;margin-top:2px}
+.speed-row{display:flex;align-items:center;gap:8px;margin-top:9px}
+.speed-row label{font-size:11px;color:var(--sub);flex-shrink:0;width:70px}
+.speed-row input{flex:1;accent-color:var(--accent)}
+.speed-row .val{font-size:11px;color:var(--sub);width:38px;text-align:right;flex-shrink:0}
+.hint{font-size:10.5px;color:var(--muted);text-align:center;margin-top:6px}
 
 #glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
 #glossTip.show{opacity:1}
@@ -67,11 +80,11 @@ a{color:var(--accent)}
 <div class="wrap">
   <div class="top">
     <h1>Alice im Wunderland — Ganz Einfach</h1>
-    <div class="sub">A very simplified original German retelling — 10 short scenes. Tap or hover any word for its meaning.</div>
+    <div class="sub">An original, very simplified German retelling of the complete book — all 12 chapters. Tap/hover any word for its meaning.</div>
   </div>
 
   <div class="intro">
-    This is <b>not</b> a translation of Lewis Carroll's book — it's a short, original retelling in extremely simple German, written to be readable at a very early stage while still following the real story beats (rabbit hole, shrink/grow, tea party, the Queen, waking up). The book is public domain, so borrowing the story shape is fine — the sentences themselves are freshly written, deliberately kept as short and repetitive as possible.
+    This is <b>not</b> a translation of Lewis Carroll's book — it's an original retelling in very simple German, written from scratch to follow the real story chapter by chapter, start to finish (the book itself is public domain; the sentences here are freshly written, not lifted from any edition). <b>Double-click any word</b> to mark a starting point, then press ▶️ or <b>spacebar</b> to start reading from exactly there.
   </div>
 
   <div class="toc" id="toc"></div>
@@ -82,159 +95,555 @@ a{color:var(--accent)}
 <div class="player">
   <div class="player-inner">
     <div class="player-row">
-      <button id="prevBtn" title="Previous page">⏮</button>
-      <button id="playBtn" class="play" title="Read this page aloud">▶️</button>
-      <button id="nextBtn" title="Next page">⏭</button>
+      <button id="prevBtn" title="Previous sentence">⏮</button>
+      <button id="playBtn" class="play" title="Play / Pause (or press spacebar)">▶️</button>
+      <button id="nextBtn" title="Next sentence">⏭</button>
     </div>
-    <input type="range" class="scrub" id="scrub" min="0" max="9" value="0" step="1">
-    <div class="player-label" id="playerLabel">Seite 1 / 10</div>
+    <input type="range" class="scrub" id="scrub" min="0" max="0" value="0" step="1">
+    <div class="player-label" id="playerLabel">Satz 1 / 1</div>
+    <div class="speed-row">
+      <label for="speedSlider">Speed</label>
+      <input type="range" id="speedSlider" min="0.5" max="1.3" step="0.05" value="0.85">
+      <span class="val" id="speedVal">0.85x</span>
+    </div>
+    <div class="hint">Double-click a word to start reading from there · spacebar = play/pause</div>
   </div>
 </div>
 
 <script>
 const PAGES = [
-  { title:"Alice", titleEn:"Alice", sentences:[
-    {de:"Das ist Alice.", words:["This","is","Alice"]},
-    {de:"Alice ist ein Mädchen.", words:["Alice","is","a","girl"]},
-    {de:"Heute passiert etwas Komisches.", words:["Today","happens","something","strange"]}
-  ]},
-  { title:"Der Hase", titleEn:"The Rabbit", sentences:[
-    {de:"Alice sitzt im Gras.", words:["Alice","sits","in the","grass"]},
-    {de:"Die Sonne ist warm.", words:["The","sun","is","warm"]},
-    {de:"Alice ist müde.", words:["Alice","is","tired"]},
-    {de:"Plötzlich sieht Alice einen Hasen.", words:["Suddenly","sees","Alice","a","rabbit"]},
-    {de:"Der Hase hat eine Uhr.", words:["The","rabbit","has","a","clock"]},
-    {de:"„Oh nein! Ich bin spät!“, sagt der Hase.", words:["Oh","no","I","am","late","says","the","rabbit"]},
-    {de:"Alice ist überrascht.", words:["Alice","is","surprised"]},
-    {de:"Der Hase läuft schnell weg.", words:["The","rabbit","runs","quickly","away"]},
-    {de:"Alice läuft auch.", words:["Alice","runs","too"]},
-    {de:"Sie sieht ein Loch.", words:["She","sees","a","hole"]},
-    {de:"Der Hase springt in das Loch.", words:["The","rabbit","jumps","into","the","hole"]},
-    {de:"Alice springt auch in das Loch.", words:["Alice","jumps","also","into","the","hole"]},
-    {de:"Alice fällt und fällt.", words:["Alice","falls","and","falls"]}
-  ]},
-  { title:"Trink mich", titleEn:"Drink Me", sentences:[
-    {de:"Alice ist jetzt in einem Raum.", words:["Alice","is","now","in","a","room"]},
-    {de:"Der Raum hat viele Türen.", words:["The","room","has","many","doors"]},
-    {de:"Aber alle Türen sind zu klein.", words:["But","all","doors","are","too","small"]},
-    {de:"Alice sieht einen Tisch.", words:["Alice","sees","a","table"]},
-    {de:"Auf dem Tisch steht eine Flasche.", words:["On","the","table","stands","a","bottle"]},
-    {de:"Auf der Flasche steht: TRINK MICH.", words:["On","the","bottle","stands:","DRINK","ME"]},
-    {de:"Alice trinkt aus der Flasche.", words:["Alice","drinks","from","the","bottle"]},
-    {de:"Alice wird sehr klein!", words:["Alice","becomes","very","small"]},
-    {de:"Jetzt passt Alice durch die Tür.", words:["Now","fits","Alice","through","the","door"]}
-  ]},
-  { title:"Iss mich", titleEn:"Eat Me", sentences:[
-    {de:"Alice sieht einen kleinen Kuchen.", words:["Alice","sees","a","small","cake"]},
-    {de:"Auf dem Kuchen steht: ISS MICH.", words:["On","the","cake","stands:","EAT","ME"]},
-    {de:"Alice isst den Kuchen.", words:["Alice","eats","the","cake"]},
-    {de:"Alice wird sehr groß!", words:["Alice","becomes","very","big"]},
-    {de:"Alice ist jetzt riesig.", words:["Alice","is","now","huge"]},
-    {de:"Ihr Kopf berührt die Decke.", words:["Her","head","touches","the","ceiling"]},
-    {de:"„Das ist nicht gut“, sagt Alice.", words:["That","is","not","good","says","Alice"]}
-  ]},
-  { title:"Der Tränensee", titleEn:"The Pool of Tears", sentences:[
-    {de:"Alice ist traurig.", words:["Alice","is","sad"]},
-    {de:"Alice weint und weint.", words:["Alice","cries","and","cries"]},
-    {de:"Die Tränen werden ein See.", words:["The","tears","become","a","lake"]},
-    {de:"Der See ist sehr groß.", words:["The","lake","is","very","big"]},
-    {de:"Alice wird wieder klein.", words:["Alice","becomes","again","small"]},
-    {de:"Jetzt schwimmt Alice im Tränensee.", words:["Now","swims","Alice","in the","tear-lake"]},
-    {de:"Eine Maus schwimmt auch im See.", words:["A","mouse","swims","also","in the","lake"]}
-  ]},
-  { title:"Die Raupe", titleEn:"The Caterpillar", sentences:[
-    {de:"Alice sieht eine Raupe.", words:["Alice","sees","a","caterpillar"]},
-    {de:"Die Raupe sitzt auf einem Pilz.", words:["The","caterpillar","sits","on","a","mushroom"]},
-    {de:"Die Raupe raucht eine Pfeife.", words:["The","caterpillar","smokes","a","pipe"]},
-    {de:"„Wer bist du?“, fragt die Raupe.", words:["Who","are","you","asks","the","caterpillar"]},
-    {de:"„Ich weiß es nicht mehr genau“, sagt Alice.", words:["I","know","it","not","anymore","exactly","says","Alice"]},
-    {de:"Die Raupe zeigt auf den Pilz.", words:["The","caterpillar","points","at","the","mushroom"]},
-    {de:"„Iss davon“, sagt die Raupe.", words:["Eat","some of it","says","the","caterpillar"]},
-    {de:"Ein Stück macht Alice groß.", words:["One","piece","makes","Alice","big"]},
-    {de:"Ein Stück macht Alice klein.", words:["One","piece","makes","Alice","small"]}
-  ]},
-  { title:"Die Katze", titleEn:"The Cat", sentences:[
-    {de:"Alice sieht eine Katze im Baum.", words:["Alice","sees","a","cat","in the","tree"]},
-    {de:"Die Katze hat ein großes Lächeln.", words:["The","cat","has","a","big","smile"]},
-    {de:"„Welchen Weg soll ich gehen?“, fragt Alice.", words:["Which","way","should","I","go","asks","Alice"]},
-    {de:"„Das hängt davon ab, wohin du willst“, sagt die Katze.", words:["That","depends","on it","(prefix)","where to","you","want","says","the","cat"]},
-    {de:"„Ich weiß es nicht“, sagt Alice.", words:["I","know","it","not","says","Alice"]},
-    {de:"„Dann ist jeder Weg richtig“, sagt die Katze.", words:["Then","is","every","way","right","says","the","cat"]},
-    {de:"Die Katze verschwindet langsam.", words:["The","cat","disappears","slowly"]},
-    {de:"Nur das Lächeln bleibt noch da.", words:["Only","the","smile","stays","still","there"]}
-  ]},
-  { title:"Die Teeparty", titleEn:"The Tea Party", sentences:[
-    {de:"Alice kommt zu einer Teeparty.", words:["Alice","comes","to","a","tea party"]},
-    {de:"Der Hutmacher sitzt am Tisch.", words:["The","hatter","sits","at the","table"]},
-    {de:"Der Hase ist auch da.", words:["The","rabbit","is","also","there"]},
-    {de:"Ein Siebenschläfer schläft in der Teekanne.", words:["A","dormouse","sleeps","in","the","teapot"]},
-    {de:"„Es ist immer Teezeit hier“, sagt der Hutmacher.", words:["It","is","always","tea time","here","says","the","hatter"]},
-    {de:"Alle tauschen ständig die Plätze.", words:["Everyone","swaps","constantly","the","seats"]},
-    {de:"Alice findet die Party sehr komisch.", words:["Alice","finds","the","party","very","strange"]}
-  ]},
-  { title:"Die Königin", titleEn:"The Queen", sentences:[
-    {de:"Alice kommt in einen Garten.", words:["Alice","comes","into","a","garden"]},
-    {de:"Im Garten spielt die Königin Krocket.", words:["In the","garden","plays","the","queen","croquet"]},
-    {de:"Die Königin spielt mit Flamingos und Igeln.", words:["The","queen","plays","with","flamingos","and","hedgehogs"]},
-    {de:"Die Königin ist sehr böse.", words:["The","queen","is","very","mean"]},
-    {de:"„Kopf ab!“, ruft die Königin oft.", words:["Head","off","shouts","the","queen","often"]},
-    {de:"Alice hat ein bisschen Angst.", words:["Alice","has","a","little","fear"]},
-    {de:"Aber Alice bleibt mutig.", words:["But","Alice","stays","brave"]}
-  ]},
-  { title:"Aufwachen", titleEn:"Waking Up", sentences:[
-    {de:"Plötzlich ruft jemand: „Alice!“", words:["Suddenly","calls","someone:","Alice"]},
-    {de:"Alice öffnet die Augen.", words:["Alice","opens","the","eyes"]},
-    {de:"Sie liegt wieder im Gras.", words:["She","lies","again","in the","grass"]},
-    {de:"Es war nur ein Traum.", words:["It","was","only","a","dream"]},
-    {de:"„Was für ein komischer Traum“, sagt Alice.", words:["What","kind of","a","strange","dream","says","Alice"]},
-    {de:"Alice lächelt und steht auf.", words:["Alice","smiles","and","stands","up"]}
-  ]}
+// ===== CHAPTER 1: Der Kaninchenbau =====
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Ein warmer Tag", titleEn:"A Warm Day", sentences:[
+  {de:"Alice sitzt am Fluss.", words:["Alice","sits","by the","river"]},
+  {de:"Es ist ein warmer Tag.", words:["It","is","a","warm","day"]},
+  {de:"Ihre Schwester liest ein Buch.", words:["Her","sister","reads","a","book"]},
+  {de:"Das Buch hat keine Bilder.", words:["The","book","has","no","pictures"]},
+  {de:"Alice findet das langweilig.", words:["Alice","finds","that","boring"]},
+  {de:"„Ein Buch ohne Bilder ist nicht gut“, denkt Alice.", words:["A","book","without","pictures","is","not","good","thinks","Alice"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Der weiße Hase", titleEn:"The White Rabbit", sentences:[
+  {de:"Plötzlich läuft ein weißer Hase vorbei.", words:["Suddenly","runs","a","white","rabbit","past"]},
+  {de:"Der Hase hat rote Augen.", words:["The","rabbit","has","red","eyes"]},
+  {de:"Der Hase trägt eine Weste.", words:["The","rabbit","wears","a","waistcoat"]},
+  {de:"In der Weste ist eine Uhr.", words:["In","the","waistcoat","is","a","watch"]},
+  {de:"Der Hase schaut auf die Uhr.", words:["The","rabbit","looks","at","the","watch"]},
+  {de:"„Oh nein, ich bin spät!“, sagt der Hase.", words:["Oh","no",",","I","am","late","says","the","rabbit"]},
+  {de:"Alice ist sehr überrascht.", words:["Alice","is","very","surprised"]},
+  {de:"Ein Hase mit einer Uhr? Das ist neu für sie.", words:["A","rabbit","with","a","watch","That","is","new","for","her"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Alice folgt dem Hasen", titleEn:"Alice Follows the Rabbit", sentences:[
+  {de:"Alice steht schnell auf.", words:["Alice","stands","quickly","up"]},
+  {de:"Sie läuft dem Hasen hinterher.", words:["She","runs","the","rabbit","after"]},
+  {de:"Der Hase läuft zu einem Loch.", words:["The","rabbit","runs","to","a","hole"]},
+  {de:"Das Loch ist unter einem Baum.", words:["The","hole","is","under","a","tree"]},
+  {de:"Der Hase springt sofort hinein.", words:["The","rabbit","jumps","immediately","in"]},
+  {de:"Alice denkt kurz nach.", words:["Alice","thinks","briefly","over"]},
+  {de:"Aber ihre Neugier ist zu groß.", words:["But","her","curiosity","is","too","great"]},
+  {de:"Also springt Alice auch hinein.", words:["So","jumps","Alice","also","in"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Der lange Fall", titleEn:"The Long Fall", sentences:[
+  {de:"Der Kaninchenbau ist sehr tief.", words:["The","rabbit hole","is","very","deep"]},
+  {de:"Alice fällt und fällt.", words:["Alice","falls","and","falls"]},
+  {de:"Sie fällt sehr langsam.", words:["She","falls","very","slowly"]},
+  {de:"Um sie herum sind Regale.", words:["Around","her","around","are","shelves"]},
+  {de:"Auf den Regalen stehen Gläser.", words:["On","the","shelves","stand","jars"]},
+  {de:"Ein Glas hat die Aufschrift „Orangenmarmelade“.", words:["A","jar","has","the","label","orange marmalade"]},
+  {de:"Aber das Glas ist leer.", words:["But","the","jar","is","empty"]},
+  {de:"Alice fällt weiter und weiter.", words:["Alice","falls","further","and","further"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Die Halle mit den Türen", titleEn:"The Hall of Doors", sentences:[
+  {de:"Endlich landet Alice weich.", words:["Finally","lands","Alice","softly"]},
+  {de:"Sie liegt auf welken Blättern.", words:["She","lies","on","dry","leaves"]},
+  {de:"Der weiße Hase ist schon weg.", words:["The","white","rabbit","is","already","gone"]},
+  {de:"Alice steht in einer langen Halle.", words:["Alice","stands","in","a","long","hall"]},
+  {de:"Die Halle hat viele Türen.", words:["The","hall","has","many","doors"]},
+  {de:"Aber alle Türen sind verschlossen.", words:["But","all","doors","are","locked"]},
+  {de:"Alice probiert jede Tür.", words:["Alice","tries","every","door"]},
+  {de:"Keine Tür geht auf.", words:["No","door","opens"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Der goldene Schlüssel", titleEn:"The Golden Key", sentences:[
+  {de:"In der Mitte steht ein Glastisch.", words:["In","the","middle","stands","a","glass table"]},
+  {de:"Auf dem Tisch liegt ein kleiner Schlüssel.", words:["On","the","table","lies","a","small","key"]},
+  {de:"Der Schlüssel ist aus Gold.", words:["The","key","is","made of","gold"]},
+  {de:"Alice sieht eine winzige Tür.", words:["Alice","sees","a","tiny","door"]},
+  {de:"Die Tür ist hinter einem Vorhang.", words:["The","door","is","behind","a","curtain"]},
+  {de:"Der Schlüssel passt in diese Tür!", words:["The","key","fits","in","this","door"]},
+  {de:"Aber die Tür ist viel zu klein für Alice.", words:["But","the","door","is","much","too","small","for","Alice"]},
+  {de:"Durch die Tür sieht Alice einen schönen Garten.", words:["Through","the","door","sees","Alice","a","beautiful","garden"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Trink mich", titleEn:"Drink Me", sentences:[
+  {de:"Alice geht zurück zum Tisch.", words:["Alice","goes","back","to the","table"]},
+  {de:"Jetzt steht dort eine kleine Flasche.", words:["Now","stands","there","a","small","bottle"]},
+  {de:"Auf der Flasche steht „TRINK MICH“.", words:["On","the","bottle","stands","DRINK ME"]},
+  {de:"Alice ist vorsichtig.", words:["Alice","is","careful"]},
+  {de:"Sie schaut zuerst, ob „Gift“ draufsteht.", words:["She","looks","first",",","whether","poison","is written on it"]},
+  {de:"Da steht kein „Gift“.", words:["There","stands","no","poison"]},
+  {de:"Also trinkt Alice ein bisschen.", words:["So","drinks","Alice","a","little"]},
+  {de:"Der Geschmack ist wie Kuchen und Ananas.", words:["The","taste","is","like","cake","and","pineapple"]},
+  {de:"Alice wird kleiner und kleiner!", words:["Alice","becomes","smaller","and","smaller"]},
+  {de:"Jetzt ist sie nur noch 25 Zentimeter groß.", words:["Now","is","she","only","still","25","centimeters","tall"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Der Kuchen", titleEn:"The Cake", sentences:[
+  {de:"Jetzt passt Alice durch die kleine Tür.", words:["Now","fits","Alice","through","the","small","door"]},
+  {de:"Aber der Schlüssel liegt noch oben auf dem Tisch!", words:["But","the","key","lies","still","up","on","the","table"]},
+  {de:"Alice ist zu klein, um ihn zu erreichen.", words:["Alice","is","too","small",",","to","it","to","reach"]},
+  {de:"Sie sieht eine Kuchenbox unter dem Tisch.", words:["She","sees","a","cake box","under","the","table"]},
+  {de:"Auf dem Kuchen steht „ISS MICH“.", words:["On","the","cake","stands","EAT ME"]},
+  {de:"Alice isst ein Stück.", words:["Alice","eats","a","piece"]},
+  {de:"Sofort wird sie riesig groß!", words:["Immediately","becomes","she","enormously","big"]},
+  {de:"Ihr Kopf berührt die Decke.", words:["Her","head","touches","the","ceiling"]},
+  {de:"„Oje“, sagt Alice, „jetzt ist alles falsch.“", words:["Oh dear",",","says","Alice",",","now","is","everything","wrong"]}
+]},
+{ chapter:1, chapterTitle:"Kapitel 1: Der Kaninchenbau", title:"Alices Tränen", titleEn:"Alice's Tears", sentences:[
+  {de:"Alice ist jetzt fast drei Meter groß.", words:["Alice","is","now","almost","three","meters","tall"]},
+  {de:"Sie passt nicht mehr durch die Tür.", words:["She","fits","not","anymore","through","the","door"]},
+  {de:"Alice ist traurig und hat Angst.", words:["Alice","is","sad","and","has","fear"]},
+  {de:"Sie fängt an zu weinen.", words:["She","begins","to","to","cry"]},
+  {de:"Ihre Tränen sind riesengroß.", words:["Her","tears","are","enormous"]},
+  {de:"Sie fallen wie ein Regen auf den Boden.", words:["They","fall","like","a","rain","onto","the","floor"]},
+  {de:"„Eine so große Person soll nicht weinen“, sagt Alice zu sich selbst.", words:["A","so","big","person","should","not","cry",",","says","Alice","to","herself"]},
+  {de:"Aber sie weint trotzdem weiter.", words:["But","she","cries","anyway","on"]}
+]},
+// ===== CHAPTER 2: Das Tränenmeer =====
+{ chapter:2, chapterTitle:"Kapitel 2: Das Tränenmeer", title:"Der Fächer", titleEn:"The Fan", sentences:[
+  {de:"Plötzlich sieht Alice den weißen Hasen.", words:["Suddenly","sees","Alice","the","white","rabbit"]},
+  {de:"Er kommt zurück und trägt Handschuhe.", words:["He","comes","back","and","carries","gloves"]},
+  {de:"Er trägt auch einen kleinen Fächer.", words:["He","carries","also","a","small","fan"]},
+  {de:"Der Hase hat es sehr eilig.", words:["The","rabbit","has","it","very","urgent"]},
+  {de:"Er lässt den Fächer fallen.", words:["He","lets","the","fan","fall"]},
+  {de:"Alice hebt den Fächer auf.", words:["Alice","picks","the","fan","up"]},
+  {de:"Sie fächelt sich damit Luft zu.", words:["She","fans","herself","with it","air","(prefix)"]},
+  {de:"Ganz plötzlich wird Alice wieder kleiner!", words:["Quite","suddenly","becomes","Alice","again","smaller"]},
+  {de:"Alice lässt den Fächer schnell fallen.", words:["Alice","lets","the","fan","quickly","fall"]}
+]},
+{ chapter:2, chapterTitle:"Kapitel 2: Das Tränenmeer", title:"Im eigenen Tränenmeer", titleEn:"In Her Own Sea of Tears", sentences:[
+  {de:"Alice ist jetzt winzig klein.", words:["Alice","is","now","tiny","small"]},
+  {de:"Sie steht direkt vor ihren eigenen Tränen.", words:["She","stands","directly","before","her","own","tears"]},
+  {de:"Die Tränen bilden einen großen See.", words:["The","tears","form","a","big","lake"]},
+  {de:"Alice rutscht aus und fällt hinein.", words:["Alice","slips","out","and","falls","in"]},
+  {de:"Das Wasser ist tief und salzig.", words:["The","water","is","deep","and","salty"]},
+  {de:"„Jetzt schwimme ich in meinem eigenen Tränenmeer“, denkt Alice.", words:["Now","swim","I","in","my","own","sea of tears",",","thinks","Alice"]},
+  {de:"Das findet sie ziemlich seltsam.", words:["That","finds","she","rather","strange"]}
+]},
+{ chapter:2, chapterTitle:"Kapitel 2: Das Tränenmeer", title:"Die Maus", titleEn:"The Mouse", sentences:[
+  {de:"Im Wasser schwimmt auch eine Maus.", words:["In the","water","swims","also","a","mouse"]},
+  {de:"Alice möchte höflich sein.", words:["Alice","wants","polite","to be"]},
+  {de:"Sie fragt: „Wo ist meine Katze?“", words:["She","asks",":","Where","is","my","cat"]},
+  {de:"Die Maus bekommt große Angst.", words:["The","mouse","gets","great","fear"]},
+  {de:"Mäuse mögen keine Katzen!", words:["Mice","like","no","cats"]},
+  {de:"„Entschuldigung“, sagt Alice schnell.", words:["Sorry",",","says","Alice","quickly"]},
+  {de:"„Ich wollte dich nicht erschrecken.“", words:["I","wanted","you","not","to scare"]},
+  {de:"Die Maus beruhigt sich langsam wieder.", words:["The","mouse","calms","itself","slowly","again"]}
+]},
+{ chapter:2, chapterTitle:"Kapitel 2: Das Tränenmeer", title:"Ans Ufer", titleEn:"To the Shore", sentences:[
+  {de:"Bald schwimmen noch mehr Tiere im Wasser.", words:["Soon","swim","still","more","animals","in the","water"]},
+  {de:"Eine Ente, ein Dodo und ein Papagei sind dabei.", words:["A","duck",",","a","dodo","and","a","parrot","are","there"]},
+  {de:"Alle schwimmen gemeinsam zum Ufer.", words:["All","swim","together","to the","shore"]},
+  {de:"Am Ufer sind alle klatschnass.", words:["At the","shore","are","all","soaking wet"]},
+  {de:"„Wie werden wir jetzt trocken?“, fragt jemand.", words:["How","will","we","now","dry",",","asks","someone"]},
+  {de:"Niemand weiß eine gute Antwort.", words:["No one","knows","a","good","answer"]}
+]},
+// ===== CHAPTER 3: Der Wettlauf =====
+{ chapter:3, chapterTitle:"Kapitel 3: Der Wettlauf", title:"Der komische Wettlauf", titleEn:"The Strange Race", sentences:[
+  {de:"Der Dodo hat eine Idee.", words:["The","dodo","has","an","idea"]},
+  {de:"„Wir machen einen Wettlauf!“, sagt er.", words:["We","make","a","race",",","says","he"]},
+  {de:"Alle Tiere laufen in einem Kreis.", words:["All","animals","run","in","a","circle"]},
+  {de:"Es gibt keinen richtigen Start.", words:["There","gives","no","proper","start"]},
+  {de:"Es gibt auch kein richtiges Ende.", words:["There","gives","also","no","proper","end"]},
+  {de:"Nach einer Weile ruft der Dodo: „Stopp!“", words:["After","a","while","calls","the","dodo",":","Stop"]},
+  {de:"„Wer hat gewonnen?“, fragen alle.", words:["Who","has","won",",","ask","all"]},
+  {de:"„Alle haben gewonnen“, sagt der Dodo.", words:["All","have","won",",","says","the","dodo"]}
+]},
+{ chapter:3, chapterTitle:"Kapitel 3: Der Wettlauf", title:"Die Preise", titleEn:"The Prizes", sentences:[
+  {de:"Jeder braucht jetzt einen Preis.", words:["Everyone","needs","now","a","prize"]},
+  {de:"Aber es gibt keine Preise.", words:["But","there","gives","no","prizes"]},
+  {de:"Alice hat noch Bonbons in der Tasche.", words:["Alice","has","still","candies","in","the","pocket"]},
+  {de:"Sie gibt jedem Tier ein Bonbon.", words:["She","gives","every","animal","a","candy"]},
+  {de:"Für Alice selbst bleibt kein Bonbon übrig.", words:["For","Alice","herself","remains","no","candy","left over"]},
+  {de:"„Aber du brauchst auch einen Preis“, sagt der Dodo.", words:["But","you","need","also","a","prize",",","says","the","dodo"]},
+  {de:"Alice hat noch einen kleinen Fingerhut.", words:["Alice","has","still","a","small","thimble"]},
+  {de:"Der Dodo gibt ihr den eigenen Fingerhut zurück.", words:["The","dodo","gives","her","the","own","thimble","back"]},
+  {de:"Alle finden das sehr witzig.", words:["All","find","that","very","funny"]}
+]},
+{ chapter:3, chapterTitle:"Kapitel 3: Der Wettlauf", title:"Die traurige Geschichte", titleEn:"The Sad Tale", sentences:[
+  {de:"Die Maus möchte eine Geschichte erzählen.", words:["The","mouse","wants","a","story","to tell"]},
+  {de:"„Es ist eine sehr lange und traurige Geschichte“, sagt sie.", words:["It","is","a","very","long","and","sad","story",",","says","she"]},
+  {de:"Alice hört zu, aber sie denkt an etwas anderes.", words:["Alice","listens","(prefix)",",","but","she","thinks","of","something","else"]},
+  {de:"Sie denkt an den Schwanz der Maus.", words:["She","thinks","of","the","tail","of the","mouse"]},
+  {de:"Die Geschichte klingt für Alice wie ein langer Schwanz.", words:["The","story","sounds","for","Alice","like","a","long","tail"]},
+  {de:"Die Maus merkt, dass Alice nicht zuhört.", words:["The","mouse","notices",",","that","Alice","not","is listening"]},
+  {de:"Die Maus wird böse und schwimmt weg.", words:["The","mouse","becomes","angry","and","swims","away"]},
+  {de:"„Das wollte ich nicht“, sagt Alice traurig.", words:["That","wanted","I","not",",","says","Alice","sadly"]}
+]},
+// ===== CHAPTER 4: Der kleine Bill =====
+{ chapter:4, chapterTitle:"Kapitel 4: Der kleine Bill", title:"Mary Ann", titleEn:"Mary Ann", sentences:[
+  {de:"Der weiße Hase kommt wieder vorbei.", words:["The","white","rabbit","comes","again","past"]},
+  {de:"Er sucht seine Handschuhe und seinen Fächer.", words:["He","searches","his","gloves","and","his","fan"]},
+  {de:"Er sieht Alice und hält sie für sein Hausmädchen.", words:["He","sees","Alice","and","takes","her","for","his","housemaid"]},
+  {de:"„Mary Ann, hol mir sofort meine Handschuhe!“, ruft er.", words:["Mary Ann",",","fetch","me","immediately","my","gloves",",","calls","he"]},
+  {de:"Alice ist verwirrt, aber sie geht trotzdem los.", words:["Alice","is","confused",",","but","she","goes","anyway","off"]},
+  {de:"Sie findet ein kleines, ordentliches Haus.", words:["She","finds","a","small",",","tidy","house"]}
+]},
+{ chapter:4, chapterTitle:"Kapitel 4: Der kleine Bill", title:"Wieder groß", titleEn:"Big Again", sentences:[
+  {de:"Im Haus sieht Alice eine kleine Flasche.", words:["In the","house","sees","Alice","a","small","bottle"]},
+  {de:"Diesmal steht kein „Trink mich“ darauf.", words:["This time","stands","no","drink me","on it"]},
+  {de:"Aber Alice ist neugierig und trinkt trotzdem.", words:["But","Alice","is","curious","and","drinks","anyway"]},
+  {de:"Alice wird sofort wieder riesig groß!", words:["Alice","becomes","immediately","again","enormously","big"]},
+  {de:"Ihr Arm passt nur noch aus dem Fenster.", words:["Her","arm","fits","only","still","out of","the","window"]},
+  {de:"Ihr Fuß geht nur noch in den Kamin.", words:["Her","foot","goes","only","still","into","the","chimney"]},
+  {de:"Alice sitzt komplett fest im Haus.", words:["Alice","sits","completely","stuck","in the","house"]}
+]},
+{ chapter:4, chapterTitle:"Kapitel 4: Der kleine Bill", title:"Aufregung draußen", titleEn:"Commotion Outside", sentences:[
+  {de:"Draußen ist der weiße Hase in Panik.", words:["Outside","is","the","white","rabbit","in","panic"]},
+  {de:"Auch ein Gärtner namens Pat kommt dazu.", words:["Also","a","gardener","named","Pat","comes","along"]},
+  {de:"Sie wissen nicht, was in ihrem Haus ist.", words:["They","know","not",",","what","in","their","house","is"]},
+  {de:"Jemand wirft kleine Steine durchs Fenster.", words:["Someone","throws","small","stones","through the","window"]},
+  {de:"Die Steine verwandeln sich in kleine Kuchen!", words:["The","stones","transform","themselves","into","small","cakes"]},
+  {de:"Sie fallen direkt vor Alice auf den Boden.", words:["They","fall","directly","in front of","Alice","onto","the","floor"]}
+]},
+{ chapter:4, chapterTitle:"Kapitel 4: Der kleine Bill", title:"Die Flucht", titleEn:"The Escape", sentences:[
+  {de:"Alice isst einen der kleinen Kuchen.", words:["Alice","eats","one","of the","small","cakes"]},
+  {de:"Sofort wird sie wieder klein.", words:["Immediately","becomes","she","again","small"]},
+  {de:"Schnell läuft sie aus dem Haus.", words:["Quickly","runs","she","out of","the","house"]},
+  {de:"Draußen rennen viele Tiere hinter ihr her.", words:["Outside","run","many","animals","behind","her","along"]},
+  {de:"Alice rennt schnell in den Wald.", words:["Alice","runs","quickly","into","the","forest"]},
+  {de:"Dort ist sie endlich wieder allein.", words:["There","is","she","finally","again","alone"]},
+  {de:"„Jetzt muss ich einen Plan machen“, denkt Alice.", words:["Now","must","I","a","plan","make",",","thinks","Alice"]}
+]},
+// ===== CHAPTER 5: Die Raupe gibt einen Rat =====
+{ chapter:5, chapterTitle:"Kapitel 5: Die Raupe gibt einen Rat", title:"Wer bist du?", titleEn:"Who Are You?", sentences:[
+  {de:"Im Wald sieht Alice einen großen Pilz.", words:["In the","forest","sees","Alice","a","big","mushroom"]},
+  {de:"Auf dem Pilz sitzt eine Raupe.", words:["On","the","mushroom","sits","a","caterpillar"]},
+  {de:"Die Raupe raucht eine lange Pfeife.", words:["The","caterpillar","smokes","a","long","pipe"]},
+  {de:"„Wer bist du?“, fragt die Raupe streng.", words:["Who","are","you",",","asks","the","caterpillar","sternly"]},
+  {de:"Alice weiß es nicht mehr genau.", words:["Alice","knows","it","not","anymore","exactly"]},
+  {de:"Sie war heute schon so oft anders groß.", words:["She","was","today","already","so","often","differently","sized"]},
+  {de:"„Ich bin nicht mehr ich selbst“, sagt Alice traurig.", words:["I","am","not","anymore","myself",",","says","Alice","sadly"]},
+  {de:"Die Raupe versteht das nicht.", words:["The","caterpillar","understands","that","not"]}
+]},
+{ chapter:5, chapterTitle:"Kapitel 5: Die Raupe gibt einen Rat", title:"Der magische Pilz", titleEn:"The Magic Mushroom", sentences:[
+  {de:"Die Raupe hat einen guten Tipp für Alice.", words:["The","caterpillar","has","a","good","tip","for","Alice"]},
+  {de:"„Eine Seite macht dich groß“, sagt die Raupe.", words:["One","side","makes","you","big",",","says","the","caterpillar"]},
+  {de:"„Die andere Seite macht dich klein.“", words:["The","other","side","makes","you","small"]},
+  {de:"Aber welche Seite ist welche?", words:["But","which","side","is","which"]},
+  {de:"Die Raupe sagt das nicht genau.", words:["The","caterpillar","says","that","not","exactly"]},
+  {de:"Alice bricht zwei Stücke vom Pilz ab.", words:["Alice","breaks","two","pieces","from the","mushroom","off"]},
+  {de:"Ein Stück in jede Hand.", words:["A","piece","in","each","hand"]}
+]},
+{ chapter:5, chapterTitle:"Kapitel 5: Die Raupe gibt einen Rat", title:"Der lange Hals", titleEn:"The Long Neck", sentences:[
+  {de:"Alice probiert zuerst das rechte Stück.", words:["Alice","tries","first","the","right","piece"]},
+  {de:"Ihr Kinn berührt plötzlich ihren Fuß!", words:["Her","chin","touches","suddenly","her","foot"]},
+  {de:"Schnell isst sie vom linken Stück.", words:["Quickly","eats","she","from the","left","piece"]},
+  {de:"Jetzt wird ihr Hals sehr, sehr lang.", words:["Now","becomes","her","neck","very",",","very","long"]},
+  {de:"Ihr Kopf ist hoch über den Bäumen.", words:["Her","head","is","high","above","the","trees"]},
+  {de:"Ein Vogel hält sie für eine Schlange!", words:["A","bird","takes","her","for","a","snake"]},
+  {de:"„Weg mit dir, Schlange!“, ruft der Vogel.", words:["Away","with","you",",","snake",",","calls","the","bird"]}
+]},
+{ chapter:5, chapterTitle:"Kapitel 5: Die Raupe gibt einen Rat", title:"Wieder normal", titleEn:"Back to Normal", sentences:[
+  {de:"Alice probiert vorsichtig kleine Bisse.", words:["Alice","tries","carefully","small","bites"]},
+  {de:"Mal vom rechten, mal vom linken Stück.", words:["Sometimes","from the","right",",","sometimes","from the","left","piece"]},
+  {de:"Langsam wird sie wieder normal groß.", words:["Slowly","becomes","she","again","normal","sized"]},
+  {de:"„Endlich!“, ruft Alice glücklich.", words:["Finally",",","calls","Alice","happily"]},
+  {de:"Sie steckt die restlichen Pilzstücke ein.", words:["She","pockets","the","remaining","mushroom pieces","(prefix)"]},
+  {de:"„Die können später noch nützlich sein“, denkt sie.", words:["Those","can","later","still","useful","be",",","thinks","she"]}
+]},
+// ===== CHAPTER 6: Ferkel und Pfeffer =====
+{ chapter:6, chapterTitle:"Kapitel 6: Ferkel und Pfeffer", title:"Das Haus im Wald", titleEn:"The House in the Woods", sentences:[
+  {de:"Alice findet ein kleines Haus im Wald.", words:["Alice","finds","a","small","house","in the","forest"]},
+  {de:"Ein Fisch-Diener bringt einen Brief zur Tür.", words:["A","fish","footman","brings","a","letter","to the","door"]},
+  {de:"Ein Frosch-Diener öffnet die Tür.", words:["A","frog","footman","opens","the","door"]},
+  {de:"Der Brief ist eine Einladung von der Königin.", words:["The","letter","is","an","invitation","from","the","queen"]},
+  {de:"Alice geht einfach ins Haus hinein.", words:["Alice","goes","simply","into the","house","in"]},
+  {de:"Drinnen ist es sehr laut.", words:["Inside","is","it","very","loud"]}
+]},
+{ chapter:6, chapterTitle:"Kapitel 6: Ferkel und Pfeffer", title:"Die verrückte Küche", titleEn:"The Crazy Kitchen", sentences:[
+  {de:"In der Küche ist überall Pfeffer in der Luft.", words:["In","the","kitchen","is","everywhere","pepper","in","the","air"]},
+  {de:"Alle müssen ständig niesen.", words:["Everyone","must","constantly","sneeze"]},
+  {de:"Die Herzogin hält ein weinendes Baby.", words:["The","duchess","holds","a","crying","baby"]},
+  {de:"Die Köchin wirft Töpfe durch die Küche.", words:["The","cook","throws","pots","through","the","kitchen"]},
+  {de:"Nur die Köchin und eine Katze niesen nicht.", words:["Only","the","cook","and","a","cat","sneeze","not"]},
+  {de:"Die Katze grinst die ganze Zeit.", words:["The","cat","grins","the","whole","time"]}
+]},
+{ chapter:6, chapterTitle:"Kapitel 6: Ferkel und Pfeffer", title:"Das Baby wird ein Schwein", titleEn:"The Baby Becomes a Pig", sentences:[
+  {de:"Die Herzogin wirft Alice plötzlich das Baby zu.", words:["The","duchess","throws","Alice","suddenly","the","baby","(prefix)"]},
+  {de:"Alice trägt das Baby nach draußen.", words:["Alice","carries","the","baby","(prefix)","outside"]},
+  {de:"Das Baby macht komische Geräusche.", words:["The","baby","makes","strange","sounds"]},
+  {de:"Seine Nase wird immer runder.", words:["Its","nose","becomes","increasingly","rounder"]},
+  {de:"Plötzlich ist es gar kein Baby mehr.", words:["Suddenly","is","it","at all","no","baby","anymore"]},
+  {de:"Es ist jetzt ein kleines Schwein!", words:["It","is","now","a","small","pig"]},
+  {de:"Alice lässt das Schwein frei in den Wald laufen.", words:["Alice","lets","the","pig","free","into","the","forest","run"]}
+]},
+{ chapter:6, chapterTitle:"Kapitel 6: Ferkel und Pfeffer", title:"Die grinsende Katze", titleEn:"The Grinning Cat", sentences:[
+  {de:"Alice sieht die Katze wieder, jetzt auf einem Baum.", words:["Alice","sees","the","cat","again",",","now","on","a","tree"]},
+  {de:"„Wohin soll ich gehen?“, fragt Alice.", words:["Where to","should","I","go",",","asks","Alice"]},
+  {de:"„Das hängt davon ab, was du willst“, sagt die Katze.", words:["That","depends","on it","(prefix)",",","what","you","want",",","says","the","cat"]},
+  {de:"„Hier sind sowieso alle ein bisschen verrückt“, sagt die Katze.", words:["Here","are","anyway","all","a","little","crazy",",","says","the","cat"]},
+  {de:"Die Katze zeigt Alice zwei Richtungen.", words:["The","cat","shows","Alice","two","directions"]},
+  {de:"Dann verschwindet die Katze langsam.", words:["Then","disappears","the","cat","slowly"]},
+  {de:"Zuerst verschwindet der Körper.", words:["First","disappears","the","body"]},
+  {de:"Zum Schluss bleibt nur das Grinsen übrig!", words:["At the","end","remains","only","the","grin","left over"]}
+]},
+// ===== CHAPTER 7: Eine verrückte Teeparty =====
+{ chapter:7, chapterTitle:"Kapitel 7: Eine verrückte Teeparty", title:"Kein Platz!", titleEn:"No Room!", sentences:[
+  {de:"Alice findet einen langen Tisch unter einem Baum.", words:["Alice","finds","a","long","table","under","a","tree"]},
+  {de:"Der Hutmacher, der Märzhase und ein Siebenschläfer sitzen dort.", words:["The","hatter",",","the","march hare","and","a","dormouse","sit","there"]},
+  {de:"Alle drei sitzen ganz eng zusammen.", words:["All","three","sit","quite","tightly","together"]},
+  {de:"Der Rest vom Tisch ist völlig leer.", words:["The","rest","of the","table","is","completely","empty"]},
+  {de:"„Kein Platz! Kein Platz!“, rufen sie.", words:["No","room",",","no","room",",","call","they"]},
+  {de:"„Es ist doch total viel Platz da“, sagt Alice.", words:["There","is","however","totally","much","room","there",",","says","Alice"]},
+  {de:"Sie setzt sich trotzdem in einen großen Sessel.", words:["She","sits","herself","anyway","in","a","big","armchair"]}
+]},
+{ chapter:7, chapterTitle:"Kapitel 7: Eine verrückte Teeparty", title:"Die kaputte Uhr", titleEn:"The Broken Watch", sentences:[
+  {de:"Der Hutmacher stellt Alice ein Rätsel.", words:["The","hatter","gives","Alice","a","riddle"]},
+  {de:"Aber niemand kennt die richtige Antwort.", words:["But","nobody","knows","the","correct","answer"]},
+  {de:"Der Hutmacher zeigt seine Uhr.", words:["The","hatter","shows","his","watch"]},
+  {de:"Die Uhr zeigt immer sechs Uhr.", words:["The","watch","shows","always","six","o'clock"]},
+  {de:"„Bei mir ist immer Teezeit“, sagt der Hutmacher traurig.", words:["With","me","is","always","tea time",",","says","the","hatter","sadly"]},
+  {de:"„Die Zeit und ich sind seit einem Streit nicht mehr Freunde.“", words:["Time","and","I","are","since","an","argument","not","anymore","friends"]}
+]},
+{ chapter:7, chapterTitle:"Kapitel 7: Eine verrückte Teeparty", title:"Immer im Kreis", titleEn:"Always in a Circle", sentences:[
+  {de:"Alle am Tisch wechseln ständig die Plätze.", words:["Everyone","at the","table","change","constantly","the","seats"]},
+  {de:"Sie rutschen einen Platz weiter, immer und immer wieder.", words:["They","slide","one","seat","further",",","again","and","again"]},
+  {de:"So ist es immer Teezeit, für immer und ewig.", words:["Thus","is","it","always","tea time",",","forever","and","ever"]},
+  {de:"Der Siebenschläfer schläft fast die ganze Zeit.", words:["The","dormouse","sleeps","almost","the","whole","time"]},
+  {de:"Manchmal wacht er kurz auf und erzählt etwas.", words:["Sometimes","wakes","he","briefly","up","and","tells","something"]},
+  {de:"Dann schläft er sofort wieder ein.", words:["Then","sleeps","he","immediately","again","(prefix)"]}
+]},
+{ chapter:7, chapterTitle:"Kapitel 7: Eine verrückte Teeparty", title:"Alice geht", titleEn:"Alice Leaves", sentences:[
+  {de:"Alice findet die ganze Party sehr anstrengend.", words:["Alice","finds","the","whole","party","very","tiring"]},
+  {de:"Niemand gibt ihr eine klare Antwort.", words:["Nobody","gives","her","a","clear","answer"]},
+  {de:"„Das ist die dümmste Teeparty der Welt“, sagt Alice.", words:["That","is","the","silliest","tea party","of the","world",",","says","Alice"]},
+  {de:"Sie steht auf und geht einfach weg.", words:["She","stands","up","and","goes","simply","away"]},
+  {de:"Niemand hält sie auf.", words:["Nobody","holds","her","(prefix)"]},
+  {de:"Bald sieht Alice einen Baum mit einer kleinen Tür.", words:["Soon","sees","Alice","a","tree","with","a","small","door"]}
+]},
+// ===== CHAPTER 8: Der Krocketplatz der Königin =====
+{ chapter:8, chapterTitle:"Kapitel 8: Der Krocketplatz der Königin", title:"Die roten Rosen", titleEn:"The Red Roses", sentences:[
+  {de:"Alice kommt in einen wunderschönen Garten.", words:["Alice","comes","into","a","wonderfully beautiful","garden"]},
+  {de:"Drei Spielkarten-Gärtner malen weiße Rosen rot an.", words:["Three","playing-card","gardeners","paint","white","roses","red","(prefix)"]},
+  {de:"Sie hatten aus Versehen die falschen Rosen gepflanzt.", words:["They","had","by","mistake","the","wrong","roses","planted"]},
+  {de:"„Wenn die Königin das sieht, sind wir verloren“, flüstern sie.", words:["If","the","queen","that","sees",",","are","we","lost",",","whisper","they"]},
+  {de:"Alice hilft nicht mit, sie schaut nur zu.", words:["Alice","helps","not","along",",","she","watches","only","(prefix)"]}
+]},
+{ chapter:8, chapterTitle:"Kapitel 8: Der Krocketplatz der Königin", title:"Die Königin kommt", titleEn:"The Queen Arrives", sentences:[
+  {de:"Eine große Prozession kommt in den Garten.", words:["A","big","procession","comes","into","the","garden"]},
+  {de:"Soldaten, Höflinge und der weiße Hase sind dabei.", words:["Soldiers",",","courtiers","and","the","white","rabbit","are","there"]},
+  {de:"Der Bube trägt die Krone auf einem Kissen.", words:["The","knave","carries","the","crown","on","a","cushion"]},
+  {de:"Zum Schluss kommen der König und die Königin.", words:["At the","end","come","the","king","and","the","queen"]},
+  {de:"Die Königin sieht sofort die roten Rosen.", words:["The","queen","sees","immediately","the","red","roses"]},
+  {de:"„Wer hat das gemacht?“, ruft sie sehr laut.", words:["Who","has","that","done",",","calls","she","very","loud"]},
+  {de:"„Kopf ab!“, schreit die Königin.", words:["Head","off",",","shouts","the","queen"]},
+  {de:"Alice versteckt die Gärtner schnell in einem Blumentopf.", words:["Alice","hides","the","gardeners","quickly","in","a","flowerpot"]}
+]},
+{ chapter:8, chapterTitle:"Kapitel 8: Der Krocketplatz der Königin", title:"Verrücktes Krocket", titleEn:"Crazy Croquet", sentences:[
+  {de:"Die Königin lädt Alice zum Krocketspiel ein.", words:["The","queen","invites","Alice","to the","croquet game","(prefix)"]},
+  {de:"Statt Schlägern benutzen sie lebendige Flamingos.", words:["Instead of","mallets","use","they","living","flamingos"]},
+  {de:"Statt Bällen benutzen sie Igel.", words:["Instead of","balls","use","they","hedgehogs"]},
+  {de:"Die Igel rollen einfach weg, wann immer sie wollen.", words:["The","hedgehogs","roll","simply","away",",","whenever","always","they","want"]},
+  {de:"Die Flamingos drehen ständig ihren Kopf weg.", words:["The","flamingos","turn","constantly","their","head","away"]},
+  {de:"Es ist fast unmöglich, richtig zu spielen.", words:["It","is","almost","impossible",",","properly","to","play"]}
+]},
+{ chapter:8, chapterTitle:"Kapitel 8: Der Krocketplatz der Königin", title:"Der Kopf der Katze", titleEn:"The Cat's Head", sentences:[
+  {de:"Plötzlich erscheint der Kopf der grinsenden Katze in der Luft.", words:["Suddenly","appears","the","head","of the","grinning","cat","in","the","air"]},
+  {de:"Nur der Kopf ist da, kein Körper.", words:["Only","the","head","is","there",",","no","body"]},
+  {de:"Der König findet das sehr unhöflich.", words:["The","king","finds","that","very","impolite"]},
+  {de:"„Man kann keinen Kopf ohne Körper köpfen“, sagt jemand.", words:["One","can","no","head","without","body","behead",",","says","someone"]},
+  {de:"Alle diskutieren lange über dieses Problem.", words:["Everyone","discusses","long","about","this","problem"]},
+  {de:"Dann verschwindet der Katzenkopf einfach wieder.", words:["Then","disappears","the","cat's head","simply","again"]}
+]},
+// ===== CHAPTER 9: Die Geschichte der Suppenschildkröte =====
+{ chapter:9, chapterTitle:"Kapitel 9: Die Geschichte der Suppenschildkröte", title:"Der Greif", titleEn:"The Gryphon", sentences:[
+  {de:"Die Königin wird plötzlich viel freundlicher.", words:["The","queen","becomes","suddenly","much","friendlier"]},
+  {de:"Sie schickt Alice mit einem Greif weg.", words:["She","sends","Alice","with","a","gryphon","away"]},
+  {de:"Der Greif ist halb Adler, halb Löwe.", words:["The","gryphon","is","half","eagle",",","half","lion"]},
+  {de:"Sie gehen zusammen zur Suppenschildkröte.", words:["They","go","together","to the","mock turtle"]},
+  {de:"Die Suppenschildkröte sitzt traurig auf einem Felsen.", words:["The","mock turtle","sits","sadly","on","a","rock"]},
+  {de:"Sie seufzt die ganze Zeit sehr tief.", words:["She","sighs","the","whole","time","very","deeply"]}
+]},
+{ chapter:9, chapterTitle:"Kapitel 9: Die Geschichte der Suppenschildkröte", title:"Die Unterwasserschule", titleEn:"The Underwater School", sentences:[
+  {de:"Die Suppenschildkröte erzählt von früher.", words:["The","mock turtle","tells","of","earlier"]},
+  {de:"Früher war sie eine echte Schildkröte.", words:["Earlier","was","she","a","real","turtle"]},
+  {de:"Sie ging in eine Schule unter dem Meer.", words:["She","went","to","a","school","under","the","sea"]},
+  {de:"Der Lehrer hatte einen sehr komischen Namen.", words:["The","teacher","had","a","very","funny","name"]},
+  {de:"Die Fächer in der Schule waren sehr seltsam.", words:["The","subjects","in","the","school","were","very","strange"]},
+  {de:"Jeden Tag wurden die Schulstunden ein bisschen kürzer.", words:["Every","day","became","the","school hours","a","bit","shorter"]},
+  {de:"„Deshalb heißen sie Stunden“, sagt der Greif und lacht.", words:["Therefore","are called","they","hours",",","says","the","gryphon","and","laughs"]}
+]},
+// ===== CHAPTER 10: Die Hummer-Quadrille =====
+{ chapter:10, chapterTitle:"Kapitel 10: Die Hummer-Quadrille", title:"Der Tanz der Hummer", titleEn:"The Lobster Dance", sentences:[
+  {de:"Der Greif und die Suppenschildkröte zeigen einen Tanz.", words:["The","gryphon","and","the","mock turtle","show","a","dance"]},
+  {de:"Der Tanz heißt Hummer-Quadrille.", words:["The","dance","is called","lobster quadrille"]},
+  {de:"Man tanzt am Strand mit Hummern.", words:["One","dances","on the","beach","with","lobsters"]},
+  {de:"Man wirft die Hummer weit ins Meer.", words:["One","throws","the","lobsters","far","into the","sea"]},
+  {de:"Dann schwimmt man ihnen nach.", words:["Then","swims","one","them","after"]},
+  {de:"Alice findet den Tanz ziemlich kompliziert.", words:["Alice","finds","the","dance","rather","complicated"]},
+  {de:"Aber sie schaut trotzdem gerne zu.", words:["But","she","watches","anyway","gladly","(prefix)"]}
+]},
+{ chapter:10, chapterTitle:"Kapitel 10: Die Hummer-Quadrille", title:"Das traurige Lied", titleEn:"The Sad Song", sentences:[
+  {de:"Die Suppenschildkröte singt ein Lied über Suppe.", words:["The","mock turtle","sings","a","song","about","soup"]},
+  {de:"Das Lied ist sehr, sehr traurig.", words:["The","song","is","very",",","very","sad"]},
+  {de:"Große Tränen laufen ihr über das Gesicht.", words:["Big","tears","run","her","over","the","face"]},
+  {de:"Plötzlich ruft jemand von Weitem: „Der Prozess beginnt!“", words:["Suddenly","calls","someone","from","afar",":","The","trial","begins"]},
+  {de:"Der Greif nimmt Alice sofort an der Hand.", words:["The","gryphon","takes","Alice","immediately","by","the","hand"]},
+  {de:"Sie rennen beide schnell zum Gericht.", words:["They","run","both","quickly","to the","court"]}
+]},
+// ===== CHAPTER 11: Wer hat die Torten gestohlen? =====
+{ chapter:11, chapterTitle:"Kapitel 11: Wer hat die Torten gestohlen?", title:"Der Gerichtssaal", titleEn:"The Courtroom", sentences:[
+  {de:"Der König und die Königin sitzen auf ihren Thronen.", words:["The","king","and","the","queen","sit","on","their","thrones"]},
+  {de:"Der Bube steht in Ketten vor Gericht.", words:["The","knave","stands","in","chains","before","court"]},
+  {de:"Man wirft ihm vor, die Torten gestohlen zu haben.", words:["One","accuses","him","(prefix)",",","the","tarts","stolen","to","have"]},
+  {de:"Zwölf Tiere sitzen als Geschworene in einer Reihe.", words:["Twelve","animals","sit","as","jurors","in","a","row"]},
+  {de:"Sie schreiben eifrig auf kleine Tafeln.", words:["They","write","eagerly","on","small","slates"]},
+  {de:"Der weiße Hase liest die Anklage laut vor.", words:["The","white","rabbit","reads","the","accusation","loudly","(prefix)"]}
+]},
+{ chapter:11, chapterTitle:"Kapitel 11: Wer hat die Torten gestohlen?", title:"Der nervöse Hutmacher", titleEn:"The Nervous Hatter", sentences:[
+  {de:"Der Hutmacher wird als erster Zeuge aufgerufen.", words:["The","hatter","becomes","as","first","witness","called","(prefix)"]},
+  {de:"Er hält immer noch seine Teetasse in der Hand.", words:["He","holds","still","his","teacup","in","the","hand"]},
+  {de:"Er ist sehr nervös vor der Königin.", words:["He","is","very","nervous","before","the","queen"]},
+  {de:"Seine Antworten machen überhaupt keinen Sinn.", words:["His","answers","make","at all","no","sense"]},
+  {de:"Die Königin wird schnell ungeduldig mit ihm.", words:["The","queen","becomes","quickly","impatient","with","him"]},
+  {de:"„Kopf ab!“, ruft sie noch einmal.", words:["Head","off",",","calls","she","once","more"]},
+  {de:"Der Hutmacher rennt schnell aus dem Saal.", words:["The","hatter","runs","quickly","out of","the","hall"]}
+]},
+{ chapter:11, chapterTitle:"Kapitel 11: Wer hat die Torten gestohlen?", title:"Alice wird wieder groß", titleEn:"Alice Grows Again", sentences:[
+  {de:"Als Nächstes kommt die Köchin der Herzogin.", words:["As","next","comes","the","cook","of the","duchess"]},
+  {de:"Sie erzählt nur etwas über Pfeffer.", words:["She","tells","only","something","about","pepper"]},
+  {de:"Ihre Aussage hilft niemandem weiter.", words:["Her","testimony","helps","nobody","further"]},
+  {de:"Alice bemerkt, dass sie langsam wieder wächst.", words:["Alice","notices",",","that","she","slowly","again","grows"]},
+  {de:"Sie ist jetzt viel größer als vorher.", words:["She","is","now","much","bigger","than","before"]},
+  {de:"Ein kleines Meerschweinchen jubelt und wird sofort still gemacht.", words:["A","small","guinea pig","cheers","and","becomes","immediately","quiet","made"]}
+]},
+// ===== CHAPTER 12: Alices Aussage =====
+{ chapter:12, chapterTitle:"Kapitel 12: Alices Aussage", title:"Alice als Zeugin", titleEn:"Alice as a Witness", sentences:[
+  {de:"„Alice!“, ruft der König plötzlich.", words:["Alice",",","calls","the","king","suddenly"]},
+  {de:"Jetzt muss Alice selbst aussagen.", words:["Now","must","Alice","herself","testify"]},
+  {de:"Sie steht schnell auf und ist jetzt riesig groß.", words:["She","stands","quickly","up","and","is","now","enormously","big"]},
+  {de:"Aus Versehen stößt sie die Geschworenenbank um.", words:["By","accident","knocks","she","the","jury bench","over"]},
+  {de:"Alle kleinen Tiere fallen aus der Bank heraus.", words:["All","small","animals","fall","out of","the","bench","out"]},
+  {de:"Alice hebt sie schnell wieder hoch.", words:["Alice","lifts","them","quickly","again","up"]}
+]},
+{ chapter:12, chapterTitle:"Kapitel 12: Alices Aussage", title:"Ein seltsamer Beweis", titleEn:"A Strange Piece of Evidence", sentences:[
+  {de:"Der König findet einen Zettel als Beweis.", words:["The","king","finds","a","note","as","evidence"]},
+  {de:"Auf dem Zettel stehen ein paar seltsame Zeilen.", words:["On","the","note","stand","a","few","strange","lines"]},
+  {de:"Der König versucht, die Zeilen zu erklären.", words:["The","king","tries",",","the","lines","to","explain"]},
+  {de:"Aber seine Erklärung macht überhaupt keinen Sinn.", words:["But","his","explanation","makes","at all","no","sense"]},
+  {de:"„Das ist der wichtigste Beweis überhaupt“, sagt der König trotzdem.", words:["That","is","the","most important","evidence","at all",",","says","the","king","anyway"]}
+]},
+{ chapter:12, chapterTitle:"Kapitel 12: Alices Aussage", title:"Alice wird mutig", titleEn:"Alice Grows Brave", sentences:[
+  {de:"Die Königin ruft: „Erst das Urteil, dann der Beweis!“", words:["The","queen","calls",":","First","the","verdict",",","then","the","evidence"]},
+  {de:"„Das ist doch total falsch herum!“, ruft Alice laut.", words:["That","is","however","totally","wrong","around",",","calls","Alice","loudly"]},
+  {de:"„Halt den Mund!“, schreit die Königin.", words:["Hold","the","mouth",",","shouts","the","queen"]},
+  {de:"„Ich bin jetzt so groß wie du“, sagt Alice mutig.", words:["I","am","now","as","big","as","you",",","says","Alice","bravely"]},
+  {de:"„Ihr seid doch nur ein Kartenspiel!“, ruft Alice.", words:["You","are","however","only","a","card game",",","calls","Alice"]}
+]},
+{ chapter:12, chapterTitle:"Kapitel 12: Alices Aussage", title:"Aufwachen", titleEn:"Waking Up", sentences:[
+  {de:"Plötzlich fliegen alle Karten durch die Luft.", words:["Suddenly","fly","all","cards","through","the","air"]},
+  {de:"Sie fallen alle auf Alice herunter.", words:["They","fall","all","on","Alice","down"]},
+  {de:"Alice schreit erschrocken auf.", words:["Alice","screams","startled","(prefix)"]},
+  {de:"Dann öffnet sie langsam die Augen.", words:["Then","opens","she","slowly","the","eyes"]},
+  {de:"Sie liegt wieder ruhig am Fluss.", words:["She","lies","again","peacefully","by the","river"]},
+  {de:"Ihre Schwester streicht ihr sanft ein paar Blätter vom Kleid.", words:["Her","sister","brushes","her","gently","a","few","leaves","from the","dress"]},
+  {de:"Es war also die ganze Zeit nur ein Traum.", words:["It","was","thus","the","whole","time","only","a","dream"]}
+]},
+{ chapter:12, chapterTitle:"Kapitel 12: Alices Aussage", title:"Das Ende", titleEn:"The End", sentences:[
+  {de:"Alice erzählt ihrer Schwester von ihrem Traum.", words:["Alice","tells","her","sister","of","her","dream"]},
+  {de:"Sie erzählt von dem Hasen, der Raupe und der Teeparty.", words:["She","tells","of","the","rabbit",",","the","caterpillar","and","the","tea party"]},
+  {de:"Ihre Schwester hört aufmerksam zu.", words:["Her","sister","listens","attentively","(prefix)"]},
+  {de:"Alice steht auf und läuft nach Hause zum Abendessen.", words:["Alice","stands","up","and","runs","home","to","dinner"]},
+  {de:"„Was für ein wunderbar seltsamer Traum das war“, denkt Alice.", words:["What","a","wonderfully","strange","dream","that","was",",","thinks","Alice"]}
+]}
 ];
 
 let cur = 0;
-let playing = false;
 let sentIdx = 0;
+let playing = false;
+let rate = 0.85;
 let queueToken = 0;
+let markedWord = null;
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function glossHTML(de, words){
-  if(!words) return esc(de);
+function glossHTML(de, words, si){
   const tokens = de.split(' ');
   return tokens.map((tok,i)=>{
     const m = tok.match(/^([„"'‘]*)([^\s.,!?;:()"„“”'’]+)([.,!?;:()"„“”'’]*)$/);
-    if(!m || words[i]===undefined) return esc(tok);
+    if(!m || !words || words[i]===undefined) return esc(tok);
     const lead=m[1]||'', word=m[2], trail=m[3]||'';
-    return `${esc(lead)}<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(trail)}`;
+    return `${esc(lead)}<span class="gw" data-tip="${esc(words[i])}" data-sent="${si}" data-word="${i}">${esc(word)}</span>${esc(trail)}`;
   }).join(' ');
 }
 
 function renderTOC(){
   const el = document.getElementById('toc');
-  el.innerHTML = PAGES.map((p,i)=>`<button class="${i===cur?'active':''}" data-i="${i}" title="${esc(p.title)}">${i+1}</button>`).join('');
-  el.querySelectorAll('button').forEach(b=>b.onclick=()=>goTo(+b.dataset.i));
+  let html = '';
+  let lastChapter = null;
+  PAGES.forEach((p,i)=>{
+    const startsChapter = p.chapter !== lastChapter;
+    lastChapter = p.chapter;
+    html += `<button class="${i===cur?'active':''}${startsChapter?' chapter-start':''}" data-i="${i}" title="${esc(p.chapterTitle)} — ${esc(p.title)}">${i+1}</button>`;
+  });
+  el.innerHTML = html;
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>goToPage(+b.dataset.i));
 }
 
 function renderPage(){
   const p = PAGES[cur];
   const el = document.getElementById('pageCard');
   el.innerHTML = `
+    <div class="chapter-label">${esc(p.chapterTitle)}</div>
     <div class="page-num">Seite ${cur+1} von ${PAGES.length}</div>
     <div class="page-title">${esc(p.title)}</div>
     <div class="page-title-en">${esc(p.titleEn)}</div>
-    <div class="story">${p.sentences.map((s,i)=>`<span class="sent" id="sent-${i}">${glossHTML(s.de, s.words)}</span> `).join('')}</div>
+    <div class="story">${p.sentences.map((s,i)=>`<span class="sent" id="sent-${i}" data-i="${i}">${glossHTML(s.de, s.words, i)}</span> `).join('')}</div>
+    <div class="pageturn">
+      <button id="prevPageBtn" ${cur===0?'disabled':''}>‹ Vorherige Seite</button>
+      <button id="nextPageBtn" ${cur===PAGES.length-1?'disabled':''}>Nächste Seite ›</button>
+    </div>
   `;
-  document.getElementById('scrub').value = cur;
-  document.getElementById('playerLabel').textContent = `Seite ${cur+1} / ${PAGES.length} — ${p.title}`;
-  document.getElementById('prevBtn').disabled = cur===0;
-  document.getElementById('nextBtn').disabled = cur===PAGES.length-1;
+  document.getElementById('prevPageBtn').onclick=()=>goToPage(cur-1);
+  document.getElementById('nextPageBtn').onclick=()=>goToPage(cur+1);
+  document.querySelectorAll('.sent').forEach(s=>s.addEventListener('click',()=>{
+    const i=+s.dataset.i;
+    if(i!==sentIdx || !playing){ jumpToSentence(i); }
+  }));
+  updateScrubMax();
+  highlightSentence(sentIdx);
   renderTOC();
 }
 
-function goTo(i){
+function updateScrubMax(){
+  const n = PAGES[cur].sentences.length;
+  const scrub = document.getElementById('scrub');
+  scrub.max = n-1;
+  scrub.value = sentIdx;
+  document.getElementById('playerLabel').textContent = `Satz ${sentIdx+1} / ${n}`;
+}
+
+function highlightSentence(i){
+  document.querySelectorAll('.sent.reading').forEach(s=>s.classList.remove('reading'));
+  const el = document.getElementById('sent-'+i);
+  if(el){ el.classList.add('reading'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
+  sentIdx = i;
+  updateScrubMax();
+}
+
+function clearWordMark(){
+  document.querySelectorAll('.gw.word-marked').forEach(w=>w.classList.remove('word-marked'));
+}
+
+function goToPage(i){
   stopReading();
   cur = Math.max(0, Math.min(PAGES.length-1, i));
+  sentIdx = 0;
+  markedWord = null;
   renderPage();
+}
+
+function jumpToSentence(i){
+  const wasPlaying = playing;
+  stopReading();
+  highlightSentence(i);
+  if(wasPlaying) startReading();
 }
 
 function stopReading(){
@@ -242,34 +651,84 @@ function stopReading(){
   window.speechSynthesis.cancel();
   playing = false;
   document.getElementById('playBtn').textContent = '▶️';
-  document.querySelectorAll('.sent.reading').forEach(s=>s.classList.remove('reading'));
 }
 
-function readPage(){
-  if(playing){ stopReading(); return; }
+function startReading(){
   playing = true;
-  const myToken = ++queueToken;
   document.getElementById('playBtn').textContent = '⏸';
+  const myToken = ++queueToken;
   const sentences = PAGES[cur].sentences;
-  let i = 0;
-  function next(){
-    if(myToken!==queueToken) return;
-    document.querySelectorAll('.sent.reading').forEach(s=>s.classList.remove('reading'));
-    if(i>=sentences.length){ playing=false; document.getElementById('playBtn').textContent='▶️'; return; }
-    const el = document.getElementById('sent-'+i);
-    if(el) el.classList.add('reading');
-    const u = new SpeechSynthesisUtterance(sentences[i].de.replace(/[„“]/g,''));
-    u.lang='de-DE'; u.rate=0.85;
-    u.onend=()=>{ i++; next(); };
+  let wordStart = null;
+  if(markedWord && markedWord.sentIdx === sentIdx){ wordStart = markedWord.wordIdx; }
+  markedWord = null;
+  clearWordMark();
+
+  function speakFrom(i, fromWord){
+    if(myToken !== queueToken) return;
+    if(i >= sentences.length){
+      playing = false;
+      document.getElementById('playBtn').textContent = '▶️';
+      return;
+    }
+    highlightSentence(i);
+    let text = sentences[i].de;
+    if(fromWord != null){
+      const toks = sentences[i].de.split(' ');
+      text = toks.slice(fromWord).join(' ');
+    }
+    const u = new SpeechSynthesisUtterance(text.replace(/[„“]/g,''));
+    u.lang = 'de-DE';
+    u.rate = rate;
+    u.onend = () => { if(myToken===queueToken) speakFrom(i+1, null); };
     window.speechSynthesis.speak(u);
   }
-  next();
+  speakFrom(sentIdx, wordStart);
 }
 
-document.getElementById('prevBtn').onclick=()=>goTo(cur-1);
-document.getElementById('nextBtn').onclick=()=>goTo(cur+1);
-document.getElementById('playBtn').onclick=readPage;
-document.getElementById('scrub').oninput=(e)=>goTo(+e.target.value);
+function togglePlay(){
+  if(playing){ stopReading(); }
+  else { startReading(); }
+}
+
+function stepSentence(delta){
+  const n = PAGES[cur].sentences.length;
+  const wasPlaying = playing;
+  stopReading();
+  const newIdx = Math.max(0, Math.min(n-1, sentIdx+delta));
+  highlightSentence(newIdx);
+  if(wasPlaying) startReading();
+}
+
+document.getElementById('prevBtn').onclick = () => stepSentence(-1);
+document.getElementById('nextBtn').onclick = () => stepSentence(1);
+document.getElementById('playBtn').onclick = togglePlay;
+document.getElementById('scrub').oninput = (e) => {
+  const wasPlaying = playing;
+  stopReading();
+  highlightSentence(+e.target.value);
+  if(wasPlaying) startReading();
+};
+document.getElementById('speedSlider').oninput = (e) => {
+  rate = +e.target.value;
+  document.getElementById('speedVal').textContent = rate.toFixed(2)+'x';
+};
+
+document.addEventListener('keydown', e=>{
+  if(e.code==='Space' && document.activeElement.tagName!=='INPUT'){
+    e.preventDefault();
+    togglePlay();
+  }
+});
+
+document.getElementById('pageCard').addEventListener('dblclick', e=>{
+  const w = e.target.closest('.gw');
+  if(!w) return;
+  clearWordMark();
+  const si = +w.dataset.sent, wi = +w.dataset.word;
+  markedWord = { sentIdx: si, wordIdx: wi };
+  w.classList.add('word-marked');
+  if(si !== sentIdx){ stopReading(); highlightSentence(si); }
+});
 
 renderPage();
 
@@ -307,17 +766,6 @@ initMode();
     clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
   });
   document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
-  document.addEventListener('click',e=>{
-    const g=e.target.closest('.gw');
-    if(g){
-      e.stopPropagation();
-      const tip=ensureTip();
-      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
-      else { clearTimeout(timer); showTip(g); }
-      return;
-    }
-    hideTip();
-  });
 })();
 </script>
 </body>
