@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Self-Introduction Phrasebook — Easy German</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;--phrase-bg:#edf6f0;
+  --formal:#2d5a8c;--formal-l:#e2edf7;
+  --q:#8a5a2d;--q-l:#f7ecdd;
+  --a:#2d6a4f;--a-l:#e3f2e8;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;--phrase-bg:#1f2d24;
+  --formal:#6fa3d8;--formal-l:#1e2c3a;
+  --q:#d9a05c;--q-l:#332a1c;
+  --a:#5cb583;--a-l:#1f2d24;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 80px}
+.mode-toggle{position:fixed;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:10}
+
+/* Header */
+.top{margin-bottom:8px}
+.top h1{font-size:22px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:13px;color:var(--sub);margin-top:4px}
+.src{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:6px 12px;margin-top:12px}
+.src a{font-weight:600}
+
+.legend{display:flex;gap:10px;margin:18px 0 26px;flex-wrap:wrap}
+.legend .chip{font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+.chip.du{background:var(--accent-l);color:var(--accent-d)}
+.chip.sie{background:var(--formal-l);color:var(--formal)}
+.chip.qc{background:var(--q-l);color:var(--q)}
+.chip.ac{background:var(--a-l);color:var(--a)}
+
+/* Sections */
+.section{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.section h2{font-size:15.5px;font-weight:700;color:var(--accent-d);margin-bottom:12px}
+
+.qa-block{display:flex;gap:12px;margin-bottom:12px}
+.qa-block:last-of-type{margin-bottom:0}
+.qa-label{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-top:2px}
+.qa-label.q{background:var(--q-l);color:var(--q)}
+.qa-label.a{background:var(--a-l);color:var(--a)}
+.qa-rows{flex:1;border-left:2px solid var(--border);padding-left:12px}
+
+.variant-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}
+.variant-row:last-child{margin-bottom:0}
+.tag{flex-shrink:0;width:34px;text-align:center;font-size:10px;font-weight:700;padding:3px 0;border-radius:5px}
+.tag.du{background:var(--accent-l);color:var(--accent-d)}
+.tag.sie{background:var(--formal-l);color:var(--formal)}
+.phrase-block{flex:1;background:var(--card);border-radius:6px;padding:7px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.phrase-block .de{font-weight:600;font-size:14px}
+.phrase-block .en{font-size:12px;color:var(--sub);width:100%}
+.speak{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto;transition:background .12s}
+.speak:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:9px 13px;border-radius:0 6px 6px 0;font-size:12.5px;color:var(--ink);margin-top:12px}
+.grammar{background:var(--formal-l);border-left:3px solid var(--formal);padding:9px 13px;border-radius:0 6px 6px 0;font-size:12.5px;color:var(--ink);margin-top:12px}
+.grammar b{color:var(--formal)}
+
+/* Table */
+.tablewrap{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-top:26px;box-shadow:var(--shadow)}
+.tablewrap h2{font-size:15.5px;font-weight:700;color:var(--accent-d);margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);padding:6px 8px;border-bottom:2px solid var(--border)}
+td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}
+td .de{font-weight:600}
+td .en{color:var(--sub);font-size:12px}
+tr td:first-child{font-weight:600;color:var(--accent-d);width:24%}
+.mini-speak{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;vertical-align:middle}
+.mini-speak:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+@media(max-width:600px){
+  table,thead,tbody,tr{display:block}
+  thead{display:none}
+  tr{border-bottom:1px solid var(--border);padding:10px 0}
+  td{border:none;padding:3px 0}
+  tr td:first-child{color:var(--accent-d);font-size:11px;text-transform:uppercase}
+}
+</style>
+</head>
+<body>
+<button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+<div class="wrap">
+  <div class="top">
+    <h1>Self-Introduction Phrasebook</h1>
+    <div class="sub">Built from Easy German — "Wie stellst du dich vor?" (langsames Deutsch)</div>
+    <div class="src">🎬 Source video: <a href="https://www.youtube.com/watch?v=huwi-cjPPXU&list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" rel="noopener">watch on YouTube ↗</a></div>
+  </div>
+
+  <div class="legend">
+    <span class="chip qc">Q — question</span>
+    <span class="chip ac">A — answer</span>
+    <span class="chip du">DU — informal</span>
+    <span class="chip sie">SIE — formal</span>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="tablewrap">
+    <h2>📋 Quick reference — the core script</h2>
+    <table id="refTable"></table>
+  </div>
+</div>
+
+<script>
+// ---------- Data ----------
+// Each section has a "q" block (the question, du/sie) and an "a" block
+// (one or more answer lines, du/sie — usually identical, occasionally not)
+const SECTIONS = [
+  {
+    title:"Name",
+    q:[{du:"Wie heißt du?", sie:"Wie heißen Sie?", en:"What's your name?"}],
+    a:[{du:"Ich heiße ___.", sie:"Ich heiße ___. / Mein Name ist ___.", en:"My name is ___."}],
+    grammar:"heißen conjugates: ich heiße, du heißt, er/sie heißt, Sie heißen (same form as the plural/formal — this is true for every verb, not just heißen)."
+  },
+  {
+    title:"Age",
+    q:[{du:"Wie alt bist du?", sie:"Wie alt sind Sie?", en:"How old are you?"}],
+    a:[{du:"Ich bin ___ Jahre alt.", sie:"Ich bin ___ Jahre alt.", en:"I am ___ years old."}]
+  },
+  {
+    title:"Where you're from",
+    q:[{du:"Woher kommst du?", sie:"Woher kommen Sie?", en:"Where are you from?"}],
+    a:[{du:"Ich komme aus ___.", sie:"Ich komme aus ___.", en:"I come from ___."}],
+    grammar:"aus takes the dative case. Most country names need no article (aus Polen), but a few do: aus den USA, aus dem Iran, aus der Türkei."
+  },
+  {
+    title:"Where you live",
+    q:[
+      {du:"Wo wohnst du?", sie:"Wo wohnen Sie?", en:"Where do you live?"},
+      {du:"Seit wann wohnst du in ___?", sie:"Seit wann wohnen Sie in ___?", en:"Since when have you lived in ___? (= how long)"}
+    ],
+    a:[{du:"Ich wohne seit ___ in ___.", sie:"Ich wohne seit ___ in ___.", en:"I've lived in ___ for ___."}],
+    grammar:"seit + present tense = an ongoing state since a point in time. English switches to present perfect here (\"I have lived\") — German just stays present tense. Very common trap for English speakers, worth drilling early."
+  },
+  {
+    title:"Relationship status",
+    q:[
+      {du:"Bist du in einer Beziehung?", sie:"Sind Sie in einer Beziehung?", en:"Are you in a relationship?"},
+      {du:"Bist du verheiratet?", sie:"Sind Sie verheiratet?", en:"Are you married?"}
+    ],
+    a:[{du:"Ich bin Single. / Ich bin verheiratet.", sie:"Ich bin Single. / Ich bin verheiratet.", en:"I'm single. / I'm married."}],
+    note:"In a work context, this question (and the next two) would rarely come up unprompted — it's more of a casual/social question. Good to recognize, less essential to volunteer at the office."
+  },
+  {
+    title:"Kids",
+    q:[{du:"Hast du Kinder?", sie:"Haben Sie Kinder?", en:"Do you have kids?"}],
+    a:[{du:"Ich habe keine Kinder.", sie:"Ich habe keine Kinder.", en:"I don't have kids."}],
+    grammar:"kein/keine negates nouns (keine Kinder); nicht negates verbs and adjectives. Core A1 distinction, comes up constantly."
+  },
+  {
+    title:"Siblings",
+    q:[{du:"Hast du Geschwister?", sie:"Haben Sie Geschwister?", en:"Do you have siblings?"}],
+    a:[{du:"Ich habe eine Schwester / einen Bruder.", sie:"Ich habe eine Schwester / einen Bruder.", en:"I have a sister / brother."}]
+  },
+  {
+    title:"Where your family lives",
+    q:[{du:"Wo wohnt deine Familie?", sie:"Wo wohnt Ihre Familie?", en:"Where does your family live?"}],
+    a:[{du:"Meine Familie wohnt in ___.", sie:"Meine Familie wohnt in ___.", en:"My family lives in ___."}],
+    grammar:"dein → Ihr is the possessive that flips between du/Sie (deine Familie → Ihre Familie). Same pattern for dein Name → Ihr Name, deine Hobbys → Ihre Hobbys, etc."
+  },
+  {
+    title:"Education",
+    q:[{du:"Was hast du studiert oder gelernt?", sie:"Was haben Sie studiert oder gelernt?", en:"What did you study or train in?"}],
+    a:[{du:"Ich habe ___ studiert.", sie:"Ich habe ___ studiert.", en:"I studied ___."}],
+    grammar:"This is the Perfekt (spoken past) tense: haben + past participle. Pattern: ich habe [thing] ge-[verb]-t. This is the default way to talk about the past in conversation."
+  },
+  {
+    title:"Job / profession",
+    q:[{du:"Was machst du beruflich?", sie:"Was machen Sie beruflich?", en:"What do you do for work? — high-value for a work setting"}],
+    a:[
+      {du:"Ich bin ___.", sie:"Ich bin ___.", en:"I am a ___. (no article: \"ich bin Krankenpfleger\", not \"ein Krankenpfleger\")"},
+      {du:"Ich arbeite bei ___.", sie:"Ich arbeite bei ___.", en:"I work at ___."}
+    ]
+  },
+  {
+    title:"Hobbies",
+    q:[{du:"Was sind deine Hobbys?", sie:"Was sind Ihre Hobbys?", en:"What are your hobbies?"}],
+    a:[
+      {du:"Meine Hobbys sind ___.", sie:"Meine Hobbys sind ___.", en:"My hobbies are ___."},
+      {du:"Ich [verb] gerne.", sie:"Ich [verb] gerne.", en:"I like to [verb]."}
+    ],
+    grammar:"gern(e) placed after a verb = \"like to [verb]\" — no separate \"like\" verb needed. Ich lese gern. Ich koche gern. One of the most useful A1 words overall."
+  },
+  {
+    title:"Sport",
+    q:[{du:"Machst du Sport?", sie:"Machen Sie Sport?", en:"Do you play sports?"}],
+    a:[{du:"Ich fahre gerne Fahrrad.", sie:"Ich fahre gerne Fahrrad.", en:"I like cycling."}]
+  },
+  {
+    title:"Favorite food",
+    q:[
+      {du:"Was ist dein Lieblingsessen?", sie:"Was ist Ihr Lieblingsessen?", en:"What's your favorite food?"},
+      {du:"Was magst du gar nicht?", sie:"Was mögen Sie gar nicht?", en:"What don't you like at all?"}
+    ],
+    a:[{du:"Ich mag ___ nicht. / Ich mag kein(e/en) ___.", sie:"Ich mag ___ nicht. / Ich mag kein(e/en) ___.", en:"I don't like ___."}],
+    grammar:"Lieblings- is a prefix you can attach to almost any noun for \"favorite\": Lieblingsessen, Lieblingsfarbe, Lieblingsfilm, Lieblingskollege(!). Very productive."
+  },
+  {
+    title:"Pets",
+    q:[{du:"Hast du Haustiere?", sie:"Haben Sie Haustiere?", en:"Do you have pets?"}],
+    a:[{du:"Ich habe leider keine Haustiere.", sie:"Ich habe leider keine Haustiere.", en:"Unfortunately I don't have pets."}]
+  },
+  {
+    title:"Music taste",
+    q:[{du:"Welche Musik magst du?", sie:"Welche Musik mögen Sie?", en:"What music do you like?"}],
+    a:[{du:"Ich höre gerne ___.", sie:"Ich höre gerne ___.", en:"I like listening to ___."}]
+  },
+  {
+    title:"Languages",
+    q:[{du:"Welche Sprachen sprichst du?", sie:"Welche Sprachen sprechen Sie?", en:"What languages do you speak?"}],
+    a:[
+      {du:"Ich spreche ___.", sie:"Ich spreche ___.", en:"I speak ___."},
+      {du:"Ich lerne gerade Deutsch.", sie:"Ich lerne gerade Deutsch.", en:"I'm currently learning German. (genuinely useful line for you)"}
+    ]
+  }
+];
+
+const REF = [
+  {q:"Wie heißt du?", sie:"Wie heißen Sie?", a:"Ich heiße ___.", en:"What's your name? → My name is ___."},
+  {q:"Wie alt bist du?", sie:"Wie alt sind Sie?", a:"Ich bin ___ Jahre alt.", en:"How old are you? → I'm ___."},
+  {q:"Woher kommst du?", sie:"Woher kommen Sie?", a:"Ich komme aus ___.", en:"Where are you from? → I'm from ___."},
+  {q:"Wo wohnst du?", sie:"Wo wohnen Sie?", a:"Ich wohne in ___.", en:"Where do you live? → I live in ___."},
+  {q:"Seit wann wohnst du hier?", sie:"Seit wann wohnen Sie hier?", a:"Ich wohne seit ___.", en:"How long have you lived here? → For ___."},
+  {q:"Sind Sie verheiratet?", sie:"Sind Sie verheiratet?", a:"Ich bin Single / verheiratet.", en:"Are you married? → I'm single / married."},
+  {q:"Hast du Kinder?", sie:"Haben Sie Kinder?", a:"Ich habe keine Kinder.", en:"Do you have kids? → No kids."},
+  {q:"Was machst du beruflich?", sie:"Was machen Sie beruflich?", a:"Ich bin ___. / Ich arbeite bei ___.", en:"What's your job? → I'm a ___ / I work at ___."},
+  {q:"Was sind deine Hobbys?", sie:"Was sind Ihre Hobbys?", a:"Meine Hobbys sind ___.", en:"Hobbies? → My hobbies are ___."},
+  {q:"Was ist dein Lieblingsessen?", sie:"Was ist Ihr Lieblingsessen?", a:"Mein Lieblingsessen ist ___.", en:"Favorite food? → My favorite is ___."},
+  {q:"Welche Sprachen sprichst du?", sie:"Welche Sprachen sprechen Sie?", a:"Ich spreche ___.", en:"Languages? → I speak ___."},
+  {q:"—", sie:"—", a:"Ich lerne gerade Deutsch.", en:"Handy line: \"I'm currently learning German.\""}
+];
+
+// ---------- Speech ----------
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  // strip English parentheticals, turn "/" alternatives into a spoken pause
+  // (comma) so BOTH options get read instead of just the first, and drop
+  // the ___ blank entirely (rather than reading a filler word)
+  const clean=text
+    .replace(/\s*\(.*?\)\s*/g,' ')
+    .replace(/\s*\/\s*/g,', ')
+    .replace(/___+/g,'')
+    .replace(/\s+([.?!,])/g,'$1')
+    .replace(/\s{2,}/g,' ')
+    .trim();
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='de-DE';u.rate=0.85;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
+}
+
+// ---------- Dark mode ----------
+function initMode(){
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderVariantRows(item){
+  let r=`<div class="variant-row">
+    <span class="tag du">DU</span>
+    <div class="phrase-block">
+      <div class="de">${esc(item.du)}</div>
+      <button class="speak" data-de="${esc(item.du)}" title="Hear (du)">🔊</button>
+      <div class="en">${esc(item.en)}</div>
+    </div>
+  </div>`;
+  if(item.sie!==item.du){
+    r+=`<div class="variant-row">
+      <span class="tag sie">SIE</span>
+      <div class="phrase-block">
+        <div class="de">${esc(item.sie)}</div>
+        <button class="speak" data-de="${esc(item.sie)}" title="Hear (Sie)">🔊</button>
+        <div class="en">${esc(item.en)}</div>
+      </div>
+    </div>`;
+  }
+  return r;
+}
+
+// ---------- Render ----------
+function render(){
+  const el=document.getElementById('sections');
+  let h='';
+  SECTIONS.forEach(sec=>{
+    h+=`<div class="section"><h2>${esc(sec.title)}</h2>`;
+    h+=`<div class="qa-block">
+      <span class="qa-label q">Q</span>
+      <div class="qa-rows">${sec.q.map(renderVariantRows).join('')}</div>
+    </div>`;
+    h+=`<div class="qa-block">
+      <span class="qa-label a">A</span>
+      <div class="qa-rows">${sec.a.map(renderVariantRows).join('')}</div>
+    </div>`;
+    if(sec.grammar) h+=`<div class="grammar"><b>Grammar:</b> ${esc(sec.grammar)}</div>`;
+    if(sec.note) h+=`<div class="note">📝 ${esc(sec.note)}</div>`;
+    h+=`</div>`;
+  });
+  el.innerHTML=h;
+  el.querySelectorAll('.speak').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
+
+  const t=document.getElementById('refTable');
+  let th=`<thead><tr><th>Q (Du)</th><th>Q (Sie)</th><th>A</th><th>English</th></tr></thead><tbody>`;
+  REF.forEach(r=>{
+    th+=`<tr>
+      <td>${r.q!=='—'?`<button class="mini-speak" data-de="${esc(r.q)}" title="Hear">🔊</button>`:''}<span class="de">${esc(r.q)}</span></td>
+      <td>${r.sie!=='—'?`<button class="mini-speak" data-de="${esc(r.sie)}" title="Hear">🔊</button>`:''}<span class="de">${esc(r.sie)}</span></td>
+      <td><button class="mini-speak" data-de="${esc(r.a)}" title="Hear">🔊</button><span class="de">${esc(r.a)}</span></td>
+      <td class="en">${esc(r.en)}</td>
+    </tr>`;
+  });
+  th+=`</tbody>`;
+  t.innerHTML=th;
+  t.querySelectorAll('.mini-speak').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
+}
+
+render();
+</script>
+</body>
+</html>
