@@ -13,8 +13,18 @@
   --warn:#b5651d;--warn-bg:#fff4e6;
   --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
 }
-body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;--phrase-bg:#1f2d24;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
 a{color:var(--accent);text-decoration:none}
+.top-bar{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:100}
+.top-bar button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.home-link{width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink)!important;text-decoration:none!important}
 
 /* Layout */
 .shell{display:flex;height:100dvh;overflow:hidden}
@@ -68,7 +78,7 @@ a{color:var(--accent);text-decoration:none}
 .phrase{background:var(--phrase-bg);border-radius:var(--radius);padding:10px 14px;margin-bottom:6px;display:flex;gap:12px;align-items:flex-start}
 .phrase .p-de{font-weight:600;font-size:14px;flex:1}
 .phrase .p-en{font-size:13px;color:var(--sub);flex:1}
-.phrase .p-speak{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.phrase .p-speak{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .phrase .p-speak:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 .note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:6px;font-size:13px;color:var(--ink)}
 
@@ -84,6 +94,10 @@ a{color:var(--accent);text-decoration:none}
 </style>
 </head>
 <body>
+<div class="top-bar">
+  <a class="home-link" href="index.html" title="Back to home">🏠 Home</a>
+  <button id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
 <button class="mob-toggle" id="mobBtn">☰</button>
 <div class="shell">
   <div class="nav" id="nav">
@@ -106,8 +120,28 @@ let learned = {};
 let quiz = false;
 let cur = 0;
 
-async function loadState(){try{const r=await window.storage.get('a1-v2');learned=r?JSON.parse(r.value):{};}catch(e){learned={};}}
-async function saveState(){try{await window.storage.set('a1-v2',JSON.stringify(learned));}catch(e){}}
+async function loadState(){
+  try{
+    const raw=localStorage.getItem('a1-v2');
+    learned=raw?JSON.parse(raw):{};
+  }catch(e){learned={};}
+}
+async function saveState(){
+  try{localStorage.setItem('a1-v2',JSON.stringify(learned));}catch(e){}
+}
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
 
 function wid(ci,wi){return ci+'-'+wi;}
 function countLearned(ci){return DATA[ci].words.filter((_,wi)=>learned[wid(ci,wi)]).length;}
