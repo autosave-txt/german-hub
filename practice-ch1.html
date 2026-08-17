@@ -90,7 +90,7 @@ a{color:var(--accent)}
   </div>
 
   <div class="scoreboard">
-    <span>Fortschritt: <b id="scoreText">0 / 0 geprüft</b></span>
+    <span>Fortschritt (Progress): <b id="scoreText">0 / 0 geprüft (checked)</b></span>
     <span id="scorePct" style="color:var(--sub)"></span>
   </div>
 
@@ -102,14 +102,14 @@ const SENTENCES = [
   {en:"Hello! My name is John.", de:"Hallo! Ich heiße John."},
   {en:"What is your name? (informal)", de:"Wie heißt du?"},
   {en:"What is your name? (formal)", de:"Wie heißen Sie?"},
-  {en:"Where are you from?", de:"Woher kommst du?"},
+  {en:"Where are you from? (informal)", de:"Woher kommst du?"},
   {en:"I come from Germany.", de:"Ich komme aus Deutschland."},
-  {en:"Where do you live?", de:"Wo wohnst du?"},
+  {en:"Where do you live? (informal)", de:"Wo wohnst du?"},
   {en:"I live in Berlin.", de:"Ich wohne in Berlin."},
   {en:"Which languages do you speak? (formal)", de:"Welche Sprachen sprechen Sie?"},
   {en:"I speak German and a little English.", de:"Ich spreche Deutsch und ein bisschen Englisch."},
   {en:"Nice to meet you!", de:"Freut mich!"},
-  {en:"How are you?", de:"Wie geht's?"},
+  {en:"How are you? (informal)", de:"Wie geht's?"},
   {en:"I'm doing well, thank you.", de:"Mir geht es gut, danke."},
   {en:"Good luck!", de:"Viel Glück!"},
   {en:"Excuse me, please.", de:"Entschuldigung, bitte."},
@@ -141,8 +141,8 @@ function updateScoreboard(){
   const keys = Object.keys(checkedResults).filter(k=>k.startsWith(mode+'-'));
   let checkedCount = keys.length;
   let correctCount = keys.filter(k=>checkedResults[k].fullyCorrect).length;
-  document.getElementById('scoreText').textContent = `${checkedCount} / ${SENTENCES.length} geprüft`;
-  document.getElementById('scorePct').textContent = checkedCount ? `${correctCount} / ${checkedCount} richtig` : '';
+  document.getElementById('scoreText').textContent = `${checkedCount} / ${SENTENCES.length} geprüft (checked)`;
+  document.getElementById('scorePct').textContent = checkedCount ? `${correctCount} / ${checkedCount} richtig (correct)` : '';
 }
 
 function renderEnDe(){
@@ -159,8 +159,8 @@ function renderEnDe(){
         <div class="prompt">${esc(s.en)}</div>
         <div class="blanks">${blanksHtml}</div>
         <div class="qactions">
-          <button class="primary" onclick="checkEnDe(${i})">Prüfen</button>
-          <button onclick="revealEnDe(${i})">Lösung zeigen</button>
+          <button class="primary" onclick="checkEnDe(${i})">Prüfen (Check)</button>
+          <button onclick="revealEnDe(${i})">Lösung zeigen (Show answer)</button>
         </div>
         <div class="qresult" id="result-${i}"></div>
       </div>`;
@@ -168,20 +168,27 @@ function renderEnDe(){
   updateScoreboard();
 }
 
+function normalizeGerman(s){
+  // ß has no easy keyboard shortcut for most people — "ss" is the
+  // official standard substitute (it's how Swiss German always writes
+  // it), so treat the two as equivalent when grading.
+  return s.replace(/ß/g,'ss');
+}
+
 function checkEnDe(i){
   const tokens = tokenize(SENTENCES[i].de);
   const inputs = document.querySelectorAll(`input[data-qi="${i}"]`);
   let correct = 0;
   inputs.forEach(inp=>{
-    const val = inp.value.trim().toLowerCase();
-    const ans = inp.dataset.answer;
+    const val = normalizeGerman(inp.value.trim().toLowerCase());
+    const ans = normalizeGerman(inp.dataset.answer);
     inp.classList.remove('correct','incorrect','revealed');
     if(val === ans){ inp.classList.add('correct'); correct++; }
     else { inp.classList.add('incorrect'); }
   });
   checkedResults[`endeToDe-${i}`] = { fullyCorrect: correct===tokens.length };
   const resEl = document.getElementById(`result-${i}`);
-  resEl.textContent = `${correct} / ${tokens.length} Wörter richtig`;
+  resEl.textContent = `${correct} / ${tokens.length} Wörter richtig (words correct)`;
   resEl.className = 'qresult ' + (correct===tokens.length ? 'good' : 'bad');
   updateScoreboard();
 }
@@ -207,7 +214,7 @@ function renderDeEn(){
       <div class="prompt">${esc(s.de)} <button class="speak" onclick="speak('${esc(s.de).replace(/'/g,"\\'")}')" title="Hear">🔊</button></div>
       <div class="freeform"><textarea id="ta-${i}" placeholder="Your English translation..."></textarea></div>
       <div class="qactions">
-        <button class="primary" onclick="revealDeEn(${i})">Antwort zeigen</button>
+        <button class="primary" onclick="revealDeEn(${i})">Antwort zeigen (Show answer)</button>
       </div>
       <div class="answer-reveal" id="answer-${i}"></div>
     </div>`).join('');
