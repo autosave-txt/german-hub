@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Translate & Practice — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;--warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:8px}
+.top h1{font-size:22px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:13px;color:var(--sub);margin-top:4px}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:12px 16px;border-radius:0 6px 6px 0;font-size:12.5px;margin:18px 0}
+
+.dirtabs{display:flex;gap:8px;margin-bottom:16px}
+.dirtabs button{flex:1;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
+.dirtabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.panel h2{font-size:13px;font-weight:700;color:var(--accent-d);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.panel textarea{width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:6px;padding:10px 12px;font-size:14.5px;font-family:inherit;background:var(--card);color:var(--ink);resize:vertical;line-height:1.5}
+.panel textarea:focus{outline:none;border-color:var(--accent)}
+
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.actions button{font-size:12.5px;font-weight:600;padding:8px 16px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--ink);cursor:pointer}
+.actions button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.actions button:hover{border-color:var(--accent)}
+.actions button:disabled{opacity:.5;cursor:default}
+
+.speedrow{display:flex;align-items:center;gap:8px;margin-top:12px}
+.speedrow label{font-size:11px;color:var(--sub);flex-shrink:0;width:60px}
+.speedrow input{flex:1;accent-color:var(--accent)}
+.speedrow .val{font-size:11px;color:var(--sub);width:38px;text-align:right}
+
+.status{font-size:12px;color:var(--sub);margin-top:8px;min-height:16px}
+.status.error{color:var(--warn)}
+
+.roundtrip{background:var(--card);border-radius:6px;padding:12px 14px;margin-top:12px;font-size:13px;display:none}
+.roundtrip.show{display:block}
+.roundtrip .lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
+
+.settings{background:var(--card);border:1px dashed var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12.5px}
+.settings summary{cursor:pointer;font-weight:700;color:var(--accent-d);list-style:none}
+.settings summary::-webkit-details-marker{display:none}
+.settings summary::before{content:"⚙️ ";}
+.settings-body{margin-top:10px}
+.settings-body p{color:var(--sub);margin-bottom:8px;line-height:1.5}
+.settings-row{display:flex;gap:8px;margin-top:8px}
+.settings-row input{flex:1;border:1.5px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12.5px;font-family:inherit;background:var(--panel);color:var(--ink)}
+.settings-row button{font-size:12px;font-weight:700;padding:7px 14px;border-radius:6px;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer}
+.settings-row button:hover{border-color:var(--accent)}
+.engine-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;margin-top:8px}
+.engine-badge.deepl{background:var(--accent-l);color:var(--accent-d)}
+.engine-badge.mymemory{background:var(--warn-bg);color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Translate & Practice</h1>
+    <div class="sub">Write your own script, translate it, then read it aloud to practice.</div>
+  </div>
+
+  <details class="settings">
+    <summary>Translation engine settings</summary>
+    <div class="settings-body">
+      <p>By default this uses a free, unlimited translation service with no daily cap for personal use, with an automatic backup if it's ever briefly unavailable. If you've set up your own DeepL-powered Worker (noticeably better quality for English↔German), paste its URL below — it'll be remembered on this device.</p>
+      <div class="settings-row">
+        <input type="text" id="workerUrlInput" placeholder="https://your-worker-name.your-subdomain.workers.dev">
+        <button id="saveWorkerBtn">Save</button>
+        <button id="clearWorkerBtn">Remove</button>
+      </div>
+      <div id="engineBadge"></div>
+    </div>
+  </details>
+
+  <div class="note">⚠️ This uses automatic machine translation, not a hand-checked dictionary — great for everyday scripts, but it can stumble on idioms or nuance. The German box is editable, so fix anything that looks off. For anything you actually plan to say to someone, the "Translate back to check" button below is a good sanity check — if the round trip still means what you meant, you're probably safe.</div>
+
+  <div class="dirtabs">
+    <button id="tabEnDe" class="active">English → Deutsch</button>
+    <button id="tabDeEn">Deutsch → English</button>
+  </div>
+
+  <div class="panel">
+    <h2 id="sourceLabel">✍️ Your script (English)</h2>
+    <textarea id="sourceText" placeholder="Hey, my name is John. I like to go to the beach and go to techno clubs. Would you like to come with me sometime? I think it could be fun!"></textarea>
+    <div class="actions">
+      <button class="primary" id="translateBtn">Translate →</button>
+      <button id="clearBtn">Clear</button>
+    </div>
+    <div class="status" id="statusMsg"></div>
+  </div>
+
+  <div class="panel">
+    <h2 id="targetLabel">🇩🇪 Translation (Deutsch) — edit freely</h2>
+    <textarea id="targetText" placeholder="Your translation will appear here..."></textarea>
+    <div class="actions">
+      <button class="primary" id="speakBtn">🔊 Read Aloud</button>
+      <button id="stopBtn" disabled>⏹ Stop</button>
+      <button id="roundtripBtn">🔁 Translate Back to Check</button>
+    </div>
+    <div class="speedrow">
+      <label for="speedSlider">Speed</label>
+      <input type="range" id="speedSlider" min="0.5" max="1.3" step="0.05" value="0.85">
+      <span class="val" id="speedVal">0.85x</span>
+    </div>
+    <div class="roundtrip" id="roundtripBox">
+      <div class="lbl">Translated back to English</div>
+      <div id="roundtripText"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let dir = 'endeToDe'; // 'endeToDe' or 'deToEn'
+let rate = 0.85;
+
+function langPair(){
+  return dir === 'endeToDe' ? { source: 'EN', target: 'DE' } : { source: 'DE', target: 'EN' };
+}
+function targetSpeechLang(){
+  return dir === 'endeToDe' ? 'de-DE' : 'en-US';
+}
+
+function getWorkerUrl(){
+  return localStorage.getItem('translate-worker-url') || '';
+}
+
+function updateEngineBadge(){
+  const badge = document.getElementById('engineBadge');
+  const url = getWorkerUrl();
+  if(url){
+    badge.innerHTML = '<span class="engine-badge deepl">Using: DeepL (via your Worker)</span>';
+    document.getElementById('workerUrlInput').value = url;
+  } else {
+    badge.innerHTML = '<span class="engine-badge mymemory">Using: Google (free, no daily cap) — backup ready if needed</span>';
+  }
+}
+
+document.getElementById('saveWorkerBtn').onclick = () => {
+  const val = document.getElementById('workerUrlInput').value.trim();
+  if(val){
+    localStorage.setItem('translate-worker-url', val);
+  }
+  updateEngineBadge();
+};
+document.getElementById('clearWorkerBtn').onclick = () => {
+  localStorage.removeItem('translate-worker-url');
+  document.getElementById('workerUrlInput').value = '';
+  updateEngineBadge();
+};
+
+function splitSentences(text){
+  const parts = text.match(/[^.!?]+[.!?]*|\s+/g) || [text];
+  return parts.filter(p => p.trim().length > 0);
+}
+
+async function translateViaWorker(text, source, target){
+  const workerUrl = getWorkerUrl();
+  const res = await fetch(workerUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, source_lang: source, target_lang: target }),
+  });
+  const data = await res.json();
+  if(!res.ok || data.error) throw new Error(data.error || 'Worker error');
+  return data.translation;
+}
+
+async function translateChunkMyMemory(text, source, target){
+  const pair = `${source.toLowerCase()}|${target.toLowerCase()}`;
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${pair}`;
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('Network error');
+  const data = await res.json();
+  if(!data.responseData || !data.responseData.translatedText) throw new Error('No translation returned');
+  return data.responseData.translatedText;
+}
+
+async function translateViaGoogleFree(text, source, target){
+  // Unofficial endpoint — the same one Google Translate's own web
+  // page calls internally. Not a published/guaranteed API, but it
+  // doesn't enforce the kind of hard per-user daily cap MyMemory's
+  // public API does, so it's a much better fit for regular practice.
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source.toLowerCase()}&tl=${target.toLowerCase()}&dt=t&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('Google endpoint unavailable');
+  const data = await res.json();
+  if(!data || !data[0]) throw new Error('Unexpected response');
+  return data[0].map(chunk => chunk[0]).join('');
+}
+
+async function translateFull(text, langs, statusEl){
+  const workerUrl = getWorkerUrl();
+  if(workerUrl){
+    // DeepL is context-aware and handles the free tier's generous
+    // character budget in one call — no need to chunk sentence by
+    // sentence the way the anonymous fallback services require.
+    statusEl.textContent = 'Translating...';
+    statusEl.classList.remove('error');
+    return await translateViaWorker(text, langs.source, langs.target);
+  }
+
+  // No Worker configured — try the free Google endpoint first (no
+  // hard daily cap for personal use), and only fall back to MyMemory
+  // if that's genuinely unavailable right now.
+  statusEl.textContent = 'Translating...';
+  statusEl.classList.remove('error');
+  try{
+    return await translateViaGoogleFree(text, langs.source, langs.target);
+  }catch(e){
+    statusEl.textContent = 'Primary service unavailable — trying backup...';
+    const sentences = splitSentences(text);
+    const results = [];
+    for(let i=0; i<sentences.length; i++){
+      statusEl.textContent = `Translating (backup)... (${i+1}/${sentences.length})`;
+      const t = await translateChunkMyMemory(sentences[i].trim(), langs.source, langs.target);
+      results.push(t);
+    }
+    return results.join(' ');
+  }
+}
+
+document.getElementById('translateBtn').onclick = async () => {
+  const src = document.getElementById('sourceText').value.trim();
+  const statusEl = document.getElementById('statusMsg');
+  if(!src){ statusEl.textContent = 'Type something first.'; statusEl.classList.add('error'); return; }
+  document.getElementById('translateBtn').disabled = true;
+  document.getElementById('roundtripBox').classList.remove('show');
+  try{
+    const translated = await translateFull(src, langPair(), statusEl);
+    document.getElementById('targetText').value = translated;
+    statusEl.textContent = 'Done.';
+    statusEl.classList.remove('error');
+  }catch(e){
+    statusEl.textContent = 'Translation failed — the service may be unavailable or rate-limited right now. Try again in a moment, or shorten the text.';
+    statusEl.classList.add('error');
+  }finally{
+    document.getElementById('translateBtn').disabled = false;
+  }
+};
+
+document.getElementById('clearBtn').onclick = () => {
+  document.getElementById('sourceText').value = '';
+  document.getElementById('targetText').value = '';
+  document.getElementById('statusMsg').textContent = '';
+  document.getElementById('roundtripBox').classList.remove('show');
+};
+
+document.getElementById('roundtripBtn').onclick = async () => {
+  const target = document.getElementById('targetText').value.trim();
+  const statusEl = document.getElementById('statusMsg');
+  if(!target){ statusEl.textContent = 'Nothing to check yet — translate something first.'; statusEl.classList.add('error'); return; }
+  const reversePair = dir === 'endeToDe' ? { source: 'DE', target: 'EN' } : { source: 'EN', target: 'DE' };
+  document.getElementById('roundtripBtn').disabled = true;
+  try{
+    const back = await translateFull(target, reversePair, statusEl);
+    document.getElementById('roundtripText').textContent = back;
+    document.getElementById('roundtripBox').classList.add('show');
+    statusEl.textContent = 'Compare this to your original — if the meaning matches, the translation is solid.';
+    statusEl.classList.remove('error');
+  }catch(e){
+    statusEl.textContent = 'Round-trip check failed — try again in a moment.';
+    statusEl.classList.add('error');
+  }finally{
+    document.getElementById('roundtripBtn').disabled = false;
+  }
+};
+
+let currentUtterance = null;
+document.getElementById('speakBtn').onclick = () => {
+  const text = document.getElementById('targetText').value.trim();
+  if(!text || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  currentUtterance = new SpeechSynthesisUtterance(text);
+  currentUtterance.lang = targetSpeechLang();
+  currentUtterance.rate = rate;
+  currentUtterance.onstart = () => { document.getElementById('stopBtn').disabled = false; };
+  currentUtterance.onend = () => { document.getElementById('stopBtn').disabled = true; };
+  window.speechSynthesis.speak(currentUtterance);
+};
+document.getElementById('stopBtn').onclick = () => {
+  window.speechSynthesis.cancel();
+  document.getElementById('stopBtn').disabled = true;
+};
+document.getElementById('speedSlider').oninput = (e) => {
+  rate = +e.target.value;
+  document.getElementById('speedVal').textContent = rate.toFixed(2)+'x';
+};
+
+function switchDir(newDir){
+  dir = newDir;
+  document.getElementById('tabEnDe').classList.toggle('active', dir==='endeToDe');
+  document.getElementById('tabDeEn').classList.toggle('active', dir==='deToEn');
+  const enPlaceholder = "Hey, my name is John. I like to go to the beach and go to techno clubs. Would you like to come with me sometime? I think it could be fun!";
+  const dePlaceholder = "Hallo, ich heiße John. Ich gehe gerne an den Strand und in Techno-Clubs. Hättest du Lust, irgendwann mitzukommen? Ich glaube, das könnte Spaß machen!";
+  if(dir==='endeToDe'){
+    document.getElementById('sourceLabel').textContent = '✍️ Your script (English)';
+    document.getElementById('targetLabel').textContent = '🇩🇪 Translation (Deutsch) — edit freely';
+    document.getElementById('sourceText').placeholder = enPlaceholder;
+  } else {
+    document.getElementById('sourceLabel').textContent = '✍️ Your script (Deutsch)';
+    document.getElementById('targetLabel').textContent = '🇬🇧 Translation (English) — edit freely';
+    document.getElementById('sourceText').placeholder = dePlaceholder;
+  }
+  document.getElementById('sourceText').value = '';
+  document.getElementById('targetText').value = '';
+  document.getElementById('statusMsg').textContent = '';
+  document.getElementById('roundtripBox').classList.remove('show');
+}
+document.getElementById('tabEnDe').onclick = () => switchDir('endeToDe');
+document.getElementById('tabDeEn').onclick = () => switchDir('deToEn');
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+updateEngineBadge();
+</script>
+</body>
+</html>
