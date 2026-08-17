@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Writing Practice — Kapitel 4 | German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --good:#2d6a4f;--good-l:#d8f3dc;
+  --bad:#b5342b;--bad-l:#fbe4e2;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;
+  --good:#5cb583;--good-l:#243d2f;
+  --bad:#e0776e;--bad-l:#3a2320;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:8px}
+.top h1{font-size:21px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:12.5px;color:var(--sub);margin-top:4px}
+
+.dirtabs{display:flex;gap:8px;margin:18px 0}
+.dirtabs button{flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
+.dirtabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.scoreboard{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;margin-bottom:16px;box-shadow:var(--shadow);font-size:13px}
+.scoreboard b{color:var(--accent-d)}
+
+.qcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow)}
+.qnum{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
+.prompt{font-size:15.5px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.prompt button.speak{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:11px;flex-shrink:0}
+.prompt button.speak:hover{background:var(--accent);color:#fff}
+
+.blanks{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:15px}
+.blanks .punct{color:var(--sub)}
+.blanks input{border:1.5px solid var(--border);border-radius:6px;padding:5px 7px;font-size:14.5px;font-family:inherit;background:var(--card);color:var(--ink);text-align:center}
+.blanks input.correct{border-color:var(--good);background:var(--good-l);color:var(--good)}
+.blanks input.incorrect{border-color:var(--bad);background:var(--bad-l);color:var(--bad)}
+.blanks input.revealed{border-color:var(--accent);background:var(--accent-l)}
+
+.freeform textarea{width:100%;min-height:44px;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-size:14.5px;font-family:inherit;background:var(--card);color:var(--ink);resize:vertical}
+.answer-reveal{margin-top:10px;font-size:13.5px;background:var(--accent-l);color:var(--accent-d);padding:8px 12px;border-radius:6px;display:none}
+.answer-reveal.show{display:block}
+
+.qactions{display:flex;gap:8px;margin-top:12px}
+.qactions button{font-size:12px;font-weight:600;padding:7px 14px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--ink);cursor:pointer}
+.qactions button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.qactions button:hover{border-color:var(--accent)}
+.qresult{font-size:12px;font-weight:600;margin-top:8px}
+.qresult.good{color:var(--good)}
+.qresult.bad{color:var(--warn)}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="writing-practice.html" title="Back to Writing Practice">✍️ Back</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Kapitel 4: Monate, Jahreszeiten & Datum</h1>
+    <div class="sub">Months, Seasons & Dates — the same words and phrases from Vocabulary Chapter 4, now put to use.</div>
+  </div>
+
+  <div class="note" id="modeNote"></div>
+
+  <div class="dirtabs">
+    <button id="tabEnDe" class="active">English → Deutsch</button>
+    <button id="tabDeEn">Deutsch → English</button>
+  </div>
+
+  <div class="scoreboard">
+    <span>Fortschritt (Progress): <b id="scoreText">0 / 0 geprüft (checked)</b></span>
+    <span id="scorePct" style="color:var(--sub)"></span>
+  </div>
+
+  <div id="questions"></div>
+</div>
+
+<script>
+const SENTENCES = [
+  {
+    "en": "When were you born? (informal)",
+    "de": "Wann bist du geboren?"
+  },
+  {
+    "en": "When were you born? (formal)",
+    "de": "Wann sind Sie geboren?"
+  },
+  {
+    "en": "I was born on May 5th, 1998.",
+    "de": "Ich bin am 5. Mai 1998 geboren."
+  },
+  {
+    "en": "Today is the first of March.",
+    "de": "Heute ist der erste März."
+  },
+  {
+    "en": "Happy birthday!",
+    "de": "Herzlichen Glückwunsch zum Geburtstag!"
+  },
+  {
+    "en": "We're taking holiday in July.",
+    "de": "Wir machen im Juli Urlaub."
+  },
+  {
+    "en": "In winter it's very cold.",
+    "de": "Im Winter ist es sehr kalt."
+  },
+  {
+    "en": "How old are you? (informal)",
+    "de": "Wie alt bist du?"
+  },
+  {
+    "en": "I'm twenty-seven.",
+    "de": "Ich bin siebenundzwanzig."
+  },
+  {
+    "en": "My studies begin in October.",
+    "de": "Mein Studium beginnt im Oktober."
+  },
+  {
+    "en": "I was born in Zagreb.",
+    "de": "Ich bin in Zagreb geboren."
+  },
+  {
+    "en": "Please write the date on the form.",
+    "de": "Bitte schreiben Sie das Datum auf das Formular."
+  },
+  {
+    "en": "We're taking vacation at the beginning of July.",
+    "de": "Wir machen Anfang Juli Urlaub."
+  },
+  {
+    "en": "Excuse me Mrs. Weber, when were you born? (formal)",
+    "de": "Entschuldigung Frau Weber, wann sind Sie geboren?"
+  },
+  {
+    "en": "In summer it's light until nine in the evening.",
+    "de": "Im Sommer ist es bis 21 Uhr hell."
+  }
+];
+
+let mode = 'endeToDe';
+let checkedResults = {};
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function tokenize(de){
+  return de.split(' ').map(tok=>{
+    const m = tok.match(/^([„"'‘]*)([^\s.,!?;:()"„“”'’]+)([.,!?;:()"„“”'’]*)$/);
+    if(!m) return {lead:'', word:tok, trail:''};
+    return {lead:m[1]||'', word:m[2], trail:m[3]||''};
+  });
+}
+
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  const u = new SpeechSynthesisUtterance(text.replace(/[„“]/g,''));
+  u.lang='de-DE'; u.rate=0.85;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+function updateScoreboard(){
+  const keys = Object.keys(checkedResults).filter(k=>k.startsWith(mode+'-'));
+  let checkedCount = keys.length;
+  let correctCount = keys.filter(k=>checkedResults[k].fullyCorrect).length;
+  document.getElementById('scoreText').textContent = `${checkedCount} / ${SENTENCES.length} geprüft (checked)`;
+  document.getElementById('scorePct').textContent = checkedCount ? `${correctCount} / ${checkedCount} richtig (correct)` : '';
+}
+
+function renderEnDe(){
+  document.getElementById('modeNote').innerHTML = '📝 Fill in each German word. Every blank is graded individually — capitalization doesn\'t matter, but remember German capitalizes every noun when you write for real.';
+  const el = document.getElementById('questions');
+  el.innerHTML = SENTENCES.map((s,i)=>{
+    const tokens = tokenize(s.de);
+    const blanksHtml = tokens.map((t,ti)=>
+      `${esc(t.lead)}<input type="text" data-qi="${i}" data-ti="${ti}" data-answer="${esc(t.word.toLowerCase())}" size="${Math.max(t.word.length,2)}" autocomplete="off" autocapitalize="off">${esc(t.trail)}`
+    ).join(' ');
+    return `
+      <div class="qcard" id="q-${i}">
+        <div class="qnum">Frage ${i+1} von ${SENTENCES.length}</div>
+        <div class="prompt">${esc(s.en)}</div>
+        <div class="blanks">${blanksHtml}</div>
+        <div class="qactions">
+          <button class="primary" onclick="checkEnDe(${i})">Prüfen (Check)</button>
+          <button onclick="revealEnDe(${i})">Lösung zeigen (Show answer)</button>
+        </div>
+        <div class="qresult" id="result-${i}"></div>
+      </div>`;
+  }).join('');
+  updateScoreboard();
+}
+
+function normalizeGerman(s){
+  return s.replace(/ß/g,'ss');
+}
+
+function checkEnDe(i){
+  const tokens = tokenize(SENTENCES[i].de);
+  const inputs = document.querySelectorAll(`input[data-qi="${i}"]`);
+  let correct = 0;
+  inputs.forEach(inp=>{
+    const val = normalizeGerman(inp.value.trim().toLowerCase());
+    const ans = normalizeGerman(inp.dataset.answer);
+    inp.classList.remove('correct','incorrect','revealed');
+    if(val === ans){ inp.classList.add('correct'); correct++; }
+    else { inp.classList.add('incorrect'); }
+  });
+  checkedResults[`endeToDe-${i}`] = { fullyCorrect: correct===tokens.length };
+  const resEl = document.getElementById(`result-${i}`);
+  resEl.textContent = `${correct} / ${tokens.length} Wörter richtig (words correct)`;
+  resEl.className = 'qresult ' + (correct===tokens.length ? 'good' : 'bad');
+  updateScoreboard();
+}
+
+function revealEnDe(i){
+  const inputs = document.querySelectorAll(`input[data-qi="${i}"]`);
+  inputs.forEach(inp=>{
+    inp.value = inp.dataset.answer;
+    inp.classList.remove('correct','incorrect');
+    inp.classList.add('revealed');
+  });
+  document.getElementById(`result-${i}`).textContent = '';
+  checkedResults[`endeToDe-${i}`] = { fullyCorrect: false };
+  updateScoreboard();
+}
+
+function renderDeEn(){
+  document.getElementById('modeNote').innerHTML = '📝 Type your best English translation, then reveal the answer and judge yourself — natural language has more than one correct phrasing, so this direction isn\'t auto-graded.';
+  const el = document.getElementById('questions');
+  el.innerHTML = SENTENCES.map((s,i)=>`
+    <div class="qcard" id="q-${i}">
+      <div class="qnum">Frage ${i+1} von ${SENTENCES.length}</div>
+      <div class="prompt">${esc(s.de)} <button class="speak" onclick="speak('${esc(s.de).replace(/'/g,"\\'")}')" title="Hear">🔊</button></div>
+      <div class="freeform"><textarea id="ta-${i}" placeholder="Your English translation..."></textarea></div>
+      <div class="qactions">
+        <button class="primary" onclick="revealDeEn(${i})">Antwort zeigen (Show answer)</button>
+      </div>
+      <div class="answer-reveal" id="answer-${i}"></div>
+    </div>`).join('');
+  updateScoreboard();
+}
+
+function revealDeEn(i){
+  const box = document.getElementById(`answer-${i}`);
+  box.textContent = `Correct: ${SENTENCES[i].en}`;
+  box.classList.add('show');
+  checkedResults[`deToEn-${i}`] = { fullyCorrect: null };
+  updateScoreboard();
+}
+
+function switchMode(newMode){
+  mode = newMode;
+  document.getElementById('tabEnDe').classList.toggle('active', mode==='endeToDe');
+  document.getElementById('tabDeEn').classList.toggle('active', mode==='deToEn');
+  if(mode==='endeToDe') renderEnDe(); else renderDeEn();
+}
+document.getElementById('tabEnDe').onclick=()=>switchMode('endeToDe');
+document.getElementById('tabDeEn').onclick=()=>switchMode('deToEn');
+
+renderEnDe();
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+</script>
+</body>
+</html>
