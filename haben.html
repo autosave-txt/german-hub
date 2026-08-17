@@ -58,6 +58,11 @@ a{color:var(--accent)}
 .conj-row button:hover{background:var(--accent);color:#fff}
 .conj-row .en{font-size:11.5px;line-height:1.2;color:var(--sub);padding-left:78px;margin-top:-2px}
 
+/* word-by-word gloss tooltips — tap or hover(0.5s) any German word */
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+
 .examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
 .examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
 .ex-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:6px;padding:7px 12px;margin-bottom:6px}
@@ -95,9 +100,9 @@ a{color:var(--accent)}
     <h1>Verb Deep-Dive: haben (to have)</h1>
     <div class="sub">Every tense, plus its main job as the default helper verb for the Perfekt tense.</div>
     <div class="src">
-      🎬 <a href="https://www.youtube.com/watch?v=J4Y5os6gHxI&list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" rel="noopener">Video 1 ↗</a>
+      🎬 <a href="https://www.youtube.com/watch?v=J4Y5os6gHxI&list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" rel="noopener">"Haben" — Sketch &amp; Practice ↗</a>
       &nbsp;·&nbsp;
-      <a href="https://www.youtube.com/watch?v=VTN-Qys9fCA" target="_blank" rel="noopener">Video 2 ↗</a>
+      <a href="https://www.youtube.com/watch?v=VTN-Qys9fCA" target="_blank" rel="noopener">"Haben" — Street Interviews ↗</a>
     </div>
   </div>
 
@@ -133,10 +138,10 @@ const TENSES = [
     forms:["habe","hast","hat","haben","habt","haben"],
     en:["I have","you have","he/she/it has","we have","you all have","they have / you have (formal)"],
     examples:[
-      {de:"Ich habe heute viel Zeit.", en:"I have a lot of time today."},
-      {de:"Hast du meine Nummer?", en:"Do you have my number?"},
-      {de:"Er hat einen neuen Job.", en:"He has a new job."},
-      {de:"Wir haben noch Fragen.", en:"We still have questions."}
+      {de:"Ich habe heute viel Zeit.", en:"I have a lot of time today.", words:["I","have","today","a lot of","time"]},
+      {de:"Hast du meine Nummer?", en:"Do you have my number?", words:["Have","you","my","number"]},
+      {de:"Er hat einen neuen Job.", en:"He has a new job.", words:["He","has","a","new","job"]},
+      {de:"Wir haben noch Fragen.", en:"We still have questions.", words:["We","have","still","questions"]}
     ]
   },
   {
@@ -144,10 +149,10 @@ const TENSES = [
     forms:["hatte","hattest","hatte","hatten","hattet","hatten"],
     en:["I had","you had","he/she/it had","we had","you all had","they had / you had (formal)"],
     examples:[
-      {de:"Ich hatte gestern keine Zeit.", en:"I didn't have time yesterday."},
-      {de:"Hattest du Hunger?", en:"Were you hungry?"},
-      {de:"Sie hatte eine gute Idee.", en:"She had a good idea."},
-      {de:"Wir hatten viel Spaß.", en:"We had a lot of fun."}
+      {de:"Ich hatte gestern keine Zeit.", en:"I didn't have time yesterday.", words:["I","had","yesterday","no","time"]},
+      {de:"Hattest du Hunger?", en:"Were you hungry?", words:["Had","you","hunger"]},
+      {de:"Sie hatte eine gute Idee.", en:"She had a good idea.", words:["She","had","a","good","idea"]},
+      {de:"Wir hatten viel Spaß.", en:"We had a lot of fun.", words:["We","had","a lot of","fun"]}
     ],
     tip:"Same pattern as sein → war: hatte is one of the few Präteritum forms Germans reach for constantly in casual speech, instead of switching to Perfekt. \"Ich hatte...\" is more natural than \"Ich habe gehabt...\" for most everyday sentences."
   },
@@ -156,8 +161,8 @@ const TENSES = [
     forms:["habe gehabt","hast gehabt","hat gehabt","haben gehabt","habt gehabt","haben gehabt"],
     en:["I have had","you have had","he/she/it has had","we have had","you all have had","they have had / you have had (formal)"],
     examples:[
-      {de:"Ich habe schon zwei Kaffee gehabt.", en:"I've already had two coffees."},
-      {de:"Hast du schon Erfahrung damit gehabt?", en:"Have you had experience with it before?"}
+      {de:"Ich habe schon zwei Kaffee gehabt.", en:"I've already had two coffees.", words:["I","have","already","two","coffee","had"]},
+      {de:"Hast du schon Erfahrung damit gehabt?", en:"Have you had experience with it before?", words:["Have","you","already","experience","with it","had"]}
     ],
     tip:"This one's a bit unusual: haben + gehabt is grammatically correct but sounds clunky and is rare in everyday speech — Germans almost always just say \"ich hatte\" (Präteritum) instead. Good to recognize, less useful to produce actively."
   },
@@ -166,9 +171,9 @@ const TENSES = [
     forms:["werde haben","wirst haben","wird haben","werden haben","werdet haben","werden haben"],
     en:["I will have","you will have","he/she/it will have","we will have","you all will have","they will have / you will have (formal)"],
     examples:[
-      {de:"Ich werde nächste Woche mehr Zeit haben.", en:"I'll have more time next week."},
-      {de:"Du wirst sicher Erfolg haben.", en:"You'll surely have success."},
-      {de:"Wir werden bald Ferien haben.", en:"We'll have vacation soon."}
+      {de:"Ich werde nächste Woche mehr Zeit haben.", en:"I'll have more time next week.", words:["I","will","next","week","more","time","have"]},
+      {de:"Du wirst sicher Erfolg haben.", en:"You'll surely have success.", words:["You","will","surely","success","have"]},
+      {de:"Wir werden bald Ferien haben.", en:"We'll have vacation soon.", words:["We","will","soon","vacation","have"]}
     ],
     tip:"Just like with sein, everyday speech usually swaps this for present tense + a time word: \"Ich habe nächste Woche mehr Zeit\" is more natural than the full Futur I construction."
   },
@@ -177,10 +182,10 @@ const TENSES = [
     forms:["hätte","hättest","hätte","hätten","hättet","hätten"],
     en:["I would have","you would have","he/she/it would have","we would have","you all would have","they would have / you would have (formal)"],
     examples:[
-      {de:"Ich hätte gern einen Kaffee.", en:"I'd like a coffee. (polite ordering)"},
-      {de:"Hättest du kurz Zeit?", en:"Would you have a moment?"},
-      {de:"Das hätte ich nicht gedacht.", en:"I wouldn't have thought that."},
-      {de:"Wir hätten gern einen Tisch für zwei.", en:"We'd like a table for two."}
+      {de:"Ich hätte gern einen Kaffee.", en:"I'd like a coffee. (polite ordering)", words:["I","would","gladly","a","coffee"]},
+      {de:"Hättest du kurz Zeit?", en:"Would you have a moment?", words:["Would","you","briefly","time"]},
+      {de:"Das hätte ich nicht gedacht.", en:"I wouldn't have thought that.", words:["That","would have","I","not","thought"]},
+      {de:"Wir hätten gern einen Tisch für zwei.", en:"We'd like a table for two.", words:["We","would","gladly","a","table","for","two"]}
     ],
     tip:"\"Ich hätte gern(e) ___\" is one of the single most useful phrases in the language — it's the standard polite way to order or ask for something (in a café, a shop, an office), right alongside \"ich möchte.\" Worth memorizing before almost anything else in this table."
   }
@@ -193,17 +198,17 @@ const IMPERATIV = [
   {pron:"wir", form:"haben wir!", en:"let's have! (rare)"}
 ];
 const IMPERATIV_EX = [
-  {de:"Hab keine Angst.", en:"Don't be afraid. (lit. \"have no fear\")"},
-  {de:"Habt Geduld.", en:"Have patience, you all."},
-  {de:"Haben Sie einen schönen Tag.", en:"Have a nice day. (formal)"}
+  {de:"Hab keine Angst.", en:"Don't be afraid. (lit. \"have no fear\")", words:["Have","no","fear"]},
+  {de:"Habt Geduld.", en:"Have patience, you all.", words:["Have","patience"]},
+  {de:"Haben Sie einen schönen Tag.", en:"Have a nice day. (formal)", words:["Have","(formal 'you')","a","nice","day"]}
 ];
 
 const HABEN_AUX_VERBS = ["essen","trinken","machen","sagen","lesen","schreiben","kaufen","sehen","hören","spielen","arbeiten","lernen","kochen","kennen","glauben","denken","lieben","brauchen"];
 const HABEN_AUX_EX = [
-  {de:"Ich habe das Buch gelesen.", en:"I read the book."},
-  {de:"Wir haben zusammen gekocht.", en:"We cooked together."},
-  {de:"Er hat mir geholfen.", en:"He helped me."},
-  {de:"Habt ihr das gehört?", en:"Did you (all) hear that?"}
+  {de:"Ich habe das Buch gelesen.", en:"I read the book.", words:["I","have","the","book","read"]},
+  {de:"Wir haben zusammen gekocht.", en:"We cooked together.", words:["We","have","together","cooked"]},
+  {de:"Er hat mir geholfen.", en:"He helped me.", words:["He","has","me","helped"]},
+  {de:"Habt ihr das gehört?", en:"Did you (all) hear that?", words:["Have","you all","that","heard"]}
 ];
 
 const IDIOMS = [
@@ -219,17 +224,9 @@ const IDIOMS = [
   {de:"keine Ahnung haben", en:"to have no idea"}
 ];
 const IDIOM_EX = [
-  {de:"Ich habe keine Ahnung, wo er ist.", en:"I have no idea where he is."},
-  {de:"Hast du Lust auf Kaffee?", en:"Do you feel like coffee? / Want a coffee?"},
-  {de:"Sie hat immer Recht.", en:"She's always right."}
-];
-
-const REF = [
-  {t:"Präsens", forms:["habe","hast","hat","haben","habt","haben"]},
-  {t:"Präteritum", forms:["hatte","hattest","hatte","hatten","hattet","hatten"]},
-  {t:"Perfekt", forms:["habe gehabt","hast gehabt","hat gehabt","haben gehabt","habt gehabt","haben gehabt"]},
-  {t:"Futur I", forms:["werde haben","wirst haben","wird haben","werden haben","werdet haben","werden haben"]},
-  {t:"Konjunktiv II", forms:["hätte","hättest","hätte","hätten","hättet","hätten"]}
+  {de:"Ich habe keine Ahnung, wo er ist.", en:"I have no idea where he is.", words:["I","have","no","idea",",","where","he","is"]},
+  {de:"Hast du Lust auf Kaffee?", en:"Do you feel like coffee? / Want a coffee?", words:["Have","you","desire","for","coffee"]},
+  {de:"Sie hat immer Recht.", en:"She's always right.", words:["She","has","always","right"]}
 ];
 
 function speak(text){
@@ -241,6 +238,17 @@ function speak(text){
   window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
 }
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens=de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m=tok.match(/^([^\s.,!?;:()"„“”’]+)([.,!?;:()"„“”’]*)$/);
+    if(!m||words[i]===undefined) return esc(tok);
+    const word=m[1], punct=m[2]||'';
+    return `<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(punct)}`;
+  }).join(' ');
+}
 
 function render(){
   const el=document.getElementById('sections');
@@ -256,7 +264,7 @@ function render(){
       h+=`<div class="conj-row">
         <div class="top">
           <span class="pron">${esc(p)}</span>
-          <span class="form">${esc(t.forms[i])}</span>
+          <span class="form"><span class="gw" data-tip="${esc(t.en[i])}">${esc(t.forms[i])}</span></span>
           <button data-de="${esc(full)}" title="Hear">🔊</button>
         </div>
         <div class="en">${esc(t.en[i])}</div>
@@ -265,13 +273,14 @@ function render(){
     h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
     t.examples.forEach(ex=>{
       h+=`<div class="ex-row">
-        <div class="de">${esc(ex.de)}</div>
+        <div class="de">${glossHTML(ex.de, ex.words)}</div>
         <div class="en">${esc(ex.en)}</div>
         <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
       </div>`;
     });
     h+=`</div>`;
     if(t.tip) h+=`<div class="tip"><b>Note:</b> ${esc(t.tip)}</div>`;
+    if(t.id==='konjunktiv') h+=`<div class="cross">🔗 <b>See also:</b> most other German verbs skip having their own Konjunktiv II form and just use <b>würde + infinitive</b> instead — covered on the <a href="verb-werden.html">werden page</a>.</div>`;
     h+=`</div>`;
   });
 
@@ -292,7 +301,7 @@ function render(){
   h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
   IMPERATIV_EX.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -307,7 +316,7 @@ function render(){
     <div class="examples"><div class="ex-label">Takes haben</div>`;
   HABEN_AUX_EX.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -323,7 +332,7 @@ function render(){
     <div class="examples" style="margin-top:14px"><div class="ex-label">Examples</div>`;
   IDIOM_EX.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -337,11 +346,11 @@ function render(){
 
   const t=document.getElementById('refTable');
   let th=`<thead><tr><th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">Pronoun</th>`;
-  REF.forEach(r=>th+=`<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(r.t)}</th>`);
+  TENSES.forEach(ts=>th+=`<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(ts.title)}</th>`);
   th+=`</tr></thead><tbody>`;
   PRONOUNS.forEach((p,i)=>{
     th+=`<tr><td style="padding:6px;border-bottom:1px solid var(--border);font-weight:600;color:var(--accent-d)">${esc(p)}</td>`;
-    REF.forEach(r=>th+=`<td style="padding:6px;border-bottom:1px solid var(--border)">${esc(r.forms[i])}</td>`);
+    TENSES.forEach(ts=>th+=`<td style="padding:6px;border-bottom:1px solid var(--border)"><span class="gw" data-tip="${esc(ts.en[i])}">${esc(ts.forms[i])}</span></td>`);
     th+=`</tr>`;
   });
   th+=`</tbody>`;
@@ -361,6 +370,40 @@ function setMode(dark){
 }
 document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
 initMode();
+
+(function(){
+  let tipEl, timer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+  }
+  function hideTip(){ clearTimeout(timer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
 </script>
 </body>
 </html>

@@ -58,6 +58,11 @@ a{color:var(--accent)}
 .conj-row button:hover{background:var(--accent);color:#fff}
 .conj-row .en{font-size:11.5px;line-height:1.2;color:var(--sub);padding-left:78px;margin-top:-2px}
 
+/* word-by-word gloss tooltips — tap or hover(0.5s) any German word */
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+
 .examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
 .examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
 .ex-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:6px;padding:7px 12px;margin-bottom:6px}
@@ -89,7 +94,7 @@ a{color:var(--accent)}
   <div class="top">
     <h1>Verb Deep-Dive: sein (to be)</h1>
     <div class="sub">Every tense, plus the two jobs "sein" does in German — main verb and helper verb.</div>
-    <div class="src">🎬 Source video: <a href="https://www.youtube.com/watch?v=wqw336j-F3E&list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" rel="noopener">watch on YouTube ↗</a></div>
+    <div class="src">🎬 Source video: <a href="https://www.youtube.com/watch?v=wqw336j-F3E&list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" rel="noopener">"Sein" — Every Tense Explained ↗</a></div>
   </div>
 
   <div class="intro">
@@ -125,10 +130,10 @@ const TENSES = [
     forms:["bin","bist","ist","sind","seid","sind"],
     en:["I am","you are","he/she/it is","we are","you all are","they are / you are (formal)"],
     examples:[
-      {de:"Ich bin heute etwas müde.", en:"I'm a bit tired today."},
-      {de:"Bist du bereit?", en:"Are you ready?"},
-      {de:"Das Wetter ist wirklich schön.", en:"The weather is really nice."},
-      {de:"Wir sind neu in der Stadt.", en:"We're new to the city."}
+      {de:"Ich bin heute etwas müde.", en:"I'm a bit tired today.", words:["I","am","today","a bit","tired"]},
+      {de:"Bist du bereit?", en:"Are you ready?", words:["Are","you","ready"]},
+      {de:"Das Wetter ist wirklich schön.", en:"The weather is really nice.", words:["The","weather","is","really","nice"]},
+      {de:"Wir sind neu in der Stadt.", en:"We're new to the city.", words:["We","are","new","in","the","city"]}
     ]
   },
   {
@@ -136,10 +141,10 @@ const TENSES = [
     forms:["war","warst","war","waren","wart","waren"],
     en:["I was","you were","he/she/it was","we were","you all were","they were / you were (formal)"],
     examples:[
-      {de:"Ich war letztes Jahr in Hamburg.", en:"I was in Hamburg last year."},
-      {de:"Wo warst du gestern Abend?", en:"Where were you last night?"},
-      {de:"Der Film war ziemlich lang.", en:"The film was pretty long."},
-      {de:"Wart ihr schon mal in Berlin?", en:"Have you (all) ever been to Berlin?"}
+      {de:"Ich war letztes Jahr in Hamburg.", en:"I was in Hamburg last year.", words:["I","was","last","year","in","Hamburg"]},
+      {de:"Wo warst du gestern Abend?", en:"Where were you last night?", words:["Where","were","you","yesterday","evening"]},
+      {de:"Der Film war ziemlich lang.", en:"The film was pretty long.", words:["The","film","was","pretty","long"]},
+      {de:"Wart ihr schon mal in Berlin?", en:"Have you (all) ever been to Berlin?", words:["Were","you all","ever","(particle)","in","Berlin"]}
     ],
     tip:"Unlike most verbs — where Perfekt (haben/sein + participle) dominates casual speech — Germans use the simple past of sein constantly even when chatting. \"Ich war...\" is far more natural than \"Ich bin gewesen...\" in conversation. This is one of the few Präteritum forms worth learning actively at A1."
   },
@@ -148,9 +153,10 @@ const TENSES = [
     forms:["bin gewesen","bist gewesen","ist gewesen","sind gewesen","seid gewesen","sind gewesen"],
     en:["I have been / I was","you have been","he/she/it has been","we have been","you all have been","they have been / you have been (formal)"],
     examples:[
-      {de:"Ich bin noch nie in Japan gewesen.", en:"I've never been to Japan."},
-      {de:"Warst du schon mal hier? — Ja, ich bin schon oft hier gewesen.", en:"Have you been here before? — Yes, I've been here often."},
-      {de:"Wie ist die Reise gewesen?", en:"How was the trip?"}
+      {de:"Ich bin noch nie in Japan gewesen.", en:"I've never been to Japan.", words:["I","have","still/ever","never","in","Japan","been"]},
+      {de:"Warst du schon mal hier?", en:"Have you been here before?", words:["Were","you","ever","(particle)","here"]},
+      {de:"Ja, ich bin schon oft hier gewesen.", en:"Yes, I've been here often.", words:["Yes",",","I","have","already","often","here","been"]},
+      {de:"Wie ist die Reise gewesen?", en:"How was the trip?", words:["How","has","the","trip","been"]}
     ],
     tip:"Notice sein is its own helper verb here: bin/bist/ist... + gewesen. That's the general Perfekt pattern — [sein or haben, conjugated] + [past participle at the end] — and it's worth internalizing early since it's the default way to talk about the past in spoken German."
   },
@@ -159,9 +165,9 @@ const TENSES = [
     forms:["werde sein","wirst sein","wird sein","werden sein","werdet sein","werden sein"],
     en:["I will be","you will be","he/she/it will be","we will be","you all will be","they will be / you will be (formal)"],
     examples:[
-      {de:"Ich werde nächstes Jahr in Deutschland sein.", en:"I'll be in Germany next year."},
-      {de:"Du wirst überrascht sein, wie schnell das geht.", en:"You'll be surprised how fast it goes."},
-      {de:"Es wird bestimmt gut werden... äh, sein!", en:"It'll definitely turn out well!"}
+      {de:"Ich werde nächstes Jahr in Deutschland sein.", en:"I'll be in Germany next year.", words:["I","will","next","year","in","Germany","be"]},
+      {de:"Du wirst überrascht sein.", en:"You'll be surprised.", words:["You","will","surprised","be"]},
+      {de:"Es wird bestimmt gut sein.", en:"It'll definitely be good.", words:["It","will","definitely","good","be"]}
     ],
     tip:"In everyday speech, Germans very often just use the present tense with a time word instead of Futur I: \"Ich bin morgen dort\" (I'll be there tomorrow) is more natural than \"Ich werde morgen dort sein.\" Futur I shows up more for predictions, promises, and formal writing."
   },
@@ -170,10 +176,10 @@ const TENSES = [
     forms:["wäre","wärst","wäre","wären","wärt","wären"],
     en:["I would be","you would be","he/she/it would be","we would be","you all would be","they would be / you would be (formal)"],
     examples:[
-      {de:"Ich wäre gern Lehrer geworden.", en:"I would have liked to become a teacher."},
-      {de:"Wärst du bereit, früher anzufangen?", en:"Would you be willing to start earlier?"},
-      {de:"Das wäre toll!", en:"That would be great!"},
-      {de:"Wenn ich reich wäre, würde ich reisen.", en:"If I were rich, I'd travel."}
+      {de:"Ich wäre gern Lehrer geworden.", en:"I would have liked to become a teacher.", words:["I","would","gladly","teacher","become"]},
+      {de:"Wärst du bereit, früher anzufangen?", en:"Would you be willing to start earlier?", words:["Would","you","willing",",","earlier","to start"]},
+      {de:"Das wäre toll!", en:"That would be great!", words:["That","would be","great"]},
+      {de:"Wenn ich reich wäre, würde ich reisen.", en:"If I were rich, I'd travel.", words:["If","I","rich","were",",","would","I","travel"]}
     ],
     tip:"wäre is one of the few Konjunktiv II forms Germans use constantly in casual speech (along with hätte and würde) — well worth memorizing even before the rest of the subjunctive system."
   }
@@ -186,40 +192,32 @@ const IMPERATIV = [
   {pron:"wir", form:"seien wir!", en:"let's be! (suggestion)"}
 ];
 const IMPERATIV_EX = [
-  {de:"Sei ehrlich zu mir.", en:"Be honest with me."},
-  {de:"Seid bitte pünktlich!", en:"Please be on time (you all)!"},
-  {de:"Seien Sie vorsichtig.", en:"Be careful. (formal)"}
+  {de:"Sei ehrlich zu mir.", en:"Be honest with me.", words:["Be","honest","to","me"]},
+  {de:"Seid bitte pünktlich!", en:"Please be on time (you all)!", words:["Be","please","on time"]},
+  {de:"Seien Sie vorsichtig.", en:"Be careful. (formal)", words:["Be","(formal 'you')","careful"]}
 ];
 
 const AUX_VERBS = ["gehen","kommen","fahren","fliegen","laufen","schwimmen","aufstehen","einschlafen","sterben","werden","bleiben","passieren","sein"];
 const AUX_EX = [
-  {de:"Ich bin ins Kino gegangen.", en:"I went to the cinema. (gehen — movement)"},
-  {de:"Sie ist um sieben Uhr aufgestanden.", en:"She got up at seven. (aufstehen — change of state)"},
-  {de:"Wir sind nach Berlin gefahren.", en:"We drove to Berlin. (fahren — movement)"},
-  {de:"Was ist passiert?", en:"What happened? (passieren — always takes sein)"}
+  {de:"Ich bin ins Kino gegangen.", en:"I went to the cinema. (gehen — movement)", words:["I","am/have","into the","cinema","gone"]},
+  {de:"Sie ist um sieben Uhr aufgestanden.", en:"She got up at seven. (aufstehen — change of state)", words:["She","is/has","at","seven","o'clock","gotten up"]},
+  {de:"Wir sind nach Berlin gefahren.", en:"We drove to Berlin. (fahren — movement)", words:["We","are/have","to","Berlin","driven"]},
+  {de:"Was ist passiert?", en:"What happened? (passieren — always takes sein)", words:["What","has","happened"]}
 ];
 const HABEN_EX = [
-  {de:"Ich habe das Buch gelesen.", en:"I read the book. (gelesen — no movement/change, takes haben)"},
-  {de:"Er hat lange geschlafen.", en:"He slept for a long time. (geschlafen — stays in place, takes haben)"}
+  {de:"Ich habe das Buch gelesen.", en:"I read the book. (gelesen — no movement/change, takes haben)", words:["I","have","the","book","read"]},
+  {de:"Er hat lange geschlafen.", en:"He slept for a long time. (geschlafen — stays in place, takes haben)", words:["He","has","long","slept"]}
 ];
 
 const PHRASES = [
-  {de:"Wie dem auch sei.", en:"Be that as it may. / Whatever the case."},
-  {de:"Das wär's (für heute).", en:"That's it (for today)."},
-  {de:"Sei's drum.", en:"So be it. / Never mind."},
-  {de:"Es sei denn, ...", en:"Unless ... (lit. \"it be denied that\")"},
-  {de:"Das ist mir egal.", en:"I don't care. / It's all the same to me."},
-  {de:"Es ist so weit.", en:"The time has come. / It's happening now."},
-  {de:"Sei so gut und hilf mir.", en:"Be a dear and help me. (asking a favor)"},
-  {de:"Was auch immer sein mag.", en:"Whatever it may be."}
-];
-
-const REF = [
-  {t:"Präsens", forms:["bin","bist","ist","sind","seid","sind"]},
-  {t:"Präteritum", forms:["war","warst","war","waren","wart","waren"]},
-  {t:"Perfekt", forms:["bin gewesen","bist gewesen","ist gewesen","sind gewesen","seid gewesen","sind gewesen"]},
-  {t:"Futur I", forms:["werde sein","wirst sein","wird sein","werden sein","werdet sein","werden sein"]},
-  {t:"Konjunktiv II", forms:["wäre","wärst","wäre","wären","wärt","wären"]}
+  {de:"Wie dem auch sei.", en:"Be that as it may. / Whatever the case.", words:["However","that","also","may be"]},
+  {de:"Das wär's für heute.", en:"That's it for today.", words:["That","would be it","for","today"]},
+  {de:"Sei's drum.", en:"So be it. / Never mind.", words:["Be it","(so)"]},
+  {de:"Es sei denn, dass...", en:"Unless... (lit. \"it be denied that\")", words:["It","be","unless",",","that","..."]},
+  {de:"Das ist mir egal.", en:"I don't care. / It's all the same to me.", words:["That","is","to me","indifferent"]},
+  {de:"Es ist so weit.", en:"The time has come. / It's happening now.", words:["It","is","so","far"]},
+  {de:"Sei so gut und hilf mir.", en:"Be a dear and help me. (asking a favor)", words:["Be","so","good","and","help","me"]},
+  {de:"Was auch immer sein mag.", en:"Whatever it may be.", words:["What","also","ever","be","may"]}
 ];
 
 // ---------- Speech ----------
@@ -232,6 +230,20 @@ function speak(text){
   window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
 }
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// word-by-word gloss: wraps each token in a .gw span with a data-tip
+// English gloss, so it can be tapped/hovered for a translation popup.
+// Falls back to plain escaped text if no words array is supplied.
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens=de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m=tok.match(/^([^\s.,!?;:()"„“”’]+)([.,!?;:()"„“”’]*)$/);
+    if(!m||words[i]===undefined) return esc(tok);
+    const word=m[1], punct=m[2]||'';
+    return `<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(punct)}`;
+  }).join(' ');
+}
 
 // ---------- Render ----------
 function render(){
@@ -251,7 +263,7 @@ function render(){
       h+=`<div class="conj-row">
         <div class="top">
           <span class="pron">${esc(p)}</span>
-          <span class="form">${esc(t.forms[i])}</span>
+          <span class="form"><span class="gw" data-tip="${esc(t.en[i])}">${esc(t.forms[i])}</span></span>
           <button data-de="${esc(full)}" title="Hear">🔊</button>
         </div>
         <div class="en">${esc(t.en[i])}</div>
@@ -260,13 +272,14 @@ function render(){
     h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
     t.examples.forEach(ex=>{
       h+=`<div class="ex-row">
-        <div class="de">${esc(ex.de)}</div>
+        <div class="de">${glossHTML(ex.de, ex.words)}</div>
         <div class="en">${esc(ex.en)}</div>
         <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
       </div>`;
     });
     h+=`</div>`;
     if(t.tip) h+=`<div class="tip"><b>Note:</b> ${esc(t.tip)}</div>`;
+    if(t.id==='konjunktiv') h+=`<div class="cross">🔗 <b>See also:</b> most other German verbs skip having their own Konjunktiv II form and just use <b>würde + infinitive</b> instead — covered on the <a href="verb-werden.html">werden page</a>.</div>`;
     h+=`</div>`;
   });
 
@@ -288,7 +301,7 @@ function render(){
   h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
   IMPERATIV_EX.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -304,7 +317,7 @@ function render(){
     <div class="examples"><div class="ex-label">Takes sein</div>`;
   AUX_EX.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -312,7 +325,7 @@ function render(){
   h+=`</div><div class="examples"><div class="ex-label">Compare — takes haben instead</div>`;
   HABEN_EX.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -329,7 +342,7 @@ function render(){
     <div class="examples">`;
   PHRASES.forEach(ex=>{
     h+=`<div class="ex-row">
-      <div class="de">${esc(ex.de)}</div>
+      <div class="de">${glossHTML(ex.de, ex.words)}</div>
       <div class="en">${esc(ex.en)}</div>
       <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
     </div>`;
@@ -339,14 +352,15 @@ function render(){
   el.innerHTML=h;
   el.querySelectorAll('button[data-de]').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
 
-  // Ref table
+  // Ref table — sourced directly from TENSES so every form's English
+  // meaning is available as a tap/hover tooltip (same data, no duplication)
   const t=document.getElementById('refTable');
   let th=`<thead><tr><th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">Pronoun</th>`;
-  REF.forEach(r=>th+=`<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(r.t)}</th>`);
+  TENSES.forEach(ts=>th+=`<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(ts.title)}</th>`);
   th+=`</tr></thead><tbody>`;
   PRONOUNS.forEach((p,i)=>{
     th+=`<tr><td style="padding:6px;border-bottom:1px solid var(--border);font-weight:600;color:var(--accent-d)">${esc(p)}</td>`;
-    REF.forEach(r=>th+=`<td style="padding:6px;border-bottom:1px solid var(--border)">${esc(r.forms[i])}</td>`);
+    TENSES.forEach(ts=>th+=`<td style="padding:6px;border-bottom:1px solid var(--border)"><span class="gw" data-tip="${esc(ts.en[i])}">${esc(ts.forms[i])}</span></td>`);
     th+=`</tr>`;
   });
   th+=`</tbody>`;
@@ -367,6 +381,41 @@ function setMode(dark){
 }
 document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
 initMode();
+
+// ---------- Word-gloss tooltip (tap OR hover-after-0.5s, works on mobile too) ----------
+(function(){
+  let tipEl, timer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+  }
+  function hideTip(){ clearTimeout(timer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
 </script>
 </body>
 </html>

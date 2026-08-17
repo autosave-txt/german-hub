@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verb Deep-Dive: werden — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --t1:#8a5a2d;--t1-l:#f7ecdd;
+  --t2:#2d5a8c;--t2-l:#e2edf7;
+  --t3:#7a3d8c;--t3-l:#f1e6f7;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;
+  --t1:#d9a05c;--t1-l:#332a1c;
+  --t2:#6fa3d8;--t2-l:#1e2c3a;
+  --t3:#c08fe0;--t3-l:#2c1f33;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 80px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:8px}
+.top h1{font-size:22px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:13px;color:var(--sub);margin-top:4px}
+.src{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:6px 12px;margin-top:12px}
+.src a{font-weight:600}
+
+.intro{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:20px 0;box-shadow:var(--shadow);font-size:13.5px}
+.intro b{color:var(--accent-d)}
+
+.jobs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
+.job{font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px}
+.job.j1{background:var(--accent-l);color:var(--accent-d)}
+.job.j2{background:var(--t2-l);color:var(--t2)}
+.job.j3{background:var(--t3-l);color:var(--t3)}
+.job.j4{background:var(--t1-l);color:var(--t1)}
+
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.jump a{font-size:11.5px;font-weight:600;background:var(--card);border:1px solid var(--border);padding:5px 11px;border-radius:99px;color:var(--sub)}
+.jump a:hover{border-color:var(--accent);color:var(--accent-d)}
+
+.section{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);scroll-margin-top:20px}
+.section h2{font-size:16px;font-weight:700;color:var(--accent-d)}
+.section .tense-en{font-size:12px;color:var(--sub);margin-bottom:14px;font-style:italic}
+.section p{font-size:13px;margin-bottom:8px}
+
+.conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px}
+.conj-row{display:flex;flex-direction:column;background:var(--card);border-radius:6px;padding:6px 10px}
+.conj-row .top{display:flex;align-items:center;gap:8px}
+.conj-row .pron{font-size:11.5px;color:var(--sub);width:70px;flex-shrink:0}
+.conj-row .form{font-weight:700;font-size:14px;flex:1}
+.conj-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.conj-row button:hover{background:var(--accent);color:#fff}
+.conj-row .en{font-size:11.5px;line-height:1.2;color:var(--sub);padding-left:78px;margin-top:-2px}
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+
+.examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
+.examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
+.ex-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:6px;padding:7px 12px;margin-bottom:6px}
+.ex-row:last-child{margin-bottom:0}
+.ex-row .de{font-weight:600;font-size:13.5px;flex:1}
+.ex-row .en{font-size:12px;color:var(--sub);flex:1}
+.ex-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.ex-row button:hover{background:var(--accent);color:#fff}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip{background:var(--t2-l);border-left:3px solid var(--t2);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip b{color:var(--t2)}
+.cross{background:var(--t1-l);border-left:3px solid var(--t1);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.cross b{color:var(--t1)}
+.cross a{font-weight:700}
+
+table.ref{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+table.ref th{text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)}
+table.ref td{padding:6px;border-bottom:1px solid var(--border)}
+table.ref td.form{font-weight:700}
+table.ref td.job{font-size:11px}
+
+@media(max-width:520px){.conj-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Verb Deep-Dive: werden (to become)</h1>
+    <div class="sub">The third essential verb — and the busiest one. Four completely different jobs, one verb.</div>
+    <div class="src">🎬 Source video: <a href="https://www.youtube.com/watch?v=2axHWzwne34" target="_blank" rel="noopener">"Werden" — Every Form Explained ↗</a></div>
+  </div>
+
+  <div class="intro">
+    <b>werden</b> means "to become" on its own — but its real power is as a helper verb. It builds the <b>future tense</b> (with sein/haben), the entire <b>passive voice</b> (with every other verb), a way to express a <b>guess or assumption</b>, and — in its würde form — the everyday <b>conditional</b> ("would ___"). Four jobs, one irregular verb. This page covers each separately so it doesn't blur together.
+  </div>
+
+  <div class="jobs">
+    <span class="job j1">① Main verb — "to become"</span>
+    <span class="job j2">② Future tense helper</span>
+    <span class="job j3">③ Passive voice helper</span>
+    <span class="job j4">④ Assumption / würde-conditional</span>
+  </div>
+
+  <div class="jump">
+    <a href="#praesens">Präsens</a>
+    <a href="#praeteritum">Präteritum</a>
+    <a href="#perfekt">Perfekt</a>
+    <a href="#futur">Futur I & II</a>
+    <a href="#passive">Passive voice</a>
+    <a href="#assumption">Assumption</a>
+    <a href="#konjunktiv">würde-Konjunktiv</a>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="section">
+    <h2>📋 Quick reference — every form of werden and its job</h2>
+    <table class="ref" id="refTable"></table>
+  </div>
+</div>
+
+<script>
+const PRONOUNS = ["ich","du","er/sie/es","wir","ihr","sie/Sie"];
+
+const TENSES = [
+  {
+    id:"praesens", title:"Präsens (as main verb)", titleEn:"\"to become\" — right now / in general",
+    forms:["werde","wirst","wird","werden","werdet","werden"],
+    en:["I become / am becoming","you become","he/she/it becomes","we become","you all become","they become / you become (formal)"],
+    examples:[
+      {de:"Ich werde langsam müde.", en:"I'm slowly getting tired.", words:["I","become","slowly","tired"]},
+      {de:"Wirst du nervös vor Prüfungen?", en:"Do you get nervous before exams?", words:["Become","you","nervous","before","exams"]},
+      {de:"Es wird kalt draußen.", en:"It's getting cold outside.", words:["It","becomes","cold","outside"]},
+      {de:"Wir werden jedes Jahr besser.", en:"We get better every year.", words:["We","become","every","year","better"]}
+    ]
+  },
+  {
+    id:"praeteritum", title:"Präteritum (as main verb)", titleEn:"\"became\" — and, like war/hatte, common even in speech",
+    forms:["wurde","wurdest","wurde","wurden","wurdet","wurden"],
+    en:["I became","you became","he/she/it became","we became","you all became","they became / you became (formal)"],
+    examples:[
+      {de:"Ich wurde letztes Jahr Vater.", en:"I became a father last year.", words:["I","became","last","year","father"]},
+      {de:"Das Wetter wurde langsam besser.", en:"The weather slowly got better.", words:["The","weather","became","slowly","better"]},
+      {de:"Wir wurden gute Freunde.", en:"We became good friends.", words:["We","became","good","friends"]}
+    ],
+    tip:"Same family as war and hatte: wurde is a Präteritum form Germans reach for naturally in speech, not just writing. Careful with pronunciation though — wurde (became) and würde (would, further down this page) are easy to mix up but mean very different things."
+  },
+  {
+    id:"perfekt", title:"Perfekt (as main verb)", titleEn:"\"have become\" — built with sein, not haben",
+    forms:["bin geworden","bist geworden","ist geworden","sind geworden","seid geworden","sind geworden"],
+    en:["I have become","you have become","he/she/it has become","we have become","you all have become","they have become / you have become (formal)"],
+    examples:[
+      {de:"Ich bin viel selbstständiger geworden.", en:"I've become a lot more independent.", words:["I","am","much","more independent","become"]},
+      {de:"Sie ist Ärztin geworden.", en:"She became a doctor.", words:["She","is","doctor","become"]},
+      {de:"Wie ist er so erfolgreich geworden?", en:"How did he become so successful?", words:["How","is","he","so","successful","become"]}
+    ]
+  }
+];
+
+const REF = [
+  {form:"werde / wirst / wird...", job:"Präsens — main verb (\"become\") or Futur I helper", ex:"Ich werde Arzt. / Ich werde kommen."},
+  {form:"wurde / wurdest / wurde...", job:"Präteritum — main verb, or passive-voice helper (past)", ex:"Ich wurde müde. / Das Haus wurde gebaut."},
+  {form:"bin/bist/ist... geworden", job:"Perfekt — main verb only (takes sein)", ex:"Ich bin Lehrer geworden."},
+  {form:"worden", job:"Special participle — passive voice ONLY, in Perfekt/Plusquamperfekt", ex:"Das Haus ist gebaut worden."},
+  {form:"würde / würdest / würde...", job:"Konjunktiv II — the everyday conditional (\"would\")", ex:"Ich würde das nicht machen."}
+];
+
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  const clean=text.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s*\/\s*/g,', ').replace(/\s{2,}/g,' ').trim();
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='de-DE';u.rate=0.85;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens=de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m=tok.match(/^([^\s.,!?;:()"„“”’]+)([.,!?;:()"„“”’]*)$/);
+    if(!m||words[i]===undefined) return esc(tok);
+    const word=m[1], punct=m[2]||'';
+    return `<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(punct)}`;
+  }).join(' ');
+}
+
+function conjBlock(t){
+  let h=`<div class="section" id="${t.id}"><h2>${esc(t.title)}</h2><div class="tense-en">${esc(t.titleEn)}</div><div class="conj-grid">`;
+  PRONOUNS.forEach((p,i)=>{
+    const full=p.split('/').map(pr=>`${pr} ${t.forms[i]}`).join('. ');
+    h+=`<div class="conj-row">
+      <div class="top">
+        <span class="pron">${esc(p)}</span>
+        <span class="form"><span class="gw" data-tip="${esc(t.en[i])}">${esc(t.forms[i])}</span></span>
+        <button data-de="${esc(full)}" title="Hear">🔊</button>
+      </div>
+      <div class="en">${esc(t.en[i])}</div>
+    </div>`;
+  });
+  h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
+  t.examples.forEach(ex=>{
+    h+=`<div class="ex-row"><div class="de">${glossHTML(ex.de, ex.words)}</div><div class="en">${esc(ex.en)}</div><button data-de="${esc(ex.de)}" title="Hear">🔊</button></div>`;
+  });
+  h+=`</div>`;
+  if(t.tip) h+=`<div class="tip"><b>Note:</b> ${esc(t.tip)}</div>`;
+  h+=`</div>`;
+  return h;
+}
+
+function exRow(ex){
+  return `<div class="ex-row"><div class="de">${glossHTML(ex.de, ex.words)}</div><div class="en">${esc(ex.en)}</div><button data-de="${esc(ex.de)}" title="Hear">🔊</button></div>`;
+}
+
+function render(){
+  const el=document.getElementById('sections');
+  let h='';
+  TENSES.forEach(t=>h+=conjBlock(t));
+
+  // Futur I & II
+  h+=`<div class="section" id="futur">
+    <h2>Futur I &amp; Futur II</h2>
+    <div class="tense-en">werden as a helper verb — the second job</div>
+    <p><b>Futur I:</b> werden (conjugated) + another verb's infinitive at the end. This is the standard "will ___" construction.</p>
+    <div class="examples"><div class="ex-label">Futur I examples</div>
+      ${exRow({de:"Ich werde morgen früh aufstehen.", en:"I'll get up early tomorrow.", words:["I","will","tomorrow","early","get up"]})}
+      ${exRow({de:"Wirst du zur Party kommen?", en:"Will you come to the party?", words:["Will","you","to the","party","come"]})}
+      ${exRow({de:"Wir werden das Problem lösen.", en:"We'll solve the problem.", words:["We","will","the","problem","solve"]})}
+    </div>
+    <p style="margin-top:14px"><b>Futur II</b> (rare): werden + participle + haben/sein at the very end — "will have ___ed by then." Mostly a written/formal form.</p>
+    <div class="examples"><div class="ex-label">Futur II example</div>
+      ${exRow({de:"Bis nächste Woche werde ich das Buch gelesen haben.", en:"By next week I will have read the book.", words:["By","next","week","will","I","the","book","read","have"]})}
+    </div>
+    <div class="cross">🔗 <b>See also:</b> Futur I built specifically with sein and haben as the main verb is covered on the <a href="verb-sein.html">sein</a> and <a href="haben.html">haben</a> pages — this is the same construction, generalized to any verb.</div>
+    <div class="note">📝 In everyday speech, Germans very often just use the present tense + a time word instead of Futur I: "Ich komme morgen" is more natural than "Ich werde morgen kommen." Futur I is used more for firm plans, promises, and predictions.</div>
+  </div>`;
+
+  // Passive
+  h+=`<div class="section" id="passive">
+    <h2>Passive voice</h2>
+    <div class="tense-en">werden's biggest job — turning "X does Y" into "Y is done (by X)"</div>
+    <p>The passive shifts focus from who's doing the action to what's being done. werden supplies a different form for each tense — this is the part of German grammar where werden is genuinely unavoidable.</p>
+    <div class="examples"><div class="ex-label">Passiv Präsens — is/are being done</div>
+      ${exRow({de:"Das Auto wird repariert.", en:"The car is being repaired.", words:["The","car","is","repaired"]})}
+      ${exRow({de:"Die Fenster werden geputzt.", en:"The windows are being cleaned.", words:["The","windows","are","cleaned"]})}
+    </div>
+    <div class="examples"><div class="ex-label">Passiv Präteritum — was/were done</div>
+      ${exRow({de:"Das Auto wurde repariert.", en:"The car was repaired.", words:["The","car","was","repaired"]})}
+      ${exRow({de:"Die Brücke wurde 1920 gebaut.", en:"The bridge was built in 1920.", words:["The","bridge","was","1920","built"]})}
+    </div>
+    <div class="examples"><div class="ex-label">Passiv Perfekt — has/have been done (uses the special form "worden")</div>
+      ${exRow({de:"Das Auto ist repariert worden.", en:"The car has been repaired.", words:["The","car","has","repaired","been"]})}
+      ${exRow({de:"Die Partei ist 1980 gegründet worden.", en:"The party was founded in 1980.", words:["The","party","has","1980","founded","been"]})}
+    </div>
+    <div class="examples"><div class="ex-label">Passiv Plusquamperfekt — had been done</div>
+      ${exRow({de:"Das Auto war repariert worden, bevor ich ankam.", en:"The car had been repaired before I arrived.", words:["The","car","had","repaired","been",",","before","I","arrived"]})}
+    </div>
+    <div class="examples"><div class="ex-label">Passiv Futur — will be done (rare, mostly written)</div>
+      ${exRow({de:"Das Auto wird morgen repariert werden.", en:"The car will be repaired tomorrow.", words:["The","car","will","tomorrow","repaired","be"]})}
+    </div>
+    <div class="note">📝 The special form <b>worden</b> only ever shows up in the passive (Perfekt and Plusquamperfekt) — never confuse it with <b>geworden</b>, which is the normal Perfekt participle for werden's "become" meaning. Rule of thumb: talking about a person or thing becoming/changing → geworden. Talking about an action being done to something → worden.</div>
+  </div>`;
+
+  // Assumption
+  h+=`<div class="section" id="assumption">
+    <h2>werden for assumptions</h2>
+    <div class="tense-en">Same grammar as Futur I, but it means "probably," not "will"</div>
+    <p>werden + infinitive can also express a guess about the present, not a plan for the future — context tells you which one is meant.</p>
+    <div class="examples"><div class="ex-label">Examples</div>
+      ${exRow({de:"Er wird wohl noch schlafen.", en:"He's probably still asleep.", words:["He","is (probably)","probably","still","sleeping"]})}
+      ${exRow({de:"Das wird schon stimmen.", en:"That's probably right.", words:["That","is (probably)","surely","correct"]})}
+      ${exRow({de:"Sie werden sicher müde sein nach der Reise.", en:"They're probably tired after the trip.", words:["They","are (probably)","surely","tired","be","after","the","trip"]})}
+    </div>
+    <div class="tip"><b>Tell them apart:</b> "Ich werde das Buch lesen" with no other context reads as future ("I will read the book"). Add wohl, sicher, or schon and it shifts to a guess about now: "Er wird wohl das Buch lesen" ("He's probably reading the book" — a guess, not a plan).</div>
+  </div>`;
+
+  // würde
+  h+=`<div class="section" id="konjunktiv">
+    <h2>würde + infinitive (Konjunktiv II)</h2>
+    <div class="tense-en">The general-purpose conditional — "would ___" — usable with almost any verb</div>
+    <p>Where sein and haben have their own dedicated Konjunktiv II forms (wäre, hätte), most other German verbs don't bother with their own subjunctive form in speech — they just borrow würde + infinitive instead. This makes würde one of the most useful constructions in the whole language.</p>
+    <div class="conj-grid">
+      ${["ich","du","er/sie/es","wir","ihr","sie/Sie"].map((p,i)=>{
+        const forms=["würde","würdest","würde","würden","würdet","würden"];
+        const en=["I would","you would","he/she/it would","we would","you all would","they would / you would (formal)"];
+        const full=p.split('/').map(pr=>`${pr} ${forms[i]}`).join('. ');
+        return `<div class="conj-row"><div class="top"><span class="pron">${p}</span><span class="form"><span class="gw" data-tip="${en[i]}">${forms[i]}</span></span><button data-de="${esc(full)}" title="Hear">🔊</button></div><div class="en">${en[i]}</div></div>`;
+      }).join('')}
+    </div>
+    <div class="examples"><div class="ex-label">Examples</div>
+      ${exRow({de:"Ich würde das nicht machen.", en:"I wouldn't do that.", words:["I","would","that","not","do"]})}
+      ${exRow({de:"Würdest du mir helfen?", en:"Would you help me?", words:["Would","you","me","help"]})}
+      ${exRow({de:"Wir würden gerne mitkommen.", en:"We'd love to come along.", words:["We","would","gladly","come along"]})}
+      ${exRow({de:"Ohne Hilfe würde ich das nicht schaffen.", en:"Without help I wouldn't manage it.", words:["Without","help","would","I","that","not","manage"]})}
+    </div>
+    <div class="note">📝 Watch the pronunciation gap: <b>würde</b> (would — Konjunktiv II) vs. <b>wurde</b> (became — Präteritum) are one umlaut apart and mean completely different things. würde has the rounded "ü" sound; wurde doesn't. Worth drilling with the audio buttons above until the difference is automatic.</div>
+    <div class="cross">🔗 <b>See also:</b> sein and haben's own dedicated Konjunktiv II forms — wäre and hätte — are covered on their own pages; those two are common enough to be worth memorizing directly instead of using würde sein / würde haben.</div>
+  </div>`;
+
+  el.innerHTML=h;
+  el.querySelectorAll('button[data-de]').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
+
+  const t=document.getElementById('refTable');
+  let th=`<thead><tr><th>Form</th><th>Job</th><th>Example</th></tr></thead><tbody>`;
+  REF.forEach(r=>{
+    th+=`<tr><td class="form">${esc(r.form)}</td><td class="job">${esc(r.job)}</td><td>${esc(r.ex)}</td></tr>`;
+  });
+  th+=`</tbody>`;
+  t.innerHTML=th;
+}
+render();
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+
+(function(){
+  let tipEl, timer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+  }
+  function hideTip(){ clearTimeout(timer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
+</script>
+</body>
+</html>

@@ -67,6 +67,9 @@ a{color:var(--accent)}
 .phrase-block{flex:1;background:var(--card);border-radius:6px;padding:7px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .phrase-block .de{font-weight:600;font-size:14px}
 .phrase-block .en{font-size:12px;color:var(--sub);width:100%}
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
 .speak{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto;transition:background .12s}
 .speak:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 
@@ -129,109 +132,109 @@ tr td:first-child{font-weight:600;color:var(--accent-d);width:24%}
 const SECTIONS = [
   {
     title:"Name",
-    q:[{du:"Wie heißt du?", sie:"Wie heißen Sie?", en:"What's your name?"}],
-    a:[{du:"Ich heiße ___.", sie:"Ich heiße ___. / Mein Name ist ___.", en:"My name is ___."}],
+    q:[{du:"Wie heißt du?", sie:"Wie heißen Sie?", en:"What's your name?", duW:["How","are you called"], sieW:["How","are you called","(formal)"]}],
+    a:[{du:"Ich heiße ___.", sie:"Ich heiße ___. / Mein Name ist ___.", en:"My name is ___.", duW:["I","am called"], sieW:["I","am called"]}],
     grammar:"heißen conjugates: ich heiße, du heißt, er/sie heißt, Sie heißen (same form as the plural/formal — this is true for every verb, not just heißen)."
   },
   {
     title:"Age",
-    q:[{du:"Wie alt bist du?", sie:"Wie alt sind Sie?", en:"How old are you?"}],
-    a:[{du:"Ich bin ___ Jahre alt.", sie:"Ich bin ___ Jahre alt.", en:"I am ___ years old."}]
+    q:[{du:"Wie alt bist du?", sie:"Wie alt sind Sie?", en:"How old are you?", duW:["How","old","are","you"], sieW:["How","old","are","you (formal)"]}],
+    a:[{du:"Ich bin ___ Jahre alt.", sie:"Ich bin ___ Jahre alt.", en:"I am ___ years old.", duW:["I","am","years","old"], sieW:["I","am","years","old"]}]
   },
   {
     title:"Where you're from",
-    q:[{du:"Woher kommst du?", sie:"Woher kommen Sie?", en:"Where are you from?"}],
-    a:[{du:"Ich komme aus ___.", sie:"Ich komme aus ___.", en:"I come from ___."}],
+    q:[{du:"Woher kommst du?", sie:"Woher kommen Sie?", en:"Where are you from?", duW:["From where","come","you"], sieW:["From where","come","you (formal)"]}],
+    a:[{du:"Ich komme aus ___.", sie:"Ich komme aus ___.", en:"I come from ___.", duW:["I","come","from"], sieW:["I","come","from"]}],
     grammar:"aus takes the dative case. Most country names need no article (aus Polen), but a few do: aus den USA, aus dem Iran, aus der Türkei."
   },
   {
     title:"Where you live",
     q:[
-      {du:"Wo wohnst du?", sie:"Wo wohnen Sie?", en:"Where do you live?"},
-      {du:"Seit wann wohnst du in ___?", sie:"Seit wann wohnen Sie in ___?", en:"Since when have you lived in ___? (= how long)"}
+      {du:"Wo wohnst du?", sie:"Wo wohnen Sie?", en:"Where do you live?", duW:["Where","live","you"], sieW:["Where","live","you (formal)"]},
+      {du:"Seit wann wohnst du in ___?", sie:"Seit wann wohnen Sie in ___?", en:"Since when have you lived in ___? (= how long)", duW:["Since","when","live","you","in"], sieW:["Since","when","live","you (formal)","in"]}
     ],
-    a:[{du:"Ich wohne seit ___ in ___.", sie:"Ich wohne seit ___ in ___.", en:"I've lived in ___ for ___."}],
+    a:[{du:"Ich wohne seit ___ in ___.", sie:"Ich wohne seit ___ in ___.", en:"I've lived in ___ for ___.", duW:["I","live","since","in"], sieW:["I","live","since","in"]}],
     grammar:"seit + present tense = an ongoing state since a point in time. English switches to present perfect here (\"I have lived\") — German just stays present tense. Very common trap for English speakers, worth drilling early."
   },
   {
     title:"Relationship status",
     q:[
-      {du:"Bist du in einer Beziehung?", sie:"Sind Sie in einer Beziehung?", en:"Are you in a relationship?"},
-      {du:"Bist du verheiratet?", sie:"Sind Sie verheiratet?", en:"Are you married?"}
+      {du:"Bist du in einer Beziehung?", sie:"Sind Sie in einer Beziehung?", en:"Are you in a relationship?", duW:["Are","you","in","a","relationship"], sieW:["Are","you (formal)","in","a","relationship"]},
+      {du:"Bist du verheiratet?", sie:"Sind Sie verheiratet?", en:"Are you married?", duW:["Are","you","married"], sieW:["Are","you (formal)","married"]}
     ],
-    a:[{du:"Ich bin Single. / Ich bin verheiratet.", sie:"Ich bin Single. / Ich bin verheiratet.", en:"I'm single. / I'm married."}],
+    a:[{du:"Ich bin Single. / Ich bin verheiratet.", sie:"Ich bin Single. / Ich bin verheiratet.", en:"I'm single. / I'm married.", duW:["I","am","single"], sieW:["I","am","single"]}],
     note:"In a work context, this question (and the next two) would rarely come up unprompted — it's more of a casual/social question. Good to recognize, less essential to volunteer at the office."
   },
   {
     title:"Kids",
-    q:[{du:"Hast du Kinder?", sie:"Haben Sie Kinder?", en:"Do you have kids?"}],
-    a:[{du:"Ich habe keine Kinder.", sie:"Ich habe keine Kinder.", en:"I don't have kids."}],
+    q:[{du:"Hast du Kinder?", sie:"Haben Sie Kinder?", en:"Do you have kids?", duW:["Have","you","kids"], sieW:["Have","you (formal)","kids"]}],
+    a:[{du:"Ich habe keine Kinder.", sie:"Ich habe keine Kinder.", en:"I don't have kids.", duW:["I","have","no","kids"], sieW:["I","have","no","kids"]}],
     grammar:"kein/keine negates nouns (keine Kinder); nicht negates verbs and adjectives. Core A1 distinction, comes up constantly."
   },
   {
     title:"Siblings",
-    q:[{du:"Hast du Geschwister?", sie:"Haben Sie Geschwister?", en:"Do you have siblings?"}],
-    a:[{du:"Ich habe eine Schwester / einen Bruder.", sie:"Ich habe eine Schwester / einen Bruder.", en:"I have a sister / brother."}]
+    q:[{du:"Hast du Geschwister?", sie:"Haben Sie Geschwister?", en:"Do you have siblings?", duW:["Have","you","siblings"], sieW:["Have","you (formal)","siblings"]}],
+    a:[{du:"Ich habe eine Schwester / einen Bruder.", sie:"Ich habe eine Schwester / einen Bruder.", en:"I have a sister / brother.", duW:["I","have","a","sister"], sieW:["I","have","a","sister"]}]
   },
   {
     title:"Where your family lives",
-    q:[{du:"Wo wohnt deine Familie?", sie:"Wo wohnt Ihre Familie?", en:"Where does your family live?"}],
-    a:[{du:"Meine Familie wohnt in ___.", sie:"Meine Familie wohnt in ___.", en:"My family lives in ___."}],
+    q:[{du:"Wo wohnt deine Familie?", sie:"Wo wohnt Ihre Familie?", en:"Where does your family live?", duW:["Where","lives","your","family"], sieW:["Where","lives","your (formal)","family"]}],
+    a:[{du:"Meine Familie wohnt in ___.", sie:"Meine Familie wohnt in ___.", en:"My family lives in ___.", duW:["My","family","lives","in"], sieW:["My","family","lives","in"]}],
     grammar:"dein → Ihr is the possessive that flips between du/Sie (deine Familie → Ihre Familie). Same pattern for dein Name → Ihr Name, deine Hobbys → Ihre Hobbys, etc."
   },
   {
     title:"Education",
-    q:[{du:"Was hast du studiert oder gelernt?", sie:"Was haben Sie studiert oder gelernt?", en:"What did you study or train in?"}],
-    a:[{du:"Ich habe ___ studiert.", sie:"Ich habe ___ studiert.", en:"I studied ___."}],
+    q:[{du:"Was hast du studiert oder gelernt?", sie:"Was haben Sie studiert oder gelernt?", en:"What did you study or train in?", duW:["What","have","you","studied","or","learned"], sieW:["What","have","you (formal)","studied","or","learned"]}],
+    a:[{du:"Ich habe ___ studiert.", sie:"Ich habe ___ studiert.", en:"I studied ___.", duW:["I","have","studied"], sieW:["I","have","studied"]}],
     grammar:"This is the Perfekt (spoken past) tense: haben + past participle. Pattern: ich habe [thing] ge-[verb]-t. This is the default way to talk about the past in conversation."
   },
   {
     title:"Job / profession",
-    q:[{du:"Was machst du beruflich?", sie:"Was machen Sie beruflich?", en:"What do you do for work? — high-value for a work setting"}],
+    q:[{du:"Was machst du beruflich?", sie:"Was machen Sie beruflich?", en:"What do you do for work? — high-value for a work setting", duW:["What","do","you","for a living"], sieW:["What","do","you (formal)","for a living"]}],
     a:[
-      {du:"Ich bin ___.", sie:"Ich bin ___.", en:"I am a ___. (no article: \"ich bin Krankenpfleger\", not \"ein Krankenpfleger\")"},
-      {du:"Ich arbeite bei ___.", sie:"Ich arbeite bei ___.", en:"I work at ___."}
+      {du:"Ich bin ___.", sie:"Ich bin ___.", en:"I am a ___. (no article: \"ich bin Krankenpfleger\", not \"ein Krankenpfleger\")", duW:["I","am"], sieW:["I","am"]},
+      {du:"Ich arbeite bei ___.", sie:"Ich arbeite bei ___.", en:"I work at ___.", duW:["I","work","at"], sieW:["I","work","at"]}
     ]
   },
   {
     title:"Hobbies",
-    q:[{du:"Was sind deine Hobbys?", sie:"Was sind Ihre Hobbys?", en:"What are your hobbies?"}],
+    q:[{du:"Was sind deine Hobbys?", sie:"Was sind Ihre Hobbys?", en:"What are your hobbies?", duW:["What","are","your","hobbies"], sieW:["What","are","your (formal)","hobbies"]}],
     a:[
-      {du:"Meine Hobbys sind ___.", sie:"Meine Hobbys sind ___.", en:"My hobbies are ___."},
-      {du:"Ich [verb] gerne.", sie:"Ich [verb] gerne.", en:"I like to [verb]."}
+      {du:"Meine Hobbys sind ___.", sie:"Meine Hobbys sind ___.", en:"My hobbies are ___.", duW:["My","hobbies","are"], sieW:["My","hobbies","are"]},
+      {du:"Ich [verb] gerne.", sie:"Ich [verb] gerne.", en:"I like to [verb].", duW:["I","[verb]","gladly"], sieW:["I","[verb]","gladly"]}
     ],
     grammar:"gern(e) placed after a verb = \"like to [verb]\" — no separate \"like\" verb needed. Ich lese gern. Ich koche gern. One of the most useful A1 words overall."
   },
   {
     title:"Sport",
-    q:[{du:"Machst du Sport?", sie:"Machen Sie Sport?", en:"Do you play sports?"}],
-    a:[{du:"Ich fahre gerne Fahrrad.", sie:"Ich fahre gerne Fahrrad.", en:"I like cycling."}]
+    q:[{du:"Machst du Sport?", sie:"Machen Sie Sport?", en:"Do you play sports?", duW:["Do","you","sport"], sieW:["Do","you (formal)","sport"]}],
+    a:[{du:"Ich fahre gerne Fahrrad.", sie:"Ich fahre gerne Fahrrad.", en:"I like cycling.", duW:["I","ride","gladly","bicycle"], sieW:["I","ride","gladly","bicycle"]}]
   },
   {
     title:"Favorite food",
     q:[
-      {du:"Was ist dein Lieblingsessen?", sie:"Was ist Ihr Lieblingsessen?", en:"What's your favorite food?"},
-      {du:"Was magst du gar nicht?", sie:"Was mögen Sie gar nicht?", en:"What don't you like at all?"}
+      {du:"Was ist dein Lieblingsessen?", sie:"Was ist Ihr Lieblingsessen?", en:"What's your favorite food?", duW:["What","is","your","favorite food"], sieW:["What","is","your (formal)","favorite food"]},
+      {du:"Was magst du gar nicht?", sie:"Was mögen Sie gar nicht?", en:"What don't you like at all?", duW:["What","like","you","at all","not"], sieW:["What","like","you (formal)","at all","not"]}
     ],
-    a:[{du:"Ich mag ___ nicht. / Ich mag kein(e/en) ___.", sie:"Ich mag ___ nicht. / Ich mag kein(e/en) ___.", en:"I don't like ___."}],
+    a:[{du:"Ich mag ___ nicht. / Ich mag kein(e/en) ___.", sie:"Ich mag ___ nicht. / Ich mag kein(e/en) ___.", en:"I don't like ___.", duW:["I","like","not"], sieW:["I","like","not"]}],
     grammar:"Lieblings- is a prefix you can attach to almost any noun for \"favorite\": Lieblingsessen, Lieblingsfarbe, Lieblingsfilm, Lieblingskollege(!). Very productive."
   },
   {
     title:"Pets",
-    q:[{du:"Hast du Haustiere?", sie:"Haben Sie Haustiere?", en:"Do you have pets?"}],
-    a:[{du:"Ich habe leider keine Haustiere.", sie:"Ich habe leider keine Haustiere.", en:"Unfortunately I don't have pets."}]
+    q:[{du:"Hast du Haustiere?", sie:"Haben Sie Haustiere?", en:"Do you have pets?", duW:["Have","you","pets"], sieW:["Have","you (formal)","pets"]}],
+    a:[{du:"Ich habe leider keine Haustiere.", sie:"Ich habe leider keine Haustiere.", en:"Unfortunately I don't have pets.", duW:["I","have","unfortunately","no","pets"], sieW:["I","have","unfortunately","no","pets"]}]
   },
   {
     title:"Music taste",
-    q:[{du:"Welche Musik magst du?", sie:"Welche Musik mögen Sie?", en:"What music do you like?"}],
-    a:[{du:"Ich höre gerne ___.", sie:"Ich höre gerne ___.", en:"I like listening to ___."}]
+    q:[{du:"Welche Musik magst du?", sie:"Welche Musik mögen Sie?", en:"What music do you like?", duW:["Which","music","like","you"], sieW:["Which","music","like","you (formal)"]}],
+    a:[{du:"Ich höre gerne ___.", sie:"Ich höre gerne ___.", en:"I like listening to ___.", duW:["I","listen","gladly"], sieW:["I","listen","gladly"]}]
   },
   {
     title:"Languages",
-    q:[{du:"Welche Sprachen sprichst du?", sie:"Welche Sprachen sprechen Sie?", en:"What languages do you speak?"}],
+    q:[{du:"Welche Sprachen sprichst du?", sie:"Welche Sprachen sprechen Sie?", en:"What languages do you speak?", duW:["Which","languages","speak","you"], sieW:["Which","languages","speak","you (formal)"]}],
     a:[
-      {du:"Ich spreche ___.", sie:"Ich spreche ___.", en:"I speak ___."},
-      {du:"Ich lerne gerade Deutsch.", sie:"Ich lerne gerade Deutsch.", en:"I'm currently learning German. (genuinely useful line for you)"}
+      {du:"Ich spreche ___.", sie:"Ich spreche ___.", en:"I speak ___.", duW:["I","speak"], sieW:["I","speak"]},
+      {du:"Ich lerne gerade Deutsch.", sie:"Ich lerne gerade Deutsch.", en:"I'm currently learning German. (genuinely useful line for you)", duW:["I","am learning","currently","German"], sieW:["I","am learning","currently","German"]}
     ]
   }
 ];
@@ -284,11 +287,22 @@ initMode();
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens=de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m=tok.match(/^([^\s.,!?;:()"„“”’]+)([.,!?;:()"„“”’]*)$/);
+    if(!m||words[i]===undefined) return esc(tok);
+    const word=m[1], punct=m[2]||'';
+    return `<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(punct)}`;
+  }).join(' ');
+}
+
 function renderVariantRows(item){
   let r=`<div class="variant-row">
     <span class="tag du">DU</span>
     <div class="phrase-block">
-      <div class="de">${esc(item.du)}</div>
+      <div class="de">${glossHTML(item.du, item.duW)}</div>
       <button class="speak" data-de="${esc(item.du)}" title="Hear (du)">🔊</button>
       <div class="en">${esc(item.en)}</div>
     </div>
@@ -297,7 +311,7 @@ function renderVariantRows(item){
     r+=`<div class="variant-row">
       <span class="tag sie">SIE</span>
       <div class="phrase-block">
-        <div class="de">${esc(item.sie)}</div>
+        <div class="de">${glossHTML(item.sie, item.sieW)}</div>
         <button class="speak" data-de="${esc(item.sie)}" title="Hear (Sie)">🔊</button>
         <div class="en">${esc(item.en)}</div>
       </div>
@@ -343,6 +357,40 @@ function render(){
 }
 
 render();
+
+(function(){
+  let tipEl, timer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+  }
+  function hideTip(){ clearTimeout(timer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
 </script>
 </body>
 </html>
