@@ -343,7 +343,7 @@ document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.
 initMode();
 
 (function(){
-  let tipEl, timer;
+  let tipEl, timer, autoHideTimer;
   function ensureTip(){
     if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
     return tipEl;
@@ -356,8 +356,10 @@ initMode();
     tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
     tip.style.top=Math.max(r.top-10,10)+'px';
     tip.style.transform='translate(-50%,-100%)';
+    clearTimeout(autoHideTimer);
+    autoHideTimer=setTimeout(hideTip,5000);
   }
-  function hideTip(){ clearTimeout(timer); ensureTip().classList.remove('show'); }
+  function hideTip(){ clearTimeout(timer); clearTimeout(autoHideTimer); ensureTip().classList.remove('show'); }
   document.addEventListener('mouseover',e=>{
     const g=e.target.closest('.gw'); if(!g)return;
     clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
