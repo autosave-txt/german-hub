@@ -29,7 +29,10 @@ body.dark{
 body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
 a{color:var(--accent)}
 .wrap{max-width:860px;margin:0 auto;padding:28px 20px 80px}
-.mode-toggle{position:fixed;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:10}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
 
 /* Header */
 .top{margin-bottom:8px}
@@ -93,7 +96,10 @@ tr td:first-child{font-weight:600;color:var(--accent-d);width:24%}
 </style>
 </head>
 <body>
-<button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
 <div class="wrap">
   <div class="top">
     <h1>Self-Introduction Phrasebook</h1>
