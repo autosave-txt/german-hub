@@ -150,7 +150,17 @@ function totalWords(){return DATA.reduce((s,c)=>s+c.words.length,0);}
 
 function speak(text){
   if(!('speechSynthesis' in window))return;
-  const u=new SpeechSynthesisUtterance(text.replace(/^(der|die|das)\s+/i,'').split('/')[0].split('(')[0]);
+  // Many entries pack multiple alternatives into one string, e.g.
+  // "der Samstag / Sonnabend" or "sein/ihr/sein" or "der/die/das erste".
+  // Split on "/", strip a leading article and any (...) annotation from
+  // EACH piece individually, then read every piece — not just the first.
+  const parts=text.split('/')
+    .map(p=>p.replace(/\(.*?\)/g,'').trim())
+    .map(p=>p.replace(/^(der|die|das)\s+/i,'').trim())
+    .filter(Boolean);
+  const clean=parts.join(', ');
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
   u.lang='de-DE';u.rate=0.82;
   window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
 }

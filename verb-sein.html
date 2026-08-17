@@ -50,11 +50,13 @@ a{color:var(--accent)}
 .section .tense-en{font-size:12px;color:var(--sub);margin-bottom:14px;font-style:italic}
 
 .conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px}
-.conj-row{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:6px;padding:6px 10px}
-.conj-row .pron{font-size:11.5px;color:var(--sub);width:44px;flex-shrink:0}
+.conj-row{display:flex;flex-direction:column;gap:2px;background:var(--card);border-radius:6px;padding:6px 10px}
+.conj-row .top{display:flex;align-items:center;gap:8px}
+.conj-row .pron{font-size:11.5px;color:var(--sub);width:70px;flex-shrink:0}
 .conj-row .form{font-weight:700;font-size:14px;flex:1}
 .conj-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
 .conj-row button:hover{background:var(--accent);color:#fff}
+.conj-row .en{font-size:11.5px;color:var(--sub);padding-left:78px}
 
 .examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
 .examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
@@ -118,6 +120,7 @@ const TENSES = [
   {
     id:"praesens", title:"Präsens", titleEn:"Present tense — talking about now / general facts",
     forms:["bin","bist","ist","sind","seid","sind"],
+    en:["I am","you are","he/she/it is","we are","you all are","they are / you are (formal)"],
     examples:[
       {de:"Ich bin heute etwas müde.", en:"I'm a bit tired today."},
       {de:"Bist du bereit?", en:"Are you ready?"},
@@ -128,6 +131,7 @@ const TENSES = [
   {
     id:"praeteritum", title:"Präteritum", titleEn:"Simple past — the written/narrative past (also common in speech for sein specifically)",
     forms:["war","warst","war","waren","wart","waren"],
+    en:["I was","you were","he/she/it was","we were","you all were","they were / you were (formal)"],
     examples:[
       {de:"Ich war letztes Jahr in Hamburg.", en:"I was in Hamburg last year."},
       {de:"Wo warst du gestern Abend?", en:"Where were you last night?"},
@@ -139,6 +143,7 @@ const TENSES = [
   {
     id:"perfekt", title:"Perfekt", titleEn:"Compound past — built with sein + gewesen",
     forms:["bin gewesen","bist gewesen","ist gewesen","sind gewesen","seid gewesen","sind gewesen"],
+    en:["I have been / I was","you have been","he/she/it has been","we have been","you all have been","they have been / you have been (formal)"],
     examples:[
       {de:"Ich bin noch nie in Japan gewesen.", en:"I've never been to Japan."},
       {de:"Warst du schon mal hier? — Ja, ich bin schon oft hier gewesen.", en:"Have you been here before? — Yes, I've been here often."},
@@ -149,6 +154,7 @@ const TENSES = [
   {
     id:"futur", title:"Futur I", titleEn:"Future tense — werden + sein",
     forms:["werde sein","wirst sein","wird sein","werden sein","werdet sein","werden sein"],
+    en:["I will be","you will be","he/she/it will be","we will be","you all will be","they will be / you will be (formal)"],
     examples:[
       {de:"Ich werde nächstes Jahr in Deutschland sein.", en:"I'll be in Germany next year."},
       {de:"Du wirst überrascht sein, wie schnell das geht.", en:"You'll be surprised how fast it goes."},
@@ -159,6 +165,7 @@ const TENSES = [
   {
     id:"konjunktiv", title:"Konjunktiv II", titleEn:"Subjunctive — hypotheticals, wishes, polite hedging",
     forms:["wäre","wärst","wäre","wären","wärt","wären"],
+    en:["I would be","you would be","he/she/it would be","we would be","you all would be","they would be / you would be (formal)"],
     examples:[
       {de:"Ich wäre gern Lehrer geworden.", en:"I would have liked to become a teacher."},
       {de:"Wärst du bereit, früher anzufangen?", en:"Would you be willing to start earlier?"},
@@ -234,11 +241,17 @@ function render(){
       <div class="tense-en">${esc(t.titleEn)}</div>
       <div class="conj-grid">`;
     PRONOUNS.forEach((p,i)=>{
-      const full=`${p.split('/')[0]} ${t.forms[i]}`;
+      // A pronoun cell can hold multiple pronouns (e.g. "er/sie/es") —
+      // build one spoken line per pronoun so the speaker reads all of
+      // them, not just the first.
+      const full=p.split('/').map(pr=>`${pr} ${t.forms[i]}`).join('. ');
       h+=`<div class="conj-row">
-        <span class="pron">${esc(p)}</span>
-        <span class="form">${esc(t.forms[i])}</span>
-        <button data-de="${esc(full)}" title="Hear">🔊</button>
+        <div class="top">
+          <span class="pron">${esc(p)}</span>
+          <span class="form">${esc(t.forms[i])}</span>
+          <button data-de="${esc(full)}" title="Hear">🔊</button>
+        </div>
+        <div class="en">${esc(t.en[i])}</div>
       </div>`;
     });
     h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
@@ -261,9 +274,12 @@ function render(){
     <div class="conj-grid">`;
   IMPERATIV.forEach(r=>{
     h+=`<div class="conj-row">
-      <span class="pron">${esc(r.pron)}</span>
-      <span class="form">${esc(r.form)}</span>
-      <button data-de="${esc(r.form)}" title="Hear">🔊</button>
+      <div class="top">
+        <span class="pron">${esc(r.pron)}</span>
+        <span class="form">${esc(r.form)}</span>
+        <button data-de="${esc(r.form)}" title="Hear">🔊</button>
+      </div>
+      <div class="en">${esc(r.en)}</div>
     </div>`;
   });
   h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
