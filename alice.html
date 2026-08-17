@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alice im Wunderland — Ganz Einfach | German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;--warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 140px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:20}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:10px}
+.top h1{font-size:21px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:12.5px;color:var(--sub);margin-top:4px}
+.intro{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin:16px 0;box-shadow:var(--shadow);font-size:12.5px}
+.intro b{color:var(--accent-d)}
+
+.toc{display:flex;gap:6px;overflow-x:auto;padding:4px 0 14px;margin-bottom:6px}
+.toc button{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--sub);font-size:12.5px;font-weight:700;cursor:pointer}
+.toc button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.page-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);min-height:260px}
+.page-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:6px}
+.page-title{font-size:19px;font-weight:800;color:var(--accent-d)}
+.page-title-en{font-size:12.5px;color:var(--sub);font-style:italic;margin-bottom:18px}
+.story{font-size:19px;line-height:2.1}
+.sent{padding:2px 3px;border-radius:5px;transition:background .2s}
+.sent.reading{background:var(--accent-l)}
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+
+.player{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--border);box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:20}
+.player-inner{max-width:760px;margin:0 auto;padding:10px 20px 14px}
+.player-row{display:flex;align-items:center;gap:14px;justify-content:center}
+.player button{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center}
+.player button.play{width:52px;height:52px;background:var(--accent);color:#fff;border-color:var(--accent);font-size:19px}
+.player button:hover{border-color:var(--accent)}
+.scrub{width:100%;margin-top:10px;accent-color:var(--accent)}
+.player-label{font-size:11.5px;color:var(--sub);text-align:center;margin-top:2px}
+
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Alice im Wunderland — Ganz Einfach</h1>
+    <div class="sub">A very simplified original German retelling — 10 short scenes. Tap or hover any word for its meaning.</div>
+  </div>
+
+  <div class="intro">
+    This is <b>not</b> a translation of Lewis Carroll's book — it's a short, original retelling in extremely simple German, written to be readable at a very early stage while still following the real story beats (rabbit hole, shrink/grow, tea party, the Queen, waking up). The book is public domain, so borrowing the story shape is fine — the sentences themselves are freshly written, deliberately kept as short and repetitive as possible.
+  </div>
+
+  <div class="toc" id="toc"></div>
+
+  <div class="page-card" id="pageCard"></div>
+</div>
+
+<div class="player">
+  <div class="player-inner">
+    <div class="player-row">
+      <button id="prevBtn" title="Previous page">⏮</button>
+      <button id="playBtn" class="play" title="Read this page aloud">▶️</button>
+      <button id="nextBtn" title="Next page">⏭</button>
+    </div>
+    <input type="range" class="scrub" id="scrub" min="0" max="9" value="0" step="1">
+    <div class="player-label" id="playerLabel">Seite 1 / 10</div>
+  </div>
+</div>
+
+<script>
+const PAGES = [
+  { title:"Alice", titleEn:"Alice", sentences:[
+    {de:"Das ist Alice.", words:["This","is","Alice"]},
+    {de:"Alice ist ein Mädchen.", words:["Alice","is","a","girl"]},
+    {de:"Heute passiert etwas Komisches.", words:["Today","happens","something","strange"]}
+  ]},
+  { title:"Der Hase", titleEn:"The Rabbit", sentences:[
+    {de:"Alice sitzt im Gras.", words:["Alice","sits","in the","grass"]},
+    {de:"Die Sonne ist warm.", words:["The","sun","is","warm"]},
+    {de:"Alice ist müde.", words:["Alice","is","tired"]},
+    {de:"Plötzlich sieht Alice einen Hasen.", words:["Suddenly","sees","Alice","a","rabbit"]},
+    {de:"Der Hase hat eine Uhr.", words:["The","rabbit","has","a","clock"]},
+    {de:"„Oh nein! Ich bin spät!“, sagt der Hase.", words:["Oh","no","I","am","late","says","the","rabbit"]},
+    {de:"Alice ist überrascht.", words:["Alice","is","surprised"]},
+    {de:"Der Hase läuft schnell weg.", words:["The","rabbit","runs","quickly","away"]},
+    {de:"Alice läuft auch.", words:["Alice","runs","too"]},
+    {de:"Sie sieht ein Loch.", words:["She","sees","a","hole"]},
+    {de:"Der Hase springt in das Loch.", words:["The","rabbit","jumps","into","the","hole"]},
+    {de:"Alice springt auch in das Loch.", words:["Alice","jumps","also","into","the","hole"]},
+    {de:"Alice fällt und fällt.", words:["Alice","falls","and","falls"]}
+  ]},
+  { title:"Trink mich", titleEn:"Drink Me", sentences:[
+    {de:"Alice ist jetzt in einem Raum.", words:["Alice","is","now","in","a","room"]},
+    {de:"Der Raum hat viele Türen.", words:["The","room","has","many","doors"]},
+    {de:"Aber alle Türen sind zu klein.", words:["But","all","doors","are","too","small"]},
+    {de:"Alice sieht einen Tisch.", words:["Alice","sees","a","table"]},
+    {de:"Auf dem Tisch steht eine Flasche.", words:["On","the","table","stands","a","bottle"]},
+    {de:"Auf der Flasche steht: TRINK MICH.", words:["On","the","bottle","stands:","DRINK","ME"]},
+    {de:"Alice trinkt aus der Flasche.", words:["Alice","drinks","from","the","bottle"]},
+    {de:"Alice wird sehr klein!", words:["Alice","becomes","very","small"]},
+    {de:"Jetzt passt Alice durch die Tür.", words:["Now","fits","Alice","through","the","door"]}
+  ]},
+  { title:"Iss mich", titleEn:"Eat Me", sentences:[
+    {de:"Alice sieht einen kleinen Kuchen.", words:["Alice","sees","a","small","cake"]},
+    {de:"Auf dem Kuchen steht: ISS MICH.", words:["On","the","cake","stands:","EAT","ME"]},
+    {de:"Alice isst den Kuchen.", words:["Alice","eats","the","cake"]},
+    {de:"Alice wird sehr groß!", words:["Alice","becomes","very","big"]},
+    {de:"Alice ist jetzt riesig.", words:["Alice","is","now","huge"]},
+    {de:"Ihr Kopf berührt die Decke.", words:["Her","head","touches","the","ceiling"]},
+    {de:"„Das ist nicht gut“, sagt Alice.", words:["That","is","not","good","says","Alice"]}
+  ]},
+  { title:"Der Tränensee", titleEn:"The Pool of Tears", sentences:[
+    {de:"Alice ist traurig.", words:["Alice","is","sad"]},
+    {de:"Alice weint und weint.", words:["Alice","cries","and","cries"]},
+    {de:"Die Tränen werden ein See.", words:["The","tears","become","a","lake"]},
+    {de:"Der See ist sehr groß.", words:["The","lake","is","very","big"]},
+    {de:"Alice wird wieder klein.", words:["Alice","becomes","again","small"]},
+    {de:"Jetzt schwimmt Alice im Tränensee.", words:["Now","swims","Alice","in the","tear-lake"]},
+    {de:"Eine Maus schwimmt auch im See.", words:["A","mouse","swims","also","in the","lake"]}
+  ]},
+  { title:"Die Raupe", titleEn:"The Caterpillar", sentences:[
+    {de:"Alice sieht eine Raupe.", words:["Alice","sees","a","caterpillar"]},
+    {de:"Die Raupe sitzt auf einem Pilz.", words:["The","caterpillar","sits","on","a","mushroom"]},
+    {de:"Die Raupe raucht eine Pfeife.", words:["The","caterpillar","smokes","a","pipe"]},
+    {de:"„Wer bist du?“, fragt die Raupe.", words:["Who","are","you","asks","the","caterpillar"]},
+    {de:"„Ich weiß es nicht mehr genau“, sagt Alice.", words:["I","know","it","not","anymore","exactly","says","Alice"]},
+    {de:"Die Raupe zeigt auf den Pilz.", words:["The","caterpillar","points","at","the","mushroom"]},
+    {de:"„Iss davon“, sagt die Raupe.", words:["Eat","some of it","says","the","caterpillar"]},
+    {de:"Ein Stück macht Alice groß.", words:["One","piece","makes","Alice","big"]},
+    {de:"Ein Stück macht Alice klein.", words:["One","piece","makes","Alice","small"]}
+  ]},
+  { title:"Die Katze", titleEn:"The Cat", sentences:[
+    {de:"Alice sieht eine Katze im Baum.", words:["Alice","sees","a","cat","in the","tree"]},
+    {de:"Die Katze hat ein großes Lächeln.", words:["The","cat","has","a","big","smile"]},
+    {de:"„Welchen Weg soll ich gehen?“, fragt Alice.", words:["Which","way","should","I","go","asks","Alice"]},
+    {de:"„Das hängt davon ab, wohin du willst“, sagt die Katze.", words:["That","depends","on it","(prefix)","where to","you","want","says","the","cat"]},
+    {de:"„Ich weiß es nicht“, sagt Alice.", words:["I","know","it","not","says","Alice"]},
+    {de:"„Dann ist jeder Weg richtig“, sagt die Katze.", words:["Then","is","every","way","right","says","the","cat"]},
+    {de:"Die Katze verschwindet langsam.", words:["The","cat","disappears","slowly"]},
+    {de:"Nur das Lächeln bleibt noch da.", words:["Only","the","smile","stays","still","there"]}
+  ]},
+  { title:"Die Teeparty", titleEn:"The Tea Party", sentences:[
+    {de:"Alice kommt zu einer Teeparty.", words:["Alice","comes","to","a","tea party"]},
+    {de:"Der Hutmacher sitzt am Tisch.", words:["The","hatter","sits","at the","table"]},
+    {de:"Der Hase ist auch da.", words:["The","rabbit","is","also","there"]},
+    {de:"Ein Siebenschläfer schläft in der Teekanne.", words:["A","dormouse","sleeps","in","the","teapot"]},
+    {de:"„Es ist immer Teezeit hier“, sagt der Hutmacher.", words:["It","is","always","tea time","here","says","the","hatter"]},
+    {de:"Alle tauschen ständig die Plätze.", words:["Everyone","swaps","constantly","the","seats"]},
+    {de:"Alice findet die Party sehr komisch.", words:["Alice","finds","the","party","very","strange"]}
+  ]},
+  { title:"Die Königin", titleEn:"The Queen", sentences:[
+    {de:"Alice kommt in einen Garten.", words:["Alice","comes","into","a","garden"]},
+    {de:"Im Garten spielt die Königin Krocket.", words:["In the","garden","plays","the","queen","croquet"]},
+    {de:"Die Königin spielt mit Flamingos und Igeln.", words:["The","queen","plays","with","flamingos","and","hedgehogs"]},
+    {de:"Die Königin ist sehr böse.", words:["The","queen","is","very","mean"]},
+    {de:"„Kopf ab!“, ruft die Königin oft.", words:["Head","off","shouts","the","queen","often"]},
+    {de:"Alice hat ein bisschen Angst.", words:["Alice","has","a","little","fear"]},
+    {de:"Aber Alice bleibt mutig.", words:["But","Alice","stays","brave"]}
+  ]},
+  { title:"Aufwachen", titleEn:"Waking Up", sentences:[
+    {de:"Plötzlich ruft jemand: „Alice!“", words:["Suddenly","calls","someone:","Alice"]},
+    {de:"Alice öffnet die Augen.", words:["Alice","opens","the","eyes"]},
+    {de:"Sie liegt wieder im Gras.", words:["She","lies","again","in the","grass"]},
+    {de:"Es war nur ein Traum.", words:["It","was","only","a","dream"]},
+    {de:"„Was für ein komischer Traum“, sagt Alice.", words:["What","kind of","a","strange","dream","says","Alice"]},
+    {de:"Alice lächelt und steht auf.", words:["Alice","smiles","and","stands","up"]}
+  ]}
+];
+
+let cur = 0;
+let playing = false;
+let sentIdx = 0;
+let queueToken = 0;
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens = de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m = tok.match(/^([„"'‘]*)([^\s.,!?;:()"„“”'’]+)([.,!?;:()"„“”'’]*)$/);
+    if(!m || words[i]===undefined) return esc(tok);
+    const lead=m[1]||'', word=m[2], trail=m[3]||'';
+    return `${esc(lead)}<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(trail)}`;
+  }).join(' ');
+}
+
+function renderTOC(){
+  const el = document.getElementById('toc');
+  el.innerHTML = PAGES.map((p,i)=>`<button class="${i===cur?'active':''}" data-i="${i}" title="${esc(p.title)}">${i+1}</button>`).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>goTo(+b.dataset.i));
+}
+
+function renderPage(){
+  const p = PAGES[cur];
+  const el = document.getElementById('pageCard');
+  el.innerHTML = `
+    <div class="page-num">Seite ${cur+1} von ${PAGES.length}</div>
+    <div class="page-title">${esc(p.title)}</div>
+    <div class="page-title-en">${esc(p.titleEn)}</div>
+    <div class="story">${p.sentences.map((s,i)=>`<span class="sent" id="sent-${i}">${glossHTML(s.de, s.words)}</span> `).join('')}</div>
+  `;
+  document.getElementById('scrub').value = cur;
+  document.getElementById('playerLabel').textContent = `Seite ${cur+1} / ${PAGES.length} — ${p.title}`;
+  document.getElementById('prevBtn').disabled = cur===0;
+  document.getElementById('nextBtn').disabled = cur===PAGES.length-1;
+  renderTOC();
+}
+
+function goTo(i){
+  stopReading();
+  cur = Math.max(0, Math.min(PAGES.length-1, i));
+  renderPage();
+}
+
+function stopReading(){
+  queueToken++;
+  window.speechSynthesis.cancel();
+  playing = false;
+  document.getElementById('playBtn').textContent = '▶️';
+  document.querySelectorAll('.sent.reading').forEach(s=>s.classList.remove('reading'));
+}
+
+function readPage(){
+  if(playing){ stopReading(); return; }
+  playing = true;
+  const myToken = ++queueToken;
+  document.getElementById('playBtn').textContent = '⏸';
+  const sentences = PAGES[cur].sentences;
+  let i = 0;
+  function next(){
+    if(myToken!==queueToken) return;
+    document.querySelectorAll('.sent.reading').forEach(s=>s.classList.remove('reading'));
+    if(i>=sentences.length){ playing=false; document.getElementById('playBtn').textContent='▶️'; return; }
+    const el = document.getElementById('sent-'+i);
+    if(el) el.classList.add('reading');
+    const u = new SpeechSynthesisUtterance(sentences[i].de.replace(/[„“]/g,''));
+    u.lang='de-DE'; u.rate=0.85;
+    u.onend=()=>{ i++; next(); };
+    window.speechSynthesis.speak(u);
+  }
+  next();
+}
+
+document.getElementById('prevBtn').onclick=()=>goTo(cur-1);
+document.getElementById('nextBtn').onclick=()=>goTo(cur+1);
+document.getElementById('playBtn').onclick=readPage;
+document.getElementById('scrub').oninput=(e)=>goTo(+e.target.value);
+
+renderPage();
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+
+(function(){
+  let tipEl, timer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+  }
+  function hideTip(){ clearTimeout(timer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
+</script>
+</body>
+</html>
