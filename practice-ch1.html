@@ -40,6 +40,12 @@ a{color:var(--accent)}
 .dirtabs button{flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
 .dirtabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
+.shuffle-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.shuffle-row button{flex:1;min-width:180px;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--ink);font-size:12.5px;font-weight:600;cursor:pointer}
+.shuffle-row button:hover{border-color:var(--accent);color:var(--accent-d)}
+.shuffle-row button#shuffleBtn{background:var(--accent);color:#fff;border-color:var(--accent)}
+.shuffle-row button#shuffleBtn:hover{opacity:.9}
+
 .scoreboard{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;margin-bottom:16px;box-shadow:var(--shadow);font-size:13px}
 .scoreboard b{color:var(--accent-d)}
 
@@ -89,6 +95,11 @@ a{color:var(--accent)}
     <button id="tabDeEn">Deutsch → English</button>
   </div>
 
+  <div class="shuffle-row">
+    <button id="shuffleBtn">🔀 Neue Kombinationen (New Combinations)</button>
+    <button id="resetBtn">↺ Original-Sätze (Original Sentences)</button>
+  </div>
+
   <div class="scoreboard">
     <span>Fortschritt (Progress): <b id="scoreText">0 / 0 geprüft (checked)</b></span>
     <span id="scorePct" style="color:var(--sub)"></span>
@@ -98,7 +109,7 @@ a{color:var(--accent)}
 </div>
 
 <script>
-const SENTENCES = [
+const ORIGINAL_SENTENCES = [
   {en:"Hello! My name is John.", de:"Hallo! Ich heiße John."},
   {en:"What is your name? (informal)", de:"Wie heißt du?"},
   {en:"What is your name? (formal)", de:"Wie heißen Sie?"},
@@ -131,8 +142,84 @@ const SENTENCES = [
   {en:"Hello Mrs. Weber! How are you? (formal) And where do you live? (formal)", de:"Hallo Frau Weber! Wie geht es Ihnen? Und wo wohnen Sie?"}
 ];
 
+// Slot pools for generating NEW combinations from the same Chapter 1
+// vocabulary — not new words, just new pairings that weren't in the
+// original 30 (e.g. a person who only appeared with one question
+// might get paired with a different one this time).
+const PEOPLE = [
+  {text:"Herr Franz", formal:true},
+  {text:"Frau Müller", formal:true},
+  {text:"Herr Becker", formal:true},
+  {text:"Frau Kunze", formal:true},
+  {text:"Herr Schmidt", formal:true},
+  {text:"Frau Weber", formal:true},
+  {text:"Anna", formal:false},
+  {text:"John", formal:false},
+  {text:"Sarah", formal:false},
+  {text:"Max", formal:false},
+  {text:"Lisa", formal:false}
+];
+const GREETINGS = [
+  {de:"Hallo", en:"Hello"},
+  {de:"Guten Morgen", en:"Good morning"},
+  {de:"Guten Tag", en:"Good day"},
+  {de:"Guten Abend", en:"Good evening"}
+];
+const QUESTIONS = [
+  {formal:"Wie geht es Ihnen?", informal:"Wie geht's?", en:"How are you?"},
+  {formal:"Woher kommen Sie?", informal:"Woher kommst du?", en:"Where are you from?"},
+  {formal:"Wo wohnen Sie?", informal:"Wo wohnst du?", en:"Where do you live?"},
+  {formal:"Wie heißen Sie?", informal:"Wie heißt du?", en:"What is your name?"},
+  {formal:"Welche Sprachen sprechen Sie?", informal:"Welche Sprachen sprichst du?", en:"Which languages do you speak?"}
+];
+
+function pickOne(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function pickTwoDistinct(arr){
+  const shuffled = [...arr].sort(()=>Math.random()-0.5);
+  return [shuffled[0], shuffled[1]];
+}
+function lowerFirst(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+
+function generateOneSentence(){
+  const person = pickOne(PEOPLE);
+  const greeting = pickOne(GREETINGS);
+  const formal = person.formal;
+  const twoQuestions = Math.random() < 0.4;
+  const questions = twoQuestions ? pickTwoDistinct(QUESTIONS) : [pickOne(QUESTIONS)];
+
+  const deParts = questions.map((q,qi)=>{
+    const line = formal ? q.formal : q.informal;
+    return qi===0 ? line : lowerFirst(line);
+  });
+  const enParts = questions.map(q => q.en + (formal ? " (formal)" : " (informal)"));
+
+  const de = twoQuestions
+    ? `${greeting.de} ${person.text}! ${deParts[0]} Und ${deParts[1]}`
+    : `${greeting.de} ${person.text}! ${deParts[0]}`;
+  const en = twoQuestions
+    ? `${greeting.en} ${person.text}! ${enParts[0]} And ${enParts[1]}`
+    : `${greeting.en} ${person.text}! ${enParts[0]}`;
+
+  return {de, en};
+}
+
+function generateSet(n){
+  const set = [];
+  const seen = new Set();
+  let attempts = 0;
+  while(set.length < n && attempts < n*20){
+    attempts++;
+    const s = generateOneSentence();
+    if(seen.has(s.de)) continue; // avoid exact duplicates in one set
+    seen.add(s.de);
+    set.push(s);
+  }
+  return set;
+}
+
+let CURRENT_SENTENCES = ORIGINAL_SENTENCES;
 let mode = 'endeToDe'; // 'endeToDe' = English->German, 'deToEn' = German->English
-const checkedResults = {}; // questionIndex -> {correct, total} for scoring, per mode
+let checkedResults = {}; // questionIndex -> {correct, total} for scoring, per mode
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
@@ -156,21 +243,21 @@ function updateScoreboard(){
   const keys = Object.keys(checkedResults).filter(k=>k.startsWith(mode+'-'));
   let checkedCount = keys.length;
   let correctCount = keys.filter(k=>checkedResults[k].fullyCorrect).length;
-  document.getElementById('scoreText').textContent = `${checkedCount} / ${SENTENCES.length} geprüft (checked)`;
+  document.getElementById('scoreText').textContent = `${checkedCount} / ${CURRENT_SENTENCES.length} geprüft (checked)`;
   document.getElementById('scorePct').textContent = checkedCount ? `${correctCount} / ${checkedCount} richtig (correct)` : '';
 }
 
 function renderEnDe(){
   document.getElementById('modeNote').innerHTML = '📝 Fill in each German word. Every blank is graded individually — capitalization doesn\'t matter, but remember German capitalizes every noun (der Name, die Sprache) when you write for real.';
   const el = document.getElementById('questions');
-  el.innerHTML = SENTENCES.map((s,i)=>{
+  el.innerHTML = CURRENT_SENTENCES.map((s,i)=>{
     const tokens = tokenize(s.de);
     const blanksHtml = tokens.map((t,ti)=>
       `${esc(t.lead)}<input type="text" data-qi="${i}" data-ti="${ti}" data-answer="${esc(t.word.toLowerCase())}" size="${Math.max(t.word.length,2)}" autocomplete="off" autocapitalize="off">${esc(t.trail)}`
     ).join(' ');
     return `
       <div class="qcard" id="q-${i}">
-        <div class="qnum">Frage ${i+1} von ${SENTENCES.length}</div>
+        <div class="qnum">Frage ${i+1} von ${CURRENT_SENTENCES.length}</div>
         <div class="prompt">${esc(s.en)}</div>
         <div class="blanks">${blanksHtml}</div>
         <div class="qactions">
@@ -191,7 +278,7 @@ function normalizeGerman(s){
 }
 
 function checkEnDe(i){
-  const tokens = tokenize(SENTENCES[i].de);
+  const tokens = tokenize(CURRENT_SENTENCES[i].de);
   const inputs = document.querySelectorAll(`input[data-qi="${i}"]`);
   let correct = 0;
   inputs.forEach(inp=>{
@@ -223,9 +310,9 @@ function revealEnDe(i){
 function renderDeEn(){
   document.getElementById('modeNote').innerHTML = '📝 Type your best English translation, then reveal the answer and judge yourself — natural language has more than one correct phrasing, so this direction isn\'t auto-graded.';
   const el = document.getElementById('questions');
-  el.innerHTML = SENTENCES.map((s,i)=>`
+  el.innerHTML = CURRENT_SENTENCES.map((s,i)=>`
     <div class="qcard" id="q-${i}">
-      <div class="qnum">Frage ${i+1} von ${SENTENCES.length}</div>
+      <div class="qnum">Frage ${i+1} von ${CURRENT_SENTENCES.length}</div>
       <div class="prompt">${esc(s.de)} <button class="speak" onclick="speak('${esc(s.de).replace(/'/g,"\\'")}')" title="Hear">🔊</button></div>
       <div class="freeform"><textarea id="ta-${i}" placeholder="Your English translation..."></textarea></div>
       <div class="qactions">
@@ -238,7 +325,7 @@ function renderDeEn(){
 
 function revealDeEn(i){
   const box = document.getElementById(`answer-${i}`);
-  box.textContent = `Correct: ${SENTENCES[i].en}`;
+  box.textContent = `Correct: ${CURRENT_SENTENCES[i].en}`;
   box.classList.add('show');
   checkedResults[`deToEn-${i}`] = { fullyCorrect: null };
   updateScoreboard();
@@ -252,6 +339,18 @@ function switchMode(newMode){
 }
 document.getElementById('tabEnDe').onclick=()=>switchMode('endeToDe');
 document.getElementById('tabDeEn').onclick=()=>switchMode('deToEn');
+
+document.getElementById('shuffleBtn').onclick=()=>{
+  CURRENT_SENTENCES = generateSet(ORIGINAL_SENTENCES.length);
+  checkedResults = {};
+  document.getElementById('modeNote').style.borderLeftColor = 'var(--accent)';
+  if(mode==='endeToDe') renderEnDe(); else renderDeEn();
+};
+document.getElementById('resetBtn').onclick=()=>{
+  CURRENT_SENTENCES = ORIGINAL_SENTENCES;
+  checkedResults = {};
+  if(mode==='endeToDe') renderEnDe(); else renderDeEn();
+};
 
 renderEnDe();
 
