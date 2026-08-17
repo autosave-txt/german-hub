@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verb Deep-Dive: sollen — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --t1:#8a5a2d;--t1-l:#f7ecdd;
+  --t2:#2d5a8c;--t2-l:#e2edf7;
+  --t3:#7a3d8c;--t3-l:#f1e6f7;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;
+  --t1:#d9a05c;--t1-l:#332a1c;
+  --t2:#6fa3d8;--t2-l:#1e2c3a;
+  --t3:#c08fe0;--t3-l:#2c1f33;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 80px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:8px}
+.top h1{font-size:22px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:13px;color:var(--sub);margin-top:4px}
+.src{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12.5px;background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:6px 12px;margin-top:12px}
+.src a{font-weight:600}
+
+.intro{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:20px 0;box-shadow:var(--shadow);font-size:13.5px}
+.intro b{color:var(--accent-d)}
+.mechanic{background:var(--t2-l);border-left:3px solid var(--t2);padding:12px 16px;border-radius:0 6px 6px 0;font-size:13px;margin-top:12px}
+.mechanic b{color:var(--t2)}
+.mechanic .skel{font-weight:700;font-family:monospace;background:var(--panel);padding:2px 6px;border-radius:4px;margin:0 2px}
+
+.jobs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
+.job{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:99px}
+.job.j1{background:var(--accent-l);color:var(--accent-d)}
+.job.j2{background:var(--t2-l);color:var(--t2)}
+.job.j3{background:var(--t1-l);color:var(--t1)}
+.job.j4{background:var(--t3-l);color:var(--t3)}
+.job.j5{background:var(--warn-bg);color:var(--warn)}
+
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.jump a{font-size:11.5px;font-weight:600;background:var(--card);border:1px solid var(--border);padding:5px 11px;border-radius:99px;color:var(--sub)}
+.jump a:hover{border-color:var(--accent);color:var(--accent-d)}
+
+.section{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);scroll-margin-top:20px}
+.section h2{font-size:16px;font-weight:700;color:var(--accent-d)}
+.section .tense-en{font-size:12px;color:var(--sub);margin-bottom:14px;font-style:italic}
+.section p{font-size:13px;margin-bottom:8px}
+
+.conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px}
+.conj-row{display:flex;flex-direction:column;background:var(--card);border-radius:6px;padding:6px 10px}
+.conj-row .top{display:flex;align-items:center;gap:8px}
+.conj-row .pron{font-size:11.5px;color:var(--sub);width:70px;flex-shrink:0}
+.conj-row .form{font-weight:700;font-size:14px;flex:1}
+.conj-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.conj-row button:hover{background:var(--accent);color:#fff}
+.conj-row .en{font-size:11.5px;line-height:1.2;color:var(--sub);padding-left:78px;margin-top:-2px}
+
+.examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
+.examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
+.ex-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:6px;padding:7px 12px;margin-bottom:6px}
+.ex-row:last-child{margin-bottom:0}
+.ex-row .de{font-weight:600;font-size:13.5px;flex:1}
+.ex-row .en{font-size:12px;color:var(--sub);flex:1}
+.ex-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.ex-row button:hover{background:var(--accent);color:#fff}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip{background:var(--t2-l);border-left:3px solid var(--t2);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip b{color:var(--t2)}
+.cross{background:var(--t1-l);border-left:3px solid var(--t1);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.cross b{color:var(--t1)}
+.cross a{font-weight:700}
+
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+
+@media(max-width:520px){.conj-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Verb Deep-Dive: sollen (should / to be supposed to)</h1>
+    <div class="sub">Instructions passed on from someone else, softer advice, helpless questions, and one very common colloquial idiom.</div>
+    <div class="src">
+      🎬 <a href="https://www.youtube.com/watch?v=dP27rNxH0H4" target="_blank" rel="noopener">"Sollen" — 5 Key Meanings Explained ↗</a>
+    </div>
+  </div>
+
+  <div class="intro">
+    <b>sollen</b> is a modal verb — same mechanics as <a href="verb-koennen.html">können</a>, <a href="verb-muessen.html">müssen</a>, and <a href="verb-wollen.html">wollen</a>. The core difference from müssen: <b>müssen</b> is an obligation you feel yourself; <b>sollen</b> is an instruction or expectation that came from <b>someone else</b> — a boss, a rule, a recommendation, a third party.
+    <div class="mechanic"><b>Skeleton:</b> <span class="skel">[subject] + [sollen, conjugated]</span> ... rest of sentence ... <span class="skel">[main verb, infinitive]</span> — e.g. <i>Du <b>sollst</b> pünktlich <b>sein</b>.</i></div>
+  </div>
+
+  <div class="jobs">
+    <span class="job j1">① instruction (do this)</span>
+    <span class="job j2">② recommendation (softer)</span>
+    <span class="job j3">③ was soll ich...? (helpless)</span>
+    <span class="job j4">④ sollte (advice / unfulfilled wish)</span>
+    <span class="job j5">⑤ was soll das? (colloquial)</span>
+  </div>
+
+  <div class="jump">
+    <a href="#praesens">Präsens</a>
+    <a href="#praeteritum">Präteritum</a>
+    <a href="#perfekt">Perfekt</a>
+    <a href="#konjunktiv">sollte</a>
+    <a href="#wassollich">Was soll ich...?</a>
+    <a href="#wassolldas">Was soll das?</a>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="section">
+    <h2>📋 Quick reference</h2>
+    <table id="refTable" style="width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px"></table>
+  </div>
+</div>
+
+<script>
+const PRONOUNS = ["ich","du","er/sie/es","wir","ihr","sie/Sie"];
+
+const TENSES = [
+  {
+    id:"praesens", title:"Präsens", titleEn:"Present tense — instructions and recommendations from someone else",
+    forms:["soll","sollst","soll","sollen","sollt","sollen"],
+    en:["I am supposed to","you are supposed to","he/she/it is supposed to","we are supposed to","you all are supposed to","they are supposed to / you are (formal)"],
+    examples:[
+      {de:"Du sollst deine Hausaufgaben machen.", en:"You're supposed to do your homework. (someone told you to)", words:["You","are supposed to","your","homework","do"]},
+      {de:"Wir sollen morgen früh anrufen.", en:"We're supposed to call early tomorrow.", words:["We","are supposed to","tomorrow","early","call"]},
+      {de:"Wer soll das bezahlen?", en:"Who's supposed to pay for that?", words:["Who","is supposed to","that","pay"]},
+      {de:"Wenn Sie guten Service bieten wollen, sollen Sie den Preis erstatten.", en:"If you want to offer good service, you should refund the price. (recommendation)", words:["If","you","good","service","offer","want",",","should","you","the","price","refund"]},
+      {de:"Ihr sollt pünktlich sein.", en:"You all are supposed to be on time.", words:["You all","are supposed to","punctual","be"]}
+    ]
+  },
+  {
+    id:"praeteritum", title:"Präteritum", titleEn:"Simple past — what you were supposed to do (and maybe didn't)",
+    forms:["sollte","solltest","sollte","sollten","solltet","sollten"],
+    en:["I was supposed to","you were supposed to","he/she/it was supposed to","we were supposed to","you all were supposed to","they were supposed to / you were (formal)"],
+    examples:[
+      {de:"Ich sollte gestern anrufen, habe es aber vergessen.", en:"I was supposed to call yesterday, but I forgot.", words:["I","was supposed to","yesterday","call",",","have","it","but","forgotten"]},
+      {de:"Du solltest das eigentlich schon wissen.", en:"You were actually supposed to already know that.", words:["You","were supposed to","that","actually","already","know"]},
+      {de:"Sie sollten früher hier sein.", en:"They were supposed to be here earlier.", words:["They","were supposed to","earlier","here","be"]}
+    ],
+    tip:"Watch out: sollte is ALSO the Konjunktiv II form (covered below) — the same word covers both \"was supposed to\" (simple past) and \"should\" (advice). Context does the disambiguating, same quirk as wollte."
+  },
+  {
+    id:"perfekt", title:"Perfekt", titleEn:"Compound past — technically correct, essentially never used",
+    forms:["habe gesollt","hast gesollt","hat gesollt","haben gesollt","habt gesollt","haben gesollt"],
+    en:["I have been supposed to","you have been supposed to","he/she/it has been supposed to","we have been supposed to","you all have been supposed to","they have been supposed to / you have (formal)"],
+    examples:[
+      {de:"Ich habe das nie gesollt.", en:"I was never supposed to (do) that.", words:["I","have","that","never","been supposed to"]}
+    ],
+    tip:"Just like the other modals, gesollt exists on paper but Germans use sollte (Präteritum) instead in real speech."
+  },
+  {
+    id:"konjunktiv", title:"sollte (Konjunktiv II)", titleEn:"Advice, and expectations that turned out NOT to be true",
+    forms:["sollte","solltest","sollte","sollten","solltet","sollten"],
+    en:["I should","you should","he/she/it should","we should","you all should","they should / you should (formal)"],
+    examples:[
+      {de:"Du solltest mehr Wasser trinken.", en:"You should drink more water. (advice)", words:["You","should","more","water","drink"]},
+      {de:"Ich sollte eigentlich mehr Sport machen.", en:"I really should exercise more.", words:["I","should","actually","more","sport","do"]},
+      {de:"Das sollten Sie wirklich klarer auf der Website formulieren.", en:"You should really phrase that more clearly on the website.", words:["That","should","you (formal)","really","more clearly","on","the","website","phrase"]},
+      {de:"Ich sollte natürlich die Bedingungen lesen, aber wer macht das schon?", en:"I really should read the terms, of course, but who actually does that?", words:["I","should","of course","the","terms","read",",","but","who","does","that","already"]}
+    ],
+    tip:"The second use here is worth noticing: sollte can describe an expectation that DIDN'T match reality — \"das sollten die klarer formulieren\" implies they should have but didn't. Similar wistful flavor to wollte, ich hätte... on the wollen page."
+  }
+];
+
+const WASSOLLICH_EX = [
+  {de:"Was soll ich nur tun?", en:"What on earth should I do?", words:["What","should","I","only","do"]},
+  {de:"Was soll ich ihr schenken?", en:"What should I give her as a gift?", words:["What","should","I","her","give as a gift"]},
+  {de:"Was sollen wir jetzt machen?", en:"What should we do now?", words:["What","should","we","now","do"]},
+  {de:"Ich habe kein Geschenk — was soll ich denn jetzt machen?", en:"I don't have a gift — what am I supposed to do now?", words:["I","have","no","gift","—","what","should","I","then","now","do"]}
+];
+
+const WASSOLLDAS_EX = [
+  {de:"Was soll das?", en:"What's the meaning of this? / What's this about? (annoyed, confused)", words:["What","should","that"]},
+  {de:"Was soll der Quatsch?", en:"What's this nonsense about?", words:["What","should","the","nonsense"]}
+];
+
+const REF = TENSES.filter(t=>t.id!=='konjunktiv');
+
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  const clean=text.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s*\/\s*/g,', ').replace(/\s{2,}/g,' ').trim();
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='de-DE';u.rate=0.85;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens = de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m = tok.match(/^([^\s.,!?;:()"„“”'’]+)([.,!?;:()"„“”'’]*)$/);
+    if(!m||words[i]===undefined) return esc(tok);
+    const word=m[1], punct=m[2]||'';
+    return `<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(punct)}`;
+  }).join(' ');
+}
+
+function exRow(ex){
+  return `<div class="ex-row"><div class="de">${glossHTML(ex.de, ex.words)}</div><div class="en">${esc(ex.en)}</div><button data-de="${esc(ex.de)}" title="Hear">🔊</button></div>`;
+}
+
+function render(){
+  const el = document.getElementById('sections');
+  let h = '';
+
+  TENSES.forEach(t=>{
+    h += `<div class="section" id="${t.id}">
+      <h2>${esc(t.title)}</h2>
+      <div class="tense-en">${esc(t.titleEn)}</div>
+      <div class="conj-grid">`;
+    PRONOUNS.forEach((p,i)=>{
+      const full = p.split('/').map(pr=>`${pr} ${t.forms[i]}`).join('. ');
+      h += `<div class="conj-row">
+        <div class="top">
+          <span class="pron">${esc(p)}</span>
+          <span class="form"><span class="gw" data-tip="${esc(t.en[i])}">${esc(t.forms[i])}</span></span>
+          <button data-de="${esc(full)}" title="Hear">🔊</button>
+        </div>
+        <div class="en">${esc(t.en[i])}</div>
+      </div>`;
+    });
+    h += `</div><div class="examples"><div class="ex-label">Examples</div>`;
+    t.examples.forEach(ex=>h+=exRow(ex));
+    h += `</div>`;
+    if(t.tip) h += `<div class="tip"><b>Note:</b> ${esc(t.tip)}</div>`;
+    if(t.id==='konjunktiv') h += `<div class="cross">🔗 <b>See also:</b> müssen on the <a href="verb-muessen.html">müssen page</a> is obligation FROM YOURSELF; sollen is obligation FROM SOMEONE ELSE. Worth comparing directly.</div>`;
+    h += `</div>`;
+  });
+
+  h += `<div class="section" id="wassollich">
+    <h2>Was soll ich...? — the helpless question</h2>
+    <div class="tense-en">A specific idiomatic use for feeling stuck or out of ideas</div>
+    <p>sollen in a question — especially "was soll ich...?" — expresses genuine uncertainty or feeling overwhelmed, more than a plain "what do I do?" would in English.</p>
+    <div class="examples"><div class="ex-label">Examples</div>`;
+  WASSOLLICH_EX.forEach(ex=>h+=exRow(ex));
+  h += `</div></div>`;
+
+  h += `<div class="section" id="wassolldas">
+    <h2>Was soll das? — colloquial confusion or annoyance</h2>
+    <div class="tense-en">A very common everyday idiom worth recognizing even if you don't produce it often</div>
+    <p>This isn't really asking a literal question — it's expressing "I don't get this" or mild frustration/disbelief at something.</p>
+    <div class="examples"><div class="ex-label">Examples</div>`;
+  WASSOLLDAS_EX.forEach(ex=>h+=exRow(ex));
+  h += `</div>
+    <div class="note">📝 Tone matters a lot here — "Was soll das?" can range from genuinely confused to pretty annoyed depending on delivery. Good to recognize when you hear it; use it carefully yourself since it can land as blunt.</div>
+  </div>`;
+
+  el.innerHTML = h;
+  el.querySelectorAll('button[data-de]').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
+
+  const t = document.getElementById('refTable');
+  let th = `<thead><tr><th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">Pronoun</th>`;
+  REF.forEach(ts=>th += `<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(ts.title)}</th>`);
+  th += `</tr></thead><tbody>`;
+  PRONOUNS.forEach((p,i)=>{
+    th += `<tr><td style="padding:6px;border-bottom:1px solid var(--border);font-weight:600;color:var(--accent-d)">${esc(p)}</td>`;
+    REF.forEach(ts=>th += `<td style="padding:6px;border-bottom:1px solid var(--border)"><span class="gw" data-tip="${esc(ts.en[i])}">${esc(ts.forms[i])}</span></td>`);
+    th += `</tr>`;
+  });
+  th += `</tbody>`;
+  t.innerHTML = th;
+}
+render();
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+
+(function(){
+  let tipEl, timer, autoHideTimer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+    clearTimeout(autoHideTimer);
+    autoHideTimer=setTimeout(hideTip,5000);
+  }
+  function hideTip(){ clearTimeout(timer); clearTimeout(autoHideTimer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
+</script>
+</body>
+</html>

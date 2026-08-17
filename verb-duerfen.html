@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verb Deep-Dive: dürfen — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --t1:#8a5a2d;--t1-l:#f7ecdd;
+  --t2:#2d5a8c;--t2-l:#e2edf7;
+  --t3:#7a3d8c;--t3-l:#f1e6f7;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;
+  --t1:#d9a05c;--t1-l:#332a1c;
+  --t2:#6fa3d8;--t2-l:#1e2c3a;
+  --t3:#c08fe0;--t3-l:#2c1f33;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 80px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:8px}
+.top h1{font-size:22px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:13px;color:var(--sub);margin-top:4px}
+.src{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12.5px;background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:6px 12px;margin-top:12px}
+.src a{font-weight:600}
+
+.intro{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:20px 0;box-shadow:var(--shadow);font-size:13.5px}
+.intro b{color:var(--accent-d)}
+.mechanic{background:var(--t2-l);border-left:3px solid var(--t2);padding:12px 16px;border-radius:0 6px 6px 0;font-size:13px;margin-top:12px}
+.mechanic b{color:var(--t2)}
+.mechanic .skel{font-weight:700;font-family:monospace;background:var(--panel);padding:2px 6px;border-radius:4px;margin:0 2px}
+
+.jobs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
+.job{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:99px}
+.job.j1{background:var(--accent-l);color:var(--accent-d)}
+.job.j2{background:var(--warn-bg);color:var(--warn)}
+.job.j3{background:var(--t2-l);color:var(--t2)}
+.job.j4{background:var(--t1-l);color:var(--t1)}
+.job.j5{background:var(--t3-l);color:var(--t3)}
+
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.jump a{font-size:11.5px;font-weight:600;background:var(--card);border:1px solid var(--border);padding:5px 11px;border-radius:99px;color:var(--sub)}
+.jump a:hover{border-color:var(--accent);color:var(--accent-d)}
+
+.section{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);scroll-margin-top:20px}
+.section h2{font-size:16px;font-weight:700;color:var(--accent-d)}
+.section .tense-en{font-size:12px;color:var(--sub);margin-bottom:14px;font-style:italic}
+.section p{font-size:13px;margin-bottom:8px}
+
+.conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px}
+.conj-row{display:flex;flex-direction:column;background:var(--card);border-radius:6px;padding:6px 10px}
+.conj-row .top{display:flex;align-items:center;gap:8px}
+.conj-row .pron{font-size:11.5px;color:var(--sub);width:70px;flex-shrink:0}
+.conj-row .form{font-weight:700;font-size:14px;flex:1}
+.conj-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.conj-row button:hover{background:var(--accent);color:#fff}
+.conj-row .en{font-size:11.5px;line-height:1.2;color:var(--sub);padding-left:78px;margin-top:-2px}
+
+.examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
+.examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
+.ex-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:6px;padding:7px 12px;margin-bottom:6px}
+.ex-row:last-child{margin-bottom:0}
+.ex-row .de{font-weight:600;font-size:13.5px;flex:1}
+.ex-row .en{font-size:12px;color:var(--sub);flex:1}
+.ex-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.ex-row button:hover{background:var(--accent);color:#fff}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip{background:var(--t2-l);border-left:3px solid var(--t2);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip b{color:var(--t2)}
+.cross{background:var(--t1-l);border-left:3px solid var(--t1);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.cross b{color:var(--t1)}
+.cross a{font-weight:700}
+
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+
+@media(max-width:520px){.conj-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Verb Deep-Dive: dürfen (may / to be allowed to)</h1>
+    <div class="sub">Permission, prohibition, elegant polite questions, gratitude for an opportunity, and polite guesses.</div>
+    <div class="src">
+      🎬 <a href="https://www.youtube.com/watch?v=R97kq0uRDIE" target="_blank" rel="noopener">"Dürfen" — 5 Meanings Explained ↗</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.youtube.com/watch?v=lNDwPaER1Jw" target="_blank" rel="noopener">"Dürfen" — Street Interview Sentences ↗</a>
+    </div>
+  </div>
+
+  <div class="intro">
+    <b>dürfen</b> completes the modal set alongside <a href="verb-koennen.html">können</a>, <a href="verb-muessen.html">müssen</a>, <a href="verb-wollen.html">wollen</a>, and <a href="verb-sollen.html">sollen</a>. Its core meaning is permission — but German stretches it into a few genuinely different directions, from polite questions to expressing gratitude for an opportunity.
+    <div class="mechanic"><b>Skeleton:</b> <span class="skel">[subject] + [dürfen, conjugated]</span> ... rest of sentence ... <span class="skel">[main verb, infinitive]</span> — e.g. <i>Ich <b>darf</b> heute später <b>kommen</b>.</i></div>
+  </div>
+
+  <div class="jobs">
+    <span class="job j1">① permission (may / allowed to)</span>
+    <span class="job j2">② nicht dürfen (forbidden)</span>
+    <span class="job j3">③ Darf ich...? (elegant question)</span>
+    <span class="job j4">④ ich durfte (had the honor/pleasure)</span>
+    <span class="job j5">⑤ dürfte (polite guess)</span>
+  </div>
+
+  <div class="jump">
+    <a href="#praesens">Präsens</a>
+    <a href="#nichtduerfen">nicht dürfen</a>
+    <a href="#darfich">Darf ich...?</a>
+    <a href="#ichdurfte">ich durfte</a>
+    <a href="#konjunktiv">dürfte</a>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="section">
+    <h2>📋 Quick reference</h2>
+    <table id="refTable" style="width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px"></table>
+  </div>
+</div>
+
+<script>
+const PRONOUNS = ["ich","du","er/sie/es","wir","ihr","sie/Sie"];
+
+const TENSES = [
+  {
+    id:"praesens", title:"Präsens", titleEn:"Present tense — permission and what's allowed",
+    forms:["darf","darfst","darf","dürfen","dürft","dürfen"],
+    en:["I may / am allowed to","you may / are allowed to","he/she/it may / is allowed to","we may / are allowed to","you all may / are allowed to","they may / you may (formal)"],
+    examples:[
+      {de:"Ich darf heute später kommen.", en:"I'm allowed to come later today.", words:["I","may","today","later","come"]},
+      {de:"Darfst du das wirklich machen?", en:"Are you really allowed to do that?", words:["May","you","that","really","do"]},
+      {de:"Hier darf man rauchen.", en:"Smoking is allowed here.", words:["Here","may","one","smoke"]},
+      {de:"Ihr dürft gerne bleiben.", en:"You're all welcome to stay.", words:["You all","may","gladly","stay"]},
+      {de:"Sie dürfen jederzeit anrufen.", en:"You may call anytime. (formal)", words:["You (formal)","may","anytime","call"]}
+    ]
+  },
+  {
+    id:"praeteritum", title:"Präteritum", titleEn:"Simple past — what you were allowed to do",
+    forms:["durfte","durftest","durfte","durften","durftet","durften"],
+    en:["I was allowed to","you were allowed to","he/she/it was allowed to","we were allowed to","you all were allowed to","they were allowed to / you were (formal)"],
+    examples:[
+      {de:"Als Kind durfte ich nie lange fernsehen.", en:"As a kid I was never allowed to watch TV for long.", words:["As","child","was allowed","I","never","long","watch TV"]},
+      {de:"Durftest du gestern ausgehen?", en:"Were you allowed to go out yesterday?", words:["Were allowed","you","yesterday","go out"]}
+    ],
+    tip:"Just like the other modals, durfte is the natural everyday-speech past tense, not something reserved for writing."
+  },
+  {
+    id:"konjunktiv", title:"dürfte (Konjunktiv II)", titleEn:"Distinct from the Präteritum this time — used for polite guesses",
+    forms:["dürfte","dürftest","dürfte","dürften","dürftet","dürften"],
+    en:["I would be allowed to / probably","you would be allowed to / probably","he/she/it probably","we probably","you all probably","they probably / you probably (formal)"],
+    examples:[
+      {de:"Das dürfte stimmen.", en:"That's probably right.", words:["That","probably","is right"]},
+      {de:"Er dürfte etwa 40 Jahre alt sein.", en:"He's probably about 40 years old.", words:["He","probably","about","40","years","old","is"]},
+      {de:"Das dürfte kein Problem sein.", en:"That shouldn't be a problem.", words:["That","probably","no","problem","be"]}
+    ],
+    tip:"Unlike wollte and sollte, dürfte is genuinely a SEPARATE form from durfte — not a reused Präteritum. And notice its main modern job isn't really about permission at all: dürfte is a common, slightly formal way to make a polite guess or assumption, very close in feel to werden's assumption use (\"das wird wohl stimmen\")."
+  }
+];
+
+const NICHT_EX = [
+  {de:"Du darfst hier nicht rauchen.", en:"You're not allowed to smoke here.", words:["You","may","here","not","smoke"]},
+  {de:"Man darf hier nicht parken.", en:"You can't park here.", words:["One","may","here","not","park"]},
+  {de:"Sie dürfen kein Essen von außerhalb mitbringen.", en:"You're not allowed to bring outside food. (formal)", words:["You (formal)","may","no","food","from","outside","bring"]}
+];
+
+const DARFICH_EX = [
+  {de:"Darf ich reinkommen?", en:"May I come in?", words:["May","I","come in"]},
+  {de:"Darf ich Sie etwas fragen?", en:"May I ask you something? (formal)", words:["May","I","you (formal)","something","ask"]},
+  {de:"Darf ich Ihnen die Speisekarte zeigen?", en:"May I show you the menu? (formal)", words:["May","I","you (formal)","the","menu","show"]}
+];
+
+const ICHDURFTE_EX = [
+  {de:"Ich durfte letztes Jahr nach Japan reisen.", en:"I had the pleasure of traveling to Japan last year.", words:["I","had the pleasure","last","year","to","Japan","travel"]},
+  {de:"Ich durfte viele interessante Menschen kennenlernen.", en:"I got to meet many interesting people.", words:["I","had the pleasure","many","interesting","people","meet"]},
+  {de:"Ich durfte bei diesem Projekt mitarbeiten.", en:"I had the privilege of working on this project.", words:["I","had the privilege","on","this","project","work along"]}
+];
+
+const REF = TENSES;
+
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  const clean=text.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s*\/\s*/g,', ').replace(/\s{2,}/g,' ').trim();
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='de-DE';u.rate=0.85;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function glossHTML(de, words){
+  if(!words) return esc(de);
+  const tokens = de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m = tok.match(/^([^\s.,!?;:()"„“”'’]+)([.,!?;:()"„“”'’]*)$/);
+    if(!m||words[i]===undefined) return esc(tok);
+    const word=m[1], punct=m[2]||'';
+    return `<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(punct)}`;
+  }).join(' ');
+}
+
+function exRow(ex){
+  return `<div class="ex-row"><div class="de">${glossHTML(ex.de, ex.words)}</div><div class="en">${esc(ex.en)}</div><button data-de="${esc(ex.de)}" title="Hear">🔊</button></div>`;
+}
+
+function render(){
+  const el = document.getElementById('sections');
+  let h = '';
+
+  TENSES.forEach(t=>{
+    h += `<div class="section" id="${t.id}">
+      <h2>${esc(t.title)}</h2>
+      <div class="tense-en">${esc(t.titleEn)}</div>
+      <div class="conj-grid">`;
+    PRONOUNS.forEach((p,i)=>{
+      const full = p.split('/').map(pr=>`${pr} ${t.forms[i]}`).join('. ');
+      h += `<div class="conj-row">
+        <div class="top">
+          <span class="pron">${esc(p)}</span>
+          <span class="form"><span class="gw" data-tip="${esc(t.en[i])}">${esc(t.forms[i])}</span></span>
+          <button data-de="${esc(full)}" title="Hear">🔊</button>
+        </div>
+        <div class="en">${esc(t.en[i])}</div>
+      </div>`;
+    });
+    h += `</div><div class="examples"><div class="ex-label">Examples</div>`;
+    t.examples.forEach(ex=>h+=exRow(ex));
+    h += `</div>`;
+    if(t.tip) h += `<div class="tip"><b>Note:</b> ${esc(t.tip)}</div>`;
+    if(t.id==='konjunktiv') h += `<div class="cross">🔗 <b>See also:</b> werden's assumption use on the <a href="verb-werden.html">werden page</a> works very similarly — both dürfte and werden-as-guess soften a statement into "probably."</div>`;
+    h += `</div>`;
+  });
+
+  h += `<div class="section" id="nichtduerfen">
+    <h2>nicht dürfen — forbidden</h2>
+    <div class="tense-en">The negative flips permission into prohibition — a real trap for English speakers</div>
+    <p>Negating dürfen doesn't just mean "not allowed as an option" — it means actively forbidden.</p>
+    <div class="examples"><div class="ex-label">Examples</div>`;
+  NICHT_EX.forEach(ex=>h+=exRow(ex));
+  h += `</div>
+    <div class="cross">🔗 <b>See also:</b> this is the other half of the trap covered on the <a href="verb-muessen.html">müssen page</a> — nicht müssen (optional, no obligation) vs. nicht dürfen (forbidden) look similar in English's "must not" but mean close to opposites in German. Worth reviewing both side by side.</div>
+  </div>`;
+
+  h += `<div class="section" id="darfich">
+    <h2>Darf ich...? — the elegant polite question</h2>
+    <div class="tense-en">A third, more formal option alongside können's könntest du and wollen's willst du</div>
+    <p>Darf ich literally asks permission, which reads as more formal and polite than "kannst du" — especially useful in service settings (restaurants, shops, offices) or any situation calling for a bit more formality.</p>
+    <div class="examples"><div class="ex-label">Examples</div>`;
+  DARFICH_EX.forEach(ex=>h+=exRow(ex));
+  h += `</div>
+    <div class="cross">🔗 <b>See also:</b> three related-but-different polite tools now exist across the modal pages: <a href="verb-koennen.html">könntest du</a> (asking a favor), <a href="verb-wollen.html">willst du</a> (proposing an activity), and Darf ich (formally asking permission). Worth keeping distinct.</div>
+  </div>`;
+
+  h += `<div class="section" id="ichdurfte">
+    <h2>ich durfte — gratitude for an opportunity</h2>
+    <div class="tense-en">Not really about permission anymore — this expresses being grateful for the chance to do something</div>
+    <p>In this use, durfte carries a warm, appreciative tone — closer to "I had the pleasure/honor of..." than "I was allowed to." Common in reflective or storytelling contexts (a speech, an interview, looking back on the year).</p>
+    <div class="examples"><div class="ex-label">Examples</div>`;
+  ICHDURFTE_EX.forEach(ex=>h+=exRow(ex));
+  h += `</div>
+    <div class="note">📝 The difference from plain permission is entirely about tone and framing, not grammar — "ich durfte reisen" can mean either "I was allowed to travel" (neutral) or "I had the privilege of traveling" (grateful), depending on context and delivery.</div>
+  </div>`;
+
+  el.innerHTML = h;
+  el.querySelectorAll('button[data-de]').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
+
+  const t = document.getElementById('refTable');
+  let th = `<thead><tr><th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">Pronoun</th>`;
+  REF.forEach(ts=>th += `<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(ts.title)}</th>`);
+  th += `</tr></thead><tbody>`;
+  PRONOUNS.forEach((p,i)=>{
+    th += `<tr><td style="padding:6px;border-bottom:1px solid var(--border);font-weight:600;color:var(--accent-d)">${esc(p)}</td>`;
+    REF.forEach(ts=>th += `<td style="padding:6px;border-bottom:1px solid var(--border)"><span class="gw" data-tip="${esc(ts.en[i])}">${esc(ts.forms[i])}</span></td>`);
+    th += `</tr>`;
+  });
+  th += `</tbody>`;
+  t.innerHTML = th;
+}
+render();
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+
+(function(){
+  let tipEl, timer, autoHideTimer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+    clearTimeout(autoHideTimer);
+    autoHideTimer=setTimeout(hideTip,5000);
+  }
+  function hideTip(){ clearTimeout(timer); clearTimeout(autoHideTimer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+  document.addEventListener('click',e=>{
+    const g=e.target.closest('.gw');
+    if(g){
+      e.stopPropagation();
+      const tip=ensureTip();
+      if(tip.classList.contains('show') && tip.textContent===g.dataset.tip) hideTip();
+      else { clearTimeout(timer); showTip(g); }
+      return;
+    }
+    hideTip();
+  });
+})();
+</script>
+</body>
+</html>
