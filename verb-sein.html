@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verb Deep-Dive: sein — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --t1:#8a5a2d;--t1-l:#f7ecdd;
+  --t2:#2d5a8c;--t2-l:#e2edf7;
+  --warn:#b5651d;--warn-bg:#fff4e6;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.07);
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;
+  --t1:#d9a05c;--t1-l:#332a1c;
+  --t2:#6fa3d8;--t2-l:#1e2c3a;
+  --warn:#d99456;--warn-bg:#332a1c;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:28px 20px 80px}
+.top-bar{position:fixed;top:16px;right:16px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:8px}
+.top h1{font-size:22px;font-weight:700;color:var(--accent-d)}
+.top .sub{font-size:13px;color:var(--sub);margin-top:4px}
+.src{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:var(--panel);border:1px solid var(--border);border-radius:99px;padding:6px 12px;margin-top:12px}
+.src a{font-weight:600}
+
+.intro{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:20px 0;box-shadow:var(--shadow);font-size:13.5px}
+.intro b{color:var(--accent-d)}
+
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.jump a{font-size:11.5px;font-weight:600;background:var(--card);border:1px solid var(--border);padding:5px 11px;border-radius:99px;color:var(--sub)}
+.jump a:hover{border-color:var(--accent);color:var(--accent-d)}
+
+.section{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);scroll-margin-top:20px}
+.section h2{font-size:16px;font-weight:700;color:var(--accent-d)}
+.section .tense-en{font-size:12px;color:var(--sub);margin-bottom:14px;font-style:italic}
+
+.conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px}
+.conj-row{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:6px;padding:6px 10px}
+.conj-row .pron{font-size:11.5px;color:var(--sub);width:44px;flex-shrink:0}
+.conj-row .form{font-weight:700;font-size:14px;flex:1}
+.conj-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.conj-row button:hover{background:var(--accent);color:#fff}
+
+.examples{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px}
+.examples .ex-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);margin-bottom:6px}
+.ex-row{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:6px;padding:7px 12px;margin-bottom:6px}
+.ex-row:last-child{margin-bottom:0}
+.ex-row .de{font-weight:600;font-size:13.5px;flex:1}
+.ex-row .en{font-size:12px;color:var(--sub);flex:1}
+.ex-row button{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:10.5px;flex-shrink:0}
+.ex-row button:hover{background:var(--accent);color:#fff}
+
+.note{background:var(--warn-bg);border-left:3px solid var(--warn);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip{background:var(--t2-l);border-left:3px solid var(--t2);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;margin-top:12px}
+.tip b{color:var(--t2)}
+
+.verblist{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.verblist span{font-size:12px;font-weight:600;background:var(--t1-l);color:var(--t1);padding:4px 10px;border-radius:99px}
+
+@media(max-width:520px){.conj-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" title="Back to home">🏠 Home</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+  <div class="top">
+    <h1>Verb Deep-Dive: sein (to be)</h1>
+    <div class="sub">Every tense, plus the two jobs "sein" does in German — main verb and helper verb.</div>
+    <div class="src">🎬 Source video: <a href="https://www.youtube.com/watch?v=wqw336j-F3E&list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" rel="noopener">watch on YouTube ↗</a></div>
+  </div>
+
+  <div class="intro">
+    <b>sein</b> is the single most important verb in German — it's the most common verb overall, and unlike almost every other verb it's <b>irregular in every tense</b>, so there's no shortcut: it just has to be memorized. The payoff is high, though — once you know all of these forms cold, you've covered a huge share of everyday sentences.
+  </div>
+
+  <div class="jump">
+    <a href="#praesens">Präsens</a>
+    <a href="#praeteritum">Präteritum</a>
+    <a href="#perfekt">Perfekt</a>
+    <a href="#futur">Futur I</a>
+    <a href="#konjunktiv">Konjunktiv II</a>
+    <a href="#imperativ">Imperativ</a>
+    <a href="#auxiliary">sein as a helper verb</a>
+    <a href="#phrases">Common expressions</a>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="section">
+    <h2>📋 Quick reference — all tenses side by side</h2>
+    <table id="refTable" style="width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px"></table>
+  </div>
+</div>
+
+<script>
+// ---------- Data ----------
+const PRONOUNS = ["ich","du","er/sie/es","wir","ihr","sie/Sie"];
+
+const TENSES = [
+  {
+    id:"praesens", title:"Präsens", titleEn:"Present tense — talking about now / general facts",
+    forms:["bin","bist","ist","sind","seid","sind"],
+    examples:[
+      {de:"Ich bin heute etwas müde.", en:"I'm a bit tired today."},
+      {de:"Bist du bereit?", en:"Are you ready?"},
+      {de:"Das Wetter ist wirklich schön.", en:"The weather is really nice."},
+      {de:"Wir sind neu in der Stadt.", en:"We're new to the city."}
+    ]
+  },
+  {
+    id:"praeteritum", title:"Präteritum", titleEn:"Simple past — the written/narrative past (also common in speech for sein specifically)",
+    forms:["war","warst","war","waren","wart","waren"],
+    examples:[
+      {de:"Ich war letztes Jahr in Hamburg.", en:"I was in Hamburg last year."},
+      {de:"Wo warst du gestern Abend?", en:"Where were you last night?"},
+      {de:"Der Film war ziemlich lang.", en:"The film was pretty long."},
+      {de:"Wart ihr schon mal in Berlin?", en:"Have you (all) ever been to Berlin?"}
+    ],
+    tip:"Unlike most verbs — where Perfekt (haben/sein + participle) dominates casual speech — Germans use the simple past of sein constantly even when chatting. \"Ich war...\" is far more natural than \"Ich bin gewesen...\" in conversation. This is one of the few Präteritum forms worth learning actively at A1."
+  },
+  {
+    id:"perfekt", title:"Perfekt", titleEn:"Compound past — built with sein + gewesen",
+    forms:["bin gewesen","bist gewesen","ist gewesen","sind gewesen","seid gewesen","sind gewesen"],
+    examples:[
+      {de:"Ich bin noch nie in Japan gewesen.", en:"I've never been to Japan."},
+      {de:"Warst du schon mal hier? — Ja, ich bin schon oft hier gewesen.", en:"Have you been here before? — Yes, I've been here often."},
+      {de:"Wie ist die Reise gewesen?", en:"How was the trip?"}
+    ],
+    tip:"Notice sein is its own helper verb here: bin/bist/ist... + gewesen. That's the general Perfekt pattern — [sein or haben, conjugated] + [past participle at the end] — and it's worth internalizing early since it's the default way to talk about the past in spoken German."
+  },
+  {
+    id:"futur", title:"Futur I", titleEn:"Future tense — werden + sein",
+    forms:["werde sein","wirst sein","wird sein","werden sein","werdet sein","werden sein"],
+    examples:[
+      {de:"Ich werde nächstes Jahr in Deutschland sein.", en:"I'll be in Germany next year."},
+      {de:"Du wirst überrascht sein, wie schnell das geht.", en:"You'll be surprised how fast it goes."},
+      {de:"Es wird bestimmt gut werden... äh, sein!", en:"It'll definitely turn out well!"}
+    ],
+    tip:"In everyday speech, Germans very often just use the present tense with a time word instead of Futur I: \"Ich bin morgen dort\" (I'll be there tomorrow) is more natural than \"Ich werde morgen dort sein.\" Futur I shows up more for predictions, promises, and formal writing."
+  },
+  {
+    id:"konjunktiv", title:"Konjunktiv II", titleEn:"Subjunctive — hypotheticals, wishes, polite hedging",
+    forms:["wäre","wärst","wäre","wären","wärt","wären"],
+    examples:[
+      {de:"Ich wäre gern Lehrer geworden.", en:"I would have liked to become a teacher."},
+      {de:"Wärst du bereit, früher anzufangen?", en:"Would you be willing to start earlier?"},
+      {de:"Das wäre toll!", en:"That would be great!"},
+      {de:"Wenn ich reich wäre, würde ich reisen.", en:"If I were rich, I'd travel."}
+    ],
+    tip:"wäre is one of the few Konjunktiv II forms Germans use constantly in casual speech (along with hätte and würde) — well worth memorizing even before the rest of the subjunctive system."
+  }
+];
+
+const IMPERATIV = [
+  {pron:"du", form:"sei!", en:"be! (informal, singular)"},
+  {pron:"ihr", form:"seid!", en:"be! (informal, plural)"},
+  {pron:"Sie", form:"seien Sie!", en:"be! (formal)"},
+  {pron:"wir", form:"seien wir!", en:"let's be! (suggestion)"}
+];
+const IMPERATIV_EX = [
+  {de:"Sei ehrlich zu mir.", en:"Be honest with me."},
+  {de:"Seid bitte pünktlich!", en:"Please be on time (you all)!"},
+  {de:"Seien Sie vorsichtig.", en:"Be careful. (formal)"}
+];
+
+const AUX_VERBS = ["gehen","kommen","fahren","fliegen","laufen","schwimmen","aufstehen","einschlafen","sterben","werden","bleiben","passieren","sein"];
+const AUX_EX = [
+  {de:"Ich bin ins Kino gegangen.", en:"I went to the cinema. (gehen — movement)"},
+  {de:"Sie ist um sieben Uhr aufgestanden.", en:"She got up at seven. (aufstehen — change of state)"},
+  {de:"Wir sind nach Berlin gefahren.", en:"We drove to Berlin. (fahren — movement)"},
+  {de:"Was ist passiert?", en:"What happened? (passieren — always takes sein)"}
+];
+const HABEN_EX = [
+  {de:"Ich habe das Buch gelesen.", en:"I read the book. (gelesen — no movement/change, takes haben)"},
+  {de:"Er hat lange geschlafen.", en:"He slept for a long time. (geschlafen — stays in place, takes haben)"}
+];
+
+const PHRASES = [
+  {de:"Wie dem auch sei.", en:"Be that as it may. / Whatever the case."},
+  {de:"Das wär's (für heute).", en:"That's it (for today)."},
+  {de:"Sei's drum.", en:"So be it. / Never mind."},
+  {de:"Es sei denn, ...", en:"Unless ... (lit. \"it be denied that\")"},
+  {de:"Das ist mir egal.", en:"I don't care. / It's all the same to me."},
+  {de:"Es ist so weit.", en:"The time has come. / It's happening now."},
+  {de:"Sei so gut und hilf mir.", en:"Be a dear and help me. (asking a favor)"},
+  {de:"Was auch immer sein mag.", en:"Whatever it may be."}
+];
+
+const REF = [
+  {t:"Präsens", forms:["bin","bist","ist","sind","seid","sind"]},
+  {t:"Präteritum", forms:["war","warst","war","waren","wart","waren"]},
+  {t:"Perfekt", forms:["bin gewesen","bist gewesen","ist gewesen","sind gewesen","seid gewesen","sind gewesen"]},
+  {t:"Futur I", forms:["werde sein","wirst sein","wird sein","werden sein","werdet sein","werden sein"]},
+  {t:"Konjunktiv II", forms:["wäre","wärst","wäre","wären","wärt","wären"]}
+];
+
+// ---------- Speech ----------
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  const clean=text.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s*\/\s*/g,', ').replace(/\s{2,}/g,' ').trim();
+  if(!clean)return;
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='de-DE';u.rate=0.85;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ---------- Render ----------
+function render(){
+  const el=document.getElementById('sections');
+  let h='';
+
+  TENSES.forEach(t=>{
+    h+=`<div class="section" id="${t.id}">
+      <h2>${esc(t.title)}</h2>
+      <div class="tense-en">${esc(t.titleEn)}</div>
+      <div class="conj-grid">`;
+    PRONOUNS.forEach((p,i)=>{
+      const full=`${p.split('/')[0]} ${t.forms[i]}`;
+      h+=`<div class="conj-row">
+        <span class="pron">${esc(p)}</span>
+        <span class="form">${esc(t.forms[i])}</span>
+        <button data-de="${esc(full)}" title="Hear">🔊</button>
+      </div>`;
+    });
+    h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
+    t.examples.forEach(ex=>{
+      h+=`<div class="ex-row">
+        <div class="de">${esc(ex.de)}</div>
+        <div class="en">${esc(ex.en)}</div>
+        <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
+      </div>`;
+    });
+    h+=`</div>`;
+    if(t.tip) h+=`<div class="tip"><b>Note:</b> ${esc(t.tip)}</div>`;
+    h+=`</div>`;
+  });
+
+  // Imperativ
+  h+=`<div class="section" id="imperativ">
+    <h2>Imperativ</h2>
+    <div class="tense-en">Commands and suggestions — "be ___!"</div>
+    <div class="conj-grid">`;
+  IMPERATIV.forEach(r=>{
+    h+=`<div class="conj-row">
+      <span class="pron">${esc(r.pron)}</span>
+      <span class="form">${esc(r.form)}</span>
+      <button data-de="${esc(r.form)}" title="Hear">🔊</button>
+    </div>`;
+  });
+  h+=`</div><div class="examples"><div class="ex-label">Examples</div>`;
+  IMPERATIV_EX.forEach(ex=>{
+    h+=`<div class="ex-row">
+      <div class="de">${esc(ex.de)}</div>
+      <div class="en">${esc(ex.en)}</div>
+      <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
+    </div>`;
+  });
+  h+=`</div></div>`;
+
+  // Auxiliary use
+  h+=`<div class="section" id="auxiliary">
+    <h2>sein as a helper verb</h2>
+    <div class="tense-en">The second job sein does — building the Perfekt tense for OTHER verbs</div>
+    <p style="font-size:13px">Most German verbs build their Perfekt (past) tense with <b>haben</b> — but a specific group instead uses <b>sein</b>. The rule: verbs of <b>movement from A to B</b>, verbs of <b>change of state</b>, plus sein/bleiben/passieren themselves.</p>
+    <div class="verblist">${AUX_VERBS.map(v=>`<span>${esc(v)}</span>`).join('')}</div>
+    <div class="examples"><div class="ex-label">Takes sein</div>`;
+  AUX_EX.forEach(ex=>{
+    h+=`<div class="ex-row">
+      <div class="de">${esc(ex.de)}</div>
+      <div class="en">${esc(ex.en)}</div>
+      <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
+    </div>`;
+  });
+  h+=`</div><div class="examples"><div class="ex-label">Compare — takes haben instead</div>`;
+  HABEN_EX.forEach(ex=>{
+    h+=`<div class="ex-row">
+      <div class="de">${esc(ex.de)}</div>
+      <div class="en">${esc(ex.en)}</div>
+      <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
+    </div>`;
+  });
+  h+=`</div>
+    <div class="note">📝 Quick test: if you can ask "where to?" or "from what state to what state?" about the verb, it probably takes sein. gehen (to where?), aufstehen (from lying/sitting to standing) — both take sein. lesen, schlafen, essen don't involve a change of place or state — they take haben.</div>
+  </div>`;
+
+  // Phrases
+  h+=`<div class="section" id="phrases">
+    <h2>Common expressions with sein</h2>
+    <div class="tense-en">Fixed phrases worth recognizing, beyond plain conjugation</div>
+    <div class="examples">`;
+  PHRASES.forEach(ex=>{
+    h+=`<div class="ex-row">
+      <div class="de">${esc(ex.de)}</div>
+      <div class="en">${esc(ex.en)}</div>
+      <button data-de="${esc(ex.de)}" title="Hear">🔊</button>
+    </div>`;
+  });
+  h+=`</div></div>`;
+
+  el.innerHTML=h;
+  el.querySelectorAll('button[data-de]').forEach(b=>b.addEventListener('click',e=>speak(e.currentTarget.dataset.de)));
+
+  // Ref table
+  const t=document.getElementById('refTable');
+  let th=`<thead><tr><th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">Pronoun</th>`;
+  REF.forEach(r=>th+=`<th style="text-align:left;padding:6px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--sub)">${esc(r.t)}</th>`);
+  th+=`</tr></thead><tbody>`;
+  PRONOUNS.forEach((p,i)=>{
+    th+=`<tr><td style="padding:6px;border-bottom:1px solid var(--border);font-weight:600;color:var(--accent-d)">${esc(p)}</td>`;
+    REF.forEach(r=>th+=`<td style="padding:6px;border-bottom:1px solid var(--border)">${esc(r.forms[i])}</td>`);
+    th+=`</tr>`;
+  });
+  th+=`</tbody>`;
+  t.innerHTML=th;
+}
+render();
+
+// ---------- Dark mode ----------
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+</script>
+</body>
+</html>
