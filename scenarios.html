@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scenarios — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#e9e7e2;--panel:#f7f6f3;--ink:#1e1e1e;--sub:#666;--muted:#888;
+--accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+--border:#dcd8d0;--card:#f0efeb;--bubble-a:#f0efeb;--bubble-b:#d8f3dc;
+--shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
+}
+body.dark{
+--bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#b7b5ac;--muted:#93918a;
+--accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+--border:#333630;--card:#262a25;--bubble-a:#262a25;--bubble-b:#243d2f;
+--shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+.top-bar{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:100}
+.top-bar button,.top-bar a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.home-link{width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink)!important;text-decoration:none!important}
+
+.wrap{max-width:820px;margin:0 auto;padding:70px 20px 220px}
+.top{margin-bottom:20px}
+.top .kicker{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.top h1{font-size:26px;font-weight:800;color:var(--accent-d);margin-top:4px}
+.top .sub{font-size:13.5px;color:var(--sub);margin-top:6px;max-width:600px}
+
+.progress-wrap{margin-top:16px;max-width:400px}
+.progress-bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.progress-bar>div{height:100%;background:var(--accent);transition:width .3s}
+.progress-label{font-size:11.5px;color:var(--sub);margin-top:4px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:20px}
+.scard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:transform .12s,border-color .12s;text-align:left;position:relative}
+.scard:hover{transform:translateY(-2px);border-color:var(--accent)}
+.scard.practiced{border-color:var(--accent)}
+.scard .icon{font-size:26px}
+.scard h3{font-size:14.5px;font-weight:700;margin-top:4px}
+.scard .de{font-size:12px;color:var(--sub);font-style:italic}
+.scard .meta{font-size:11px;color:var(--muted);margin-top:2px}
+.scard .check{position:absolute;top:12px;right:12px;font-size:16px;color:var(--accent);display:none}
+.scard.practiced .check{display:block}
+
+.scenario-view{display:none}
+.scenario-view.active{display:block}
+.grid-view.hidden{display:none}
+
+.back-btn{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--accent);margin-bottom:16px;cursor:pointer;background:none;border:none;padding:0}
+.sv-head{margin-bottom:16px}
+.sv-icon{font-size:30px}
+.sv-title{font-size:22px;font-weight:800;color:var(--accent-d);margin-top:6px}
+.sv-de{font-size:14px;color:var(--sub);font-style:italic;margin-top:2px}
+
+.functions-box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin:16px 0;box-shadow:var(--shadow)}
+.functions-box h4{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.functions-box ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.functions-box li{font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.functions-box li:before{content:"✓";color:var(--accent);font-weight:700;flex-shrink:0}
+
+.practiced-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:99px;border:1px solid var(--accent);background:var(--accent-l);color:var(--accent-d);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:20px}
+.practiced-btn.on{background:var(--accent);color:#fff}
+
+.dialogue{display:flex;flex-direction:column;gap:10px}
+.bubble-row{display:flex}
+.bubble-row.speaker-1{justify-content:flex-end}
+.bubble{max-width:78%;border-radius:14px;padding:12px 14px;background:var(--bubble-a);border:1px solid var(--border);transition:box-shadow .2s}
+.bubble-row.speaker-1 .bubble{background:var(--bubble-b)}
+.bubble.reading{box-shadow:0 0 0 2px var(--accent)}
+.bubble .speaker-name{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--accent);margin-bottom:4px}
+.bubble .de-line{font-size:16px;line-height:1.6}
+.gw{border-bottom:1px dotted var(--sub);cursor:help}
+.bubble .en-line{font-size:12.5px;color:var(--sub);margin-top:6px;cursor:pointer}
+.bubble .en-line.blur{filter:blur(4px);user-select:none}
+.bubble .line-controls{display:flex;gap:8px;margin-top:6px}
+.bubble .speak-line{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+.bubble .speak-line:hover{background:var(--accent);color:#fff}
+
+.player{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--border);box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:20}
+.player-inner{max-width:820px;margin:0 auto;padding:10px 20px 14px}
+.player-row{display:flex;align-items:center;gap:14px;justify-content:center}
+.player button{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+.player button.play{width:48px;height:48px;background:var(--accent);color:#fff;border-color:var(--accent);font-size:17px}
+.player button:hover{border-color:var(--accent)}
+.scrub{width:100%;margin-top:9px;accent-color:var(--accent)}
+.player-label{font-size:11.5px;color:var(--sub);text-align:center;margin-top:2px}
+.speed-row{display:flex;align-items:center;gap:8px;margin-top:9px}
+.speed-row label{font-size:11px;color:var(--sub);flex-shrink:0;width:70px}
+.speed-row input{flex:1;accent-color:var(--accent)}
+.speed-row .val{font-size:11px;color:var(--sub);width:38px;text-align:right;flex-shrink:0}
+
+#glossTip{position:fixed;background:rgba(20,20,20,.94);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:1000}
+#glossTip.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="top-bar">
+<a class="home-link" href="index.html" title="Back to home">🏠 Home</a>
+<button id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+
+<div class="wrap">
+
+<div class="grid-view" id="gridView">
+<div class="top">
+<div class="kicker">Scenarios</div>
+<h1>Real-Life Conversations</h1>
+<div class="sub">Full two-person dialogues for situations you'll actually be in. Hover or tap any word for its meaning, click a line to reveal the English, or press play to hear the whole conversation.</div>
+<div class="progress-wrap">
+<div class="progress-bar"><div id="pbar" style="width:0%"></div></div>
+<div class="progress-label" id="plabel">0 / 11 scenarios practiced</div>
+</div>
+</div>
+<div class="grid" id="grid"></div>
+</div>
+
+<div class="scenario-view" id="scenarioView">
+<button class="back-btn" id="backBtn">← All scenarios</button>
+<div class="sv-head">
+<div class="sv-icon" id="svIcon"></div>
+<div class="sv-title" id="svTitle"></div>
+<div class="sv-de" id="svDe"></div>
+</div>
+<div class="functions-box">
+<h4>You'll be able to:</h4>
+<ul id="svFunctions"></ul>
+</div>
+<button class="practiced-btn" id="practicedBtn">☐ Mark as practiced</button>
+<div class="dialogue" id="dialogue"></div>
+</div>
+
+</div>
+
+<div class="player">
+<div class="player-inner">
+<div class="player-row">
+<button id="prevBtn" title="Previous line">⏮</button>
+<button id="playBtn" class="play" title="Play / Pause conversation">▶️</button>
+<button id="nextBtn" title="Next line">⏭</button>
+</div>
+<input type="range" class="scrub" id="scrub" min="0" max="0" value="0" step="1">
+<div class="player-label" id="playerLabel">Choose a scenario to begin</div>
+<div class="speed-row">
+<label for="speedSlider">Speed</label>
+<input type="range" id="speedSlider" min="0.5" max="1.3" step="0.05" value="0.85">
+<span class="val" id="speedVal">0.85x</span>
+</div>
+<div class="speed-row">
+<label for="volumeSlider">Volume</label>
+<input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+<span class="val" id="volumeVal">100%</span>
+</div>
+</div>
+</div>
+
+<script>
+const SCENARIOS = [{"id": "meeting", "icon": "👋", "title": "Meeting Someone New & Small Talk", "titleDe": "Jemanden kennenlernen & Smalltalk", "functions": ["Greet someone and ask how they're doing", "Introduce yourself and ask for a name", "Say where you're from and ask in return", "Talk about how long you've lived somewhere", "Talk about hobbies and music in detail", "Ask about favorite bands or artists", "Suggest meeting up again"], "speakers": ["Anna", "Ben"], "lines": [{"speaker": 0, "de": "Hallo! Wie geht's?", "en": "Hi! How's it going?", "words": ["Hi", "How", "'s", "it", "going"]}, {"speaker": 1, "de": "Mir geht es gut, danke! Und dir?", "en": "I'm doing well, thanks! And you?", "words": ["Me", "goes", "it", "well", "thanks", "And", "you"]}, {"speaker": 0, "de": "Auch gut, danke. Ich heiße Anna, und du?", "en": "Good too, thanks. I'm Anna, and you?", "words": ["Also", "good", "thanks", "I", "am called", "Anna", "and", "you"]}, {"speaker": 1, "de": "Ich heiße Ben. Freut mich!", "en": "I'm Ben. Nice to meet you!", "words": ["I", "am called", "Ben", "Pleases", "me"]}, {"speaker": 0, "de": "Freut mich auch! Woher kommst du?", "en": "Nice to meet you too! Where are you from?", "words": ["Pleases", "me", "also", "Where from", "come", "you"]}, {"speaker": 1, "de": "Ich komme aus Kanada. Und du, woher kommst du?", "en": "I'm from Canada. And you, where are you from?", "words": ["I", "come", "from", "Canada", "And", "you", "where from", "come", "you"]}, {"speaker": 0, "de": "Ich komme auch aus Kanada, aber ich wohne jetzt hier.", "en": "I'm also from Canada, but I live here now.", "words": ["I", "come", "also", "from", "Canada", "but", "I", "live", "now", "here"]}, {"speaker": 1, "de": "Wie lange wohnst du schon hier?", "en": "How long have you lived here?", "words": ["How", "long", "live", "you", "already", "here"]}, {"speaker": 0, "de": "Seit einem Jahr. Und du?", "en": "For one year. And you?", "words": ["Since", "one", "year", "And", "you"]}, {"speaker": 1, "de": "Seit drei Jahren. Mir gefällt die Stadt sehr.", "en": "For three years. I really like the city.", "words": ["Since", "three", "years", "Me", "pleases", "the", "city", "very"]}, {"speaker": 0, "de": "Was machst du gern in deiner Freizeit?", "en": "What do you like to do in your free time?", "words": ["What", "do", "you", "gladly", "in", "your", "free time"]}, {"speaker": 1, "de": "Ich höre sehr gern Musik. Hörst du auch gern Musik?", "en": "I really like listening to music. Do you also like listening to music?", "words": ["I", "listen", "very", "gladly", "music", "Listen", "you", "also", "gladly", "music"]}, {"speaker": 0, "de": "Ja, total! Was sind deine Lieblingsbands?", "en": "Yes, totally! What are your favorite bands?", "words": ["Yes", "totally", "What", "are", "your", "favorite bands"]}, {"speaker": 1, "de": "Ich mag vor allem elektronische Musik. Hast du das neue Album gehört?", "en": "I mostly like electronic music. Have you heard the new album?", "words": ["I", "like", "above", "all", "electronic", "music", "Have", "you", "the", "new", "album", "heard"]}, {"speaker": 0, "de": "Nein, noch nicht, aber ich höre gerne Pop und ein bisschen Techno.", "en": "No, not yet, but I like listening to pop and a bit of techno.", "words": ["No", "still", "not", "but", "I", "listen", "gladly", "pop", "and", "a", "bit", "techno"]}, {"speaker": 1, "de": "Cool! Gehst du manchmal auf Konzerte?", "en": "Cool! Do you sometimes go to concerts?", "words": ["Cool", "Go", "you", "sometimes", "to", "concerts"]}, {"speaker": 0, "de": "Ja, sehr oft! Willst du nächste Woche mit mir zu einem Konzert gehen?", "en": "Yes, very often! Do you want to go to a concert with me next week?", "words": ["Yes", "very", "often", "Want", "you", "next", "week", "with", "me", "to", "a", "concert", "go"]}, {"speaker": 1, "de": "Klar, gerne! Gib mir deine Nummer, dann schreibe ich dir.", "en": "Sure, gladly! Give me your number, then I'll text you.", "words": ["Sure", "gladly", "Give", "me", "your", "number", "then", "write", "I", "you"]}]}, {"id": "restaurant", "icon": "🍽️", "title": "At the Restaurant", "titleDe": "Im Restaurant", "functions": ["Get a table and order food and drink", "Ask what the staff recommends", "Ask about ingredients or allergies", "Say something tastes good, or is expensive", "Ask for the bill and leave a tip"], "speakers": ["Kellner", "Gast"], "lines": [{"speaker": 0, "de": "Guten Abend! Haben Sie einen Tisch reserviert?", "en": "Good evening! Do you have a table reserved?", "words": ["Good", "evening", "Have", "you", "a", "table", "reserved"]}, {"speaker": 1, "de": "Nein, aber haben Sie noch etwas frei für zwei Personen?", "en": "No, but do you have anything free for two people?", "words": ["No", "but", "have", "you", "still", "something", "free", "for", "two", "people"]}, {"speaker": 0, "de": "Ja, hier am Fenster ist noch Platz.", "en": "Yes, there's room here by the window.", "words": ["Yes", "here", "by the", "window", "is", "still", "room"]}, {"speaker": 1, "de": "Perfekt, danke.", "en": "Perfect, thanks.", "words": ["Perfect", "thanks"]}, {"speaker": 0, "de": "Möchten Sie schon etwas trinken?", "en": "Would you like something to drink already?", "words": ["Would like", "you", "already", "something", "to drink"]}, {"speaker": 1, "de": "Ein Glas Wein für mich, bitte.", "en": "A glass of wine for me, please.", "words": ["A", "glass", "wine", "for", "me", "please"]}, {"speaker": 0, "de": "Gerne. Und zum Essen?", "en": "Sure. And to eat?", "words": ["Gladly", "And", "for", "food"]}, {"speaker": 1, "de": "Was können Sie empfehlen?", "en": "What can you recommend?", "words": ["What", "can", "you", "recommend"]}, {"speaker": 0, "de": "Das Hähnchen mit Salat ist heute sehr beliebt.", "en": "The chicken with salad is very popular today.", "words": ["The", "chicken", "with", "salad", "is", "today", "very", "popular"]}, {"speaker": 1, "de": "Ist da Nüsse drin? Ich bin allergisch.", "en": "Are there nuts in it? I'm allergic.", "words": ["Is", "there", "nuts", "in it", "I", "am", "allergic"]}, {"speaker": 0, "de": "Nein, keine Nüsse, keine Sorge.", "en": "No, no nuts, don't worry.", "words": ["No", "no", "nuts", "no", "worry"]}, {"speaker": 1, "de": "Gut, das nehme ich dann.", "en": "Good, I'll take that then.", "words": ["Good", "that", "take", "I", "then"]}, {"speaker": 0, "de": "Hier ist Ihr Essen. Guten Appetit!", "en": "Here's your food. Enjoy your meal!", "words": ["Here", "is", "your", "food", "Enjoy", "your meal"]}, {"speaker": 1, "de": "Danke, das sieht sehr lecker aus!", "en": "Thanks, this looks very tasty!", "words": ["Thanks", "that", "looks", "very", "tasty", "(prefix)"]}, {"speaker": 1, "de": "Das war wirklich lecker, aber ein bisschen teuer.", "en": "That was really tasty, but a bit expensive.", "words": ["That", "was", "really", "tasty", "but", "a", "bit", "expensive"]}, {"speaker": 1, "de": "Entschuldigung, die Rechnung, bitte!", "en": "Excuse me, the bill, please!", "words": ["Excuse me", "the", "bill", "please"]}, {"speaker": 0, "de": "Natürlich, einen Moment. Das macht zusammen 32 Euro.", "en": "Of course, one moment. That's 32 euros total.", "words": ["Of course", "one", "moment", "That", "makes", "together", "32", "euros"]}, {"speaker": 1, "de": "Hier bitte, der Rest ist Trinkgeld.", "en": "Here you go, the rest is a tip.", "words": ["Here", "please", "the", "rest", "is", "tip"]}]}, {"id": "shopping", "icon": "🛍️", "title": "Shopping for Clothes", "titleDe": "Kleidung einkaufen", "functions": ["Ask for a size and ask to try something on", "Ask where the fitting room is", "Say something is too big or too small", "Ask for a different size or color", "Buy a gift for someone else", "Say what you think and ask the price"], "speakers": ["Verkäuferin", "Kunde"], "lines": [{"speaker": 0, "de": "Guten Tag! Kann ich Ihnen helfen?", "en": "Hello! Can I help you?", "words": ["Hello", "Can", "I", "you", "help"]}, {"speaker": 1, "de": "Ja, ich suche eine Jacke.", "en": "Yes, I'm looking for a jacket.", "words": ["Yes", "I", "search", "a", "jacket"]}, {"speaker": 0, "de": "Welche Größe brauchen Sie?", "en": "What size do you need?", "words": ["Which", "size", "need", "you"]}, {"speaker": 1, "de": "Größe M, glaube ich.", "en": "Size M, I think.", "words": ["Size", "M", "think", "I"]}, {"speaker": 0, "de": "Hier, diese Jacke ist sehr beliebt. Möchten Sie sie anprobieren?", "en": "Here, this jacket is very popular. Would you like to try it on?", "words": ["Here", "this", "jacket", "is", "very", "popular", "Would like", "you", "it", "to try on"]}, {"speaker": 1, "de": "Ja, gerne. Wo ist die Umkleidekabine?", "en": "Yes, please. Where is the fitting room?", "words": ["Yes", "gladly", "Where", "is", "the", "fitting room"]}, {"speaker": 0, "de": "Dort hinten links.", "en": "Back there on the left.", "words": ["There", "in the back", "left"]}, {"speaker": 1, "de": "Sie ist leider zu klein. Haben Sie sie auch in Größe L?", "en": "It's unfortunately too small. Do you also have it in size L?", "words": ["It", "is", "unfortunately", "too", "small", "Have", "you", "it", "also", "in", "size", "L"]}, {"speaker": 0, "de": "Einen Moment, ich schaue nach.", "en": "One moment, I'll check.", "words": ["One", "moment", "I", "look", "(prefix)"]}, {"speaker": 0, "de": "Ja, hier ist Größe L.", "en": "Yes, here's size L.", "words": ["Yes", "here", "is", "size", "L"]}, {"speaker": 1, "de": "Perfekt, die passt gut. Wie viel kostet sie?", "en": "Perfect, this fits well. How much does it cost?", "words": ["Perfect", "it", "fits", "well", "How", "much", "costs", "it"]}, {"speaker": 0, "de": "39 Euro.", "en": "39 euros.", "words": ["39", "euros"]}, {"speaker": 1, "de": "Das ist günstig! Ich nehme sie.", "en": "That's cheap! I'll take it.", "words": ["That", "is", "cheap", "I", "take", "it"]}, {"speaker": 1, "de": "Ich suche auch noch ein Geschenk für meine Schwester.", "en": "I'm also looking for a gift for my sister.", "words": ["I", "search", "also", "still", "a", "gift", "for", "my", "sister"]}, {"speaker": 0, "de": "Wie wäre es mit diesem Schal? Er ist im Angebot.", "en": "How about this scarf? It's on sale.", "words": ["How", "would be", "it", "with", "this", "scarf", "It", "is", "on", "sale"]}, {"speaker": 1, "de": "Oh, das ist wunderschön! Sie würde das lieben!", "en": "Oh, that's beautiful! She would love that!", "words": ["Oh", "that", "is", "beautiful", "She", "would", "that", "love"]}, {"speaker": 0, "de": "Möchten Sie sonst noch etwas?", "en": "Would you like anything else?", "words": ["Would like", "you", "otherwise", "still", "something"]}, {"speaker": 1, "de": "Nein danke, das ist alles. Ich zahle mit Karte.", "en": "No thanks, that's all. I'll pay by card.", "words": ["No", "thanks", "that", "is", "all", "I", "pay", "with", "card"]}, {"speaker": 0, "de": "Kein Problem. Das macht zusammen 54 Euro.", "en": "No problem. That's 54 euros total.", "words": ["No", "problem", "That", "makes", "together", "54", "euros"]}]}, {"id": "directions", "icon": "🧭", "title": "Asking for Directions", "titleDe": "Nach dem Weg fragen", "functions": ["Ask how to get somewhere", "Understand step-by-step directions", "Ask if a place is far and how to get there on foot", "Ask where you are on a map"], "speakers": ["Du", "Passant"], "lines": [{"speaker": 0, "de": "Entschuldigung, wie komme ich zum Bahnhof?", "en": "Excuse me, how do I get to the train station?", "words": ["Excuse me", "how", "come", "I", "to the", "train station"]}, {"speaker": 1, "de": "Gehen Sie hier geradeaus und dann an der Ampel links.", "en": "Go straight ahead here and then left at the traffic light.", "words": ["Go", "(you)", "here", "straight ahead", "and", "then", "at", "the", "traffic light", "left"]}, {"speaker": 0, "de": "Ist es weit von hier?", "en": "Is it far from here?", "words": ["Is", "it", "far", "from", "here"]}, {"speaker": 1, "de": "Nein, nur fünf Minuten zu Fuß.", "en": "No, just five minutes on foot.", "words": ["No", "only", "five", "minutes", "on", "foot"]}, {"speaker": 0, "de": "Und wissen Sie, wo die nächste Apotheke ist?", "en": "And do you know where the nearest pharmacy is?", "words": ["And", "know", "you", "where", "the", "nearest", "pharmacy", "is"]}, {"speaker": 1, "de": "Ja, die ist an der nächsten Ecke, rechts neben der Bank.", "en": "Yes, it's at the next corner, right next to the bank.", "words": ["Yes", "it", "is", "at", "the", "next", "corner", "right", "next to", "the", "bank"]}, {"speaker": 0, "de": "Kann ich dahin auch zu Fuß gehen?", "en": "Can I also walk there?", "words": ["Can", "I", "there", "also", "on", "foot", "go"]}, {"speaker": 1, "de": "Ja, klar, das sind nur zwei Minuten.", "en": "Yes, sure, that's only two minutes.", "words": ["Yes", "sure", "that", "is", "only", "two", "minutes"]}, {"speaker": 0, "de": "Vielen Dank für Ihre Hilfe!", "en": "Thank you very much for your help!", "words": ["Much", "thanks", "for", "your", "help"]}, {"speaker": 1, "de": "Kein Problem, gerne!", "en": "No problem, you're welcome!", "words": ["No", "problem", "gladly"]}, {"speaker": 0, "de": "Entschuldigung, ich bin ein bisschen verloren. Wo bin ich hier auf der Karte?", "en": "Excuse me, I'm a bit lost. Where am I on the map here?", "words": ["Excuse me", "I", "am", "a", "bit", "lost", "Where", "am", "I", "here", "on", "the", "map"]}, {"speaker": 1, "de": "Wir sind hier, und Ihr Hotel ist dort drüben.", "en": "We are here, and your hotel is over there.", "words": ["We", "are", "here", "and", "your", "hotel", "is", "over", "there"]}]}, {"id": "transit", "icon": "🚆", "title": "Public Transit", "titleDe": "Öffentliche Verkehrsmittel", "functions": ["Buy a ticket and ask the price", "Ask about a day pass", "Ask when the next train or bus leaves", "Ask if you need to change trains", "Ask a stranger if a seat is free"], "speakers": ["Du", "Mitarbeiter"], "lines": [{"speaker": 0, "de": "Entschuldigung, wo kann ich ein Ticket kaufen?", "en": "Excuse me, where can I buy a ticket?", "words": ["Excuse me", "where", "can", "I", "a", "ticket", "buy"]}, {"speaker": 1, "de": "Am Automaten dort drüben, oder online.", "en": "At the machine over there, or online.", "words": ["At the", "machine", "over", "there", "or", "online"]}, {"speaker": 0, "de": "Was kostet eine Fahrkarte in die Innenstadt?", "en": "How much is a ticket to the city center?", "words": ["What", "costs", "a", "ticket", "to", "the", "city center"]}, {"speaker": 1, "de": "2 Euro 80 für eine einfache Fahrt.", "en": "2 euros 80 for a one-way trip.", "words": ["2", "euros", "80", "for", "a", "simple", "trip"]}, {"speaker": 0, "de": "Und eine Tageskarte?", "en": "And a day pass?", "words": ["And", "a", "day pass"]}, {"speaker": 1, "de": "Die kostet 8 Euro.", "en": "That costs 8 euros.", "words": ["That", "costs", "8", "euros"]}, {"speaker": 0, "de": "Ich nehme eine Tageskarte, bitte.", "en": "I'll take a day pass, please.", "words": ["I", "take", "a", "day pass", "please"]}, {"speaker": 0, "de": "Wann fährt der nächste Zug?", "en": "When does the next train leave?", "words": ["When", "leaves", "the", "next", "train"]}, {"speaker": 1, "de": "In zehn Minuten, von Gleis drei.", "en": "In ten minutes, from platform three.", "words": ["In", "ten", "minutes", "from", "platform", "three"]}, {"speaker": 0, "de": "Muss ich umsteigen?", "en": "Do I need to change trains?", "words": ["Must", "I", "change trains"]}, {"speaker": 1, "de": "Ja, einmal in Hauptbahnhof.", "en": "Yes, once at the main station.", "words": ["Yes", "once", "at", "main station"]}, {"speaker": 0, "de": "Danke schön!", "en": "Thank you!", "words": ["Thanks", "very much"]}, {"speaker": 0, "de": "Entschuldigung, ist dieser Platz frei?", "en": "Excuse me, is this seat free?", "words": ["Excuse me", "is", "this", "seat", "free"]}, {"speaker": 1, "de": "Ja, bitte, setzen Sie sich.", "en": "Yes, please, sit down.", "words": ["Yes", "please", "sit", "you", "yourself"]}, {"speaker": 0, "de": "Fährt dieser Zug zum Hauptbahnhof?", "en": "Does this train go to the main station?", "words": ["Goes", "this", "train", "to the", "main station"]}, {"speaker": 1, "de": "Ja, das ist die letzte Haltestelle.", "en": "Yes, that's the last stop.", "words": ["Yes", "that", "is", "the", "last", "stop"]}]}, {"id": "accommodation", "icon": "🏠", "title": "Renting Accommodation", "titleDe": "Eine Wohnung mieten", "functions": ["Ask if a room is available and the rent", "Ask if it's furnished", "Ask about roommates and shared spaces", "Ask about house rules", "Arrange to view a room", "Report a problem after moving in"], "speakers": ["Vermieter", "Mieter"], "lines": [{"speaker": 0, "de": "Guten Tag! Sie interessieren sich für das Zimmer?", "en": "Hello! You're interested in the room?", "words": ["Hello", "You", "interest", "yourself", "for", "the", "room"]}, {"speaker": 1, "de": "Ja, genau. Ist es noch frei?", "en": "Yes, exactly. Is it still available?", "words": ["Yes", "exactly", "Is", "it", "still", "free"]}, {"speaker": 0, "de": "Ja, ab dem ersten März.", "en": "Yes, starting the first of March.", "words": ["Yes", "from", "the", "first", "March"]}, {"speaker": 1, "de": "Wie hoch ist die Miete?", "en": "How much is the rent?", "words": ["How", "high", "is", "the", "rent"]}, {"speaker": 0, "de": "600 Euro im Monat, plus Nebenkosten.", "en": "600 euros a month, plus utilities.", "words": ["600", "euros", "in the", "month", "plus", "utilities"]}, {"speaker": 1, "de": "Ist das Zimmer möbliert?", "en": "Is the room furnished?", "words": ["Is", "the", "room", "furnished"]}, {"speaker": 0, "de": "Ja, mit Bett, Schrank und Schreibtisch.", "en": "Yes, with a bed, closet, and desk.", "words": ["Yes", "with", "bed", "closet", "and", "desk"]}, {"speaker": 1, "de": "Teile ich mir die Küche und das Bad mit anderen?", "en": "Do I share the kitchen and bathroom with others?", "words": ["Share", "I", "myself", "the", "kitchen", "and", "the", "bathroom", "with", "others"]}, {"speaker": 0, "de": "Ja, es gibt noch zwei Mitbewohner.", "en": "Yes, there are two other roommates.", "words": ["Yes", "there", "gives", "still", "two", "roommates"]}, {"speaker": 1, "de": "Gibt es feste Regeln, zum Beispiel für Gäste?", "en": "Are there fixed rules, for example about guests?", "words": ["Gives", "there", "fixed", "rules", "for", "example", "for", "guests"]}, {"speaker": 0, "de": "Nur: bitte keine Partys nach 22 Uhr.", "en": "Just: please no parties after 10 PM.", "words": ["Only", "please", "no", "parties", "after", "22", "o'clock"]}, {"speaker": 1, "de": "Verstanden. Wann kann ich das Zimmer besichtigen?", "en": "Understood. When can I view the room?", "words": ["Understood", "When", "can", "I", "the", "room", "view"]}, {"speaker": 0, "de": "Morgen um vier Uhr, wenn das passt.", "en": "Tomorrow at four, if that works.", "words": ["Tomorrow", "at", "four", "o'clock", "if", "that", "fits"]}, {"speaker": 1, "de": "Entschuldigung, die Heizung in meinem Zimmer funktioniert nicht.", "en": "Excuse me, the heating in my room isn't working.", "words": ["Excuse me", "the", "heating", "in", "my", "room", "functions", "not"]}, {"speaker": 0, "de": "Oh, das tut mir leid. Ich schicke morgen jemanden zur Reparatur.", "en": "Oh, I'm sorry. I'll send someone to repair it tomorrow.", "words": ["Oh", "that", "does", "me", "sorry", "I", "send", "tomorrow", "someone", "for the", "repair"]}, {"speaker": 1, "de": "Danke, das wäre super.", "en": "Thanks, that would be great.", "words": ["Thanks", "that", "would be", "great"]}]}, {"id": "airport", "icon": "✈️", "title": "At the Airport", "titleDe": "Am Flughafen", "functions": ["Check in and choose a seat", "Ask about your gate and flight time", "Find security control", "Understand a boarding announcement", "Make small talk while waiting at the gate"], "speakers": ["Reisender", "Mitarbeiter"], "lines": [{"speaker": 1, "de": "Guten Tag! Ihren Pass und Ihr Ticket, bitte.", "en": "Hello! Your passport and ticket, please.", "words": ["Hello", "Your", "passport", "and", "your", "ticket", "please"]}, {"speaker": 0, "de": "Hier, bitte.", "en": "Here you go.", "words": ["Here", "please"]}, {"speaker": 1, "de": "Fensterplatz oder Gangplatz?", "en": "Window or aisle seat?", "words": ["Window seat", "or", "aisle seat"]}, {"speaker": 0, "de": "Einen Fensterplatz, bitte.", "en": "A window seat, please.", "words": ["A", "window seat", "please"]}, {"speaker": 1, "de": "Haben Sie Gepäck zum Einchecken?", "en": "Do you have luggage to check in?", "words": ["Have", "you", "luggage", "for", "checking in"]}, {"speaker": 0, "de": "Ja, einen Koffer.", "en": "Yes, one suitcase.", "words": ["Yes", "a", "suitcase"]}, {"speaker": 1, "de": "Ihr Flug geht von Gate 14 um 15 Uhr.", "en": "Your flight leaves from gate 14 at 3 PM.", "words": ["Your", "flight", "goes", "from", "gate", "14", "at", "15", "o'clock"]}, {"speaker": 0, "de": "Wo ist die Sicherheitskontrolle?", "en": "Where is security control?", "words": ["Where", "is", "the", "security control"]}, {"speaker": 1, "de": "Geradeaus und dann links, direkt danach.", "en": "Straight ahead and then left, right after that.", "words": ["Straight ahead", "and", "then", "left", "directly", "after that"]}, {"speaker": 0, "de": "Muss ich auch meinen Laptop rausnehmen?", "en": "Do I also need to take out my laptop?", "words": ["Must", "I", "also", "my", "laptop", "take out"]}, {"speaker": 1, "de": "Ja, bitte, in eine eigene Box.", "en": "Yes, please, in its own box.", "words": ["Yes", "please", "in", "its", "own", "box"]}, {"speaker": 1, "de": "Der Flug nach Berlin beginnt jetzt mit dem Boarding an Gate 14.", "en": "The flight to Berlin is now boarding at gate 14.", "words": ["The", "flight", "to", "Berlin", "begins", "now", "with", "the", "boarding", "at", "gate", "14"]}, {"speaker": 0, "de": "Entschuldigung, wo genau ist Gate 14?", "en": "Excuse me, where exactly is gate 14?", "words": ["Excuse me", "where", "exactly", "is", "gate", "14"]}, {"speaker": 1, "de": "Nur noch zwei Minuten geradeaus.", "en": "Just two more minutes straight ahead.", "words": ["Only", "still", "two", "minutes", "straight ahead"]}]}, {"id": "medical", "icon": "💊", "title": "Medical & Pharmacy", "titleDe": "Beim Arzt & in der Apotheke", "functions": ["Describe how you feel and your symptoms", "Say how long you've felt this way", "Ask if you need medication", "Buy over-the-counter medicine at a pharmacy", "Ask how often to take medication"], "speakers": ["Arzt", "Patient"], "lines": [{"speaker": 0, "de": "Guten Tag, was fehlt Ihnen?", "en": "Hello, what's wrong?", "words": ["Hello", "what", "is missing", "you"]}, {"speaker": 1, "de": "Mein Kopf tut seit gestern weh, und mir ist auch übel.", "en": "My head has hurt since yesterday, and I also feel nauseous.", "words": ["My", "head", "does", "since", "yesterday", "hurt", "and", "me", "is", "also", "nauseous"]}, {"speaker": 0, "de": "Haben Sie auch Fieber?", "en": "Do you also have a fever?", "words": ["Have", "you", "also", "fever"]}, {"speaker": 1, "de": "Ja, ein bisschen, ungefähr 38 Grad.", "en": "Yes, a little, about 38 degrees.", "words": ["Yes", "a", "bit", "approximately", "38", "degrees"]}, {"speaker": 0, "de": "Und wie lange fühlen Sie sich schon so?", "en": "And how long have you been feeling this way?", "words": ["And", "how", "long", "feel", "you", "yourself", "already", "so"]}, {"speaker": 1, "de": "Seit zwei Tagen.", "en": "For two days.", "words": ["Since", "two", "days"]}, {"speaker": 0, "de": "Das ist wahrscheinlich eine Erkältung. Trinken Sie viel Wasser und ruhen Sie sich aus.", "en": "That's probably a cold. Drink lots of water and rest.", "words": ["That", "is", "probably", "a", "cold", "Drink", "you", "much", "water", "and", "rest", "you", "yourself", "(prefix)"]}, {"speaker": 1, "de": "Brauche ich Medikamente?", "en": "Do I need medication?", "words": ["Need", "I", "medication"]}, {"speaker": 0, "de": "Ja, hier ist ein Rezept.", "en": "Yes, here's a prescription.", "words": ["Yes", "here", "is", "a", "prescription"]}, {"speaker": 1, "de": "Guten Tag, ich habe hier ein Rezept vom Arzt.", "en": "Hello, I have a prescription from the doctor here.", "words": ["Hello", "I", "have", "here", "a", "prescription", "from the", "doctor"]}, {"speaker": 0, "de": "Einen Moment, bitte.", "en": "One moment, please.", "words": ["One", "moment", "please"]}, {"speaker": 1, "de": "Haben Sie auch etwas gegen Halsschmerzen, ohne Rezept?", "en": "Do you also have something for a sore throat, without a prescription?", "words": ["Have", "you", "also", "something", "against", "sore throat", "without", "prescription"]}, {"speaker": 0, "de": "Ja, diese Tabletten helfen gut.", "en": "Yes, these tablets help well.", "words": ["Yes", "these", "tablets", "help", "well"]}, {"speaker": 1, "de": "Wie oft muss ich sie nehmen?", "en": "How often do I need to take them?", "words": ["How", "often", "must", "I", "them", "take"]}, {"speaker": 0, "de": "Dreimal täglich, nach dem Essen.", "en": "Three times daily, after meals.", "words": ["Three times", "daily", "after", "the", "meal"]}, {"speaker": 1, "de": "Vielen Dank für Ihre Hilfe!", "en": "Thank you very much for your help!", "words": ["Much", "thanks", "for", "your", "help"]}]}, {"id": "workplace", "icon": "💼", "title": "Workplace", "titleDe": "Am Arbeitsplatz", "functions": ["Handle basic job interview questions", "Talk about experience and availability", "Answer a professional phone call", "Arrange a meeting time"], "speakers": ["Chefin", "Bewerber"], "lines": [{"speaker": 0, "de": "Guten Tag, schön, dass Sie da sind. Bitte, setzen Sie sich.", "en": "Hello, nice that you're here. Please, sit down.", "words": ["Hello", "nice", "that", "you", "there", "are", "Please", "sit", "you", "yourself"]}, {"speaker": 1, "de": "Vielen Dank für die Einladung.", "en": "Thank you very much for the invitation.", "words": ["Much", "thanks", "for", "the", "invitation"]}, {"speaker": 0, "de": "Erzählen Sie mir kurz etwas über sich.", "en": "Tell me briefly a bit about yourself.", "words": ["Tell", "you", "me", "briefly", "something", "about", "yourself"]}, {"speaker": 1, "de": "Ich habe drei Jahre Erfahrung im Kundenservice.", "en": "I have three years of experience in customer service.", "words": ["I", "have", "three", "years", "experience", "in", "customer service"]}, {"speaker": 0, "de": "Warum möchten Sie bei uns arbeiten?", "en": "Why do you want to work with us?", "words": ["Why", "would like", "you", "at", "us", "work"]}, {"speaker": 1, "de": "Ich finde die Firma sehr interessant, und ich möchte gern im Team arbeiten.", "en": "I find the company very interesting, and I'd like to work in a team.", "words": ["I", "find", "the", "company", "very", "interesting", "and", "I", "would like", "gladly", "in the", "team", "work"]}, {"speaker": 0, "de": "Wann könnten Sie anfangen?", "en": "When could you start?", "words": ["When", "could", "you", "begin"]}, {"speaker": 1, "de": "Ab dem ersten Mai wäre gut für mich.", "en": "The first of May would work for me.", "words": ["From", "the", "first", "May", "would be", "good", "for", "me"]}, {"speaker": 0, "de": "Gut. Haben Sie noch Fragen an mich?", "en": "Good. Do you have any questions for me?", "words": ["Good", "Have", "you", "still", "questions", "for", "me"]}, {"speaker": 1, "de": "Ja, wie viele Personen arbeiten im Team?", "en": "Yes, how many people work in the team?", "words": ["Yes", "how", "many", "people", "work", "in the", "team"]}, {"speaker": 0, "de": "Firma Müller, guten Tag, hier spricht Tom.", "en": "Müller Company, hello, this is Tom speaking.", "words": ["Company", "Müller", "good", "day", "here", "speaks", "Tom"]}, {"speaker": 1, "de": "Guten Tag, hier ist Frau Schmidt. Kann ich bitte mit Herrn Weber sprechen?", "en": "Hello, this is Mrs. Schmidt. Could I please speak with Mr. Weber?", "words": ["Hello", "here", "is", "Mrs.", "Schmidt", "Can", "I", "please", "with", "Mr.", "Weber", "speak"]}, {"speaker": 0, "de": "Einen Moment, ich verbinde Sie.", "en": "One moment, I'll connect you.", "words": ["One", "moment", "I", "connect", "you"]}, {"speaker": 0, "de": "Können Sie am Montag um 10 Uhr zu einem Meeting kommen?", "en": "Can you come to a meeting on Monday at 10?", "words": ["Can", "you", "on", "Monday", "at", "10", "o'clock", "to", "a", "meeting", "come"]}, {"speaker": 1, "de": "Ja, das passt gut. Bis Montag!", "en": "Yes, that works well. See you Monday!", "words": ["Yes", "that", "fits", "well", "Until", "Monday"]}]}, {"id": "emergencies", "icon": "🚨", "title": "Emergencies", "titleDe": "Notfälle", "functions": ["Ask for urgent help", "Report something stolen or lost", "Report an incident to the police", "Call for an ambulance"], "speakers": ["Du", "Passant"], "lines": [{"speaker": 0, "de": "Hilfe! Können Sie mir helfen?", "en": "Help! Can you help me?", "words": ["Help", "Can", "you", "me", "help"]}, {"speaker": 1, "de": "Was ist passiert?", "en": "What happened?", "words": ["What", "is", "happened"]}, {"speaker": 0, "de": "Mein Portemonnaie ist weg, ich glaube, es wurde gestohlen.", "en": "My wallet is gone, I think it was stolen.", "words": ["My", "wallet", "is", "gone", "I", "believe", "it", "was", "stolen"]}, {"speaker": 1, "de": "Das tut mir leid. Wir sollten die Polizei rufen.", "en": "I'm sorry. We should call the police.", "words": ["That", "does", "me", "sorry", "We", "should", "the", "police", "call"]}, {"speaker": 0, "de": "Wo ist die nächste Polizeistation?", "en": "Where is the nearest police station?", "words": ["Where", "is", "the", "nearest", "police station"]}, {"speaker": 1, "de": "Zwei Straßen weiter, auf der rechten Seite.", "en": "Two streets further, on the right side.", "words": ["Two", "streets", "further", "on", "the", "right", "side"]}, {"speaker": 1, "de": "Guten Tag, was kann ich für Sie tun?", "en": "Hello, what can I do for you?", "words": ["Hello", "what", "can", "I", "for", "you", "do"]}, {"speaker": 0, "de": "Ich möchte einen Diebstahl melden. Mein Portemonnaie und mein Pass sind weg.", "en": "I'd like to report a theft. My wallet and passport are gone.", "words": ["I", "would like", "a", "theft", "report", "My", "wallet", "and", "my", "passport", "are", "gone"]}, {"speaker": 1, "de": "Wann und wo ist das passiert?", "en": "When and where did this happen?", "words": ["When", "and", "where", "is", "that", "happened"]}, {"speaker": 0, "de": "Vor ungefähr einer Stunde, am Bahnhof.", "en": "About an hour ago, at the train station.", "words": ["Before", "approximately", "one", "hour", "at the", "train station"]}, {"speaker": 1, "de": "Können Sie mir bitte Ihren Namen und Ihre Adresse geben?", "en": "Can you please give me your name and address?", "words": ["Can", "you", "me", "please", "your", "name", "and", "your", "address", "give"]}, {"speaker": 0, "de": "Bitte, rufen Sie einen Krankenwagen! Mein Freund ist gestürzt.", "en": "Please call an ambulance! My friend fell.", "words": ["Please", "call", "you", "an", "ambulance", "My", "friend", "is", "fallen"]}, {"speaker": 1, "de": "Sofort! Bleiben Sie ruhig, Hilfe kommt gleich.", "en": "Right away! Stay calm, help is coming soon.", "words": ["Immediately", "Stay", "you", "calm", "help", "comes", "right away"]}]}, {"id": "repair", "icon": "🗣️", "title": "Language Repair", "titleDe": "Um Wiederholung bitten", "functions": ["Ask someone to repeat what they said", "Ask someone to speak more slowly", "Ask someone to explain differently", "Ask how to spell or what a word means", "Admit your German is limited, without shutting the conversation down"], "speakers": ["Du", "Person"], "lines": [{"speaker": 0, "de": "Entschuldigung, können Sie das bitte wiederholen?", "en": "Excuse me, can you please repeat that?", "words": ["Excuse me", "can", "you", "that", "please", "repeat"]}, {"speaker": 1, "de": "Klar, kein Problem.", "en": "Sure, no problem.", "words": ["Sure", "no", "problem"]}, {"speaker": 0, "de": "Können Sie bitte langsamer sprechen?", "en": "Can you please speak more slowly?", "words": ["Can", "you", "please", "more slowly", "speak"]}, {"speaker": 1, "de": "Natürlich, ich spreche jetzt langsamer.", "en": "Of course, I'll speak more slowly now.", "words": ["Of course", "I", "speak", "now", "more slowly"]}, {"speaker": 0, "de": "Ich verstehe das nicht ganz. Können Sie es anders sagen?", "en": "I don't quite understand. Can you say it differently?", "words": ["I", "understand", "that", "not", "quite", "Can", "you", "it", "differently", "say"]}, {"speaker": 1, "de": "Kein Problem, ich erkläre es noch einmal.", "en": "No problem, I'll explain it again.", "words": ["No", "problem", "I", "explain", "it", "once", "more"]}, {"speaker": 0, "de": "Wie schreibt man das? Können Sie es buchstabieren?", "en": "How do you write that? Can you spell it?", "words": ["How", "writes", "one", "that", "Can", "you", "it", "spell"]}, {"speaker": 1, "de": "Ja, klar: M-Ü-L-L-E-R.", "en": "Yes, sure: M-Ü-L-L-E-R.", "words": ["Yes", "sure"]}, {"speaker": 0, "de": "Was bedeutet dieses Wort?", "en": "What does this word mean?", "words": ["What", "means", "this", "word"]}, {"speaker": 1, "de": "Das bedeutet 'schnell'.", "en": "That means 'fast'.", "words": ["That", "means", "fast"]}, {"speaker": 0, "de": "Sprechen Sie Englisch? Mein Deutsch ist noch nicht so gut.", "en": "Do you speak English? My German isn't very good yet.", "words": ["Speak", "you", "English", "My", "German", "is", "still", "not", "so", "good"]}, {"speaker": 1, "de": "Ein bisschen, aber lassen Sie uns Deutsch üben!", "en": "A little, but let's practice German!", "words": ["A", "bit", "but", "let", "you", "us", "German", "practice"]}, {"speaker": 0, "de": "Danke für Ihre Geduld.", "en": "Thanks for your patience.", "words": ["Thanks", "for", "your", "patience"]}]}];
+
+let cur = null;
+let lineIdx = 0;
+let playing = false;
+let rate = 0.85;
+let volume = 1;
+let queueToken = 0;
+let practiced = {};
+let revealed = {};
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function loadPracticed(){
+  try{ practiced = JSON.parse(localStorage.getItem('a1-scenarios-practiced') || '{}'); }catch(e){ practiced = {}; }
+}
+function savePracticed(){
+  try{ localStorage.setItem('a1-scenarios-practiced', JSON.stringify(practiced)); }catch(e){}
+}
+
+function glossHTML(de, words){
+  const tokens = de.split(' ');
+  return tokens.map((tok,i)=>{
+    const m = tok.match(/^([„"'‘]*)([^\s.,!?;:()"„“”'’]+)([.,!?;:()"„“”'’]*)$/);
+    if(!m || !words || words[i]===undefined) return esc(tok);
+    const lead=m[1]||'', word=m[2], trail=m[3]||'';
+    return `${esc(lead)}<span class="gw" data-tip="${esc(words[i])}">${esc(word)}</span>${esc(trail)}`;
+  }).join(' ');
+}
+
+function renderGrid(){
+  const el = document.getElementById('grid');
+  el.innerHTML = SCENARIOS.map((s,i)=>`
+    <div class="scard${practiced[s.id]?' practiced':''}" data-i="${i}">
+      <span class="check">✓</span>
+      <div class="icon">${s.icon}</div>
+      <h3>${esc(s.title)}</h3>
+      <div class="de">${esc(s.titleDe)}</div>
+      <div class="meta">${s.lines.length} lines</div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.scard').forEach(c=>c.addEventListener('click', ()=> openScenario(+c.dataset.i)));
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = SCENARIOS.length;
+  const done = SCENARIOS.filter(s=>practiced[s.id]).length;
+  document.getElementById('pbar').style.width = (100*done/total)+'%';
+  document.getElementById('plabel').textContent = `${done} / ${total} scenarios practiced`;
+}
+
+function openScenario(i){
+  stopReading();
+  cur = i;
+  lineIdx = 0;
+  const s = SCENARIOS[i];
+  document.getElementById('gridView').classList.add('hidden');
+  document.getElementById('scenarioView').classList.add('active');
+  document.getElementById('svIcon').textContent = s.icon;
+  document.getElementById('svTitle').textContent = s.title;
+  document.getElementById('svDe').textContent = s.titleDe;
+  document.getElementById('svFunctions').innerHTML = s.functions.map(f=>`<li>${esc(f)}</li>`).join('');
+  renderPracticedBtn();
+  renderDialogue();
+  window.scrollTo(0,0);
+  history.replaceState(null,'','#'+s.id);
+}
+
+function backToGrid(){
+  stopReading();
+  cur = null;
+  document.getElementById('gridView').classList.remove('hidden');
+  document.getElementById('scenarioView').classList.remove('active');
+  document.getElementById('playerLabel').textContent = 'Choose a scenario to begin';
+  document.getElementById('scrub').max = 0;
+  renderGrid();
+  history.replaceState(null,'','#');
+}
+document.getElementById('backBtn').onclick = backToGrid;
+
+function renderPracticedBtn(){
+  const s = SCENARIOS[cur];
+  const btn = document.getElementById('practicedBtn');
+  const isOn = !!practiced[s.id];
+  btn.textContent = isOn ? '✓ Practiced' : '☐ Mark as practiced';
+  btn.classList.toggle('on', isOn);
+}
+document.getElementById('practicedBtn').onclick = ()=>{
+  const s = SCENARIOS[cur];
+  practiced[s.id] = !practiced[s.id];
+  savePracticed();
+  renderPracticedBtn();
+  updateProgress();
+};
+
+function renderDialogue(){
+  const s = SCENARIOS[cur];
+  const el = document.getElementById('dialogue');
+  el.innerHTML = s.lines.map((l,i)=>{
+    const isRevealed = revealed[cur+'-'+i];
+    return `
+    <div class="bubble-row speaker-${l.speaker}">
+      <div class="bubble" id="bubble-${i}" data-i="${i}">
+        <div class="speaker-name">${esc(s.speakers[l.speaker])}</div>
+        <div class="de-line">${glossHTML(l.de, l.words)}</div>
+        <div class="en-line${isRevealed?'':' blur'}" data-i="${i}">${esc(l.en)}</div>
+        <div class="line-controls">
+          <button class="speak-line" data-i="${i}" title="Hear this line">🔊</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.querySelectorAll('.en-line').forEach(elm=>elm.addEventListener('click', e=>{
+    const i = e.currentTarget.dataset.i;
+    revealed[cur+'-'+i] = !revealed[cur+'-'+i];
+    e.currentTarget.classList.toggle('blur', !revealed[cur+'-'+i]);
+  }));
+  el.querySelectorAll('.speak-line').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    const i = +e.currentTarget.dataset.i;
+    stopReading();
+    speakLine(i, false);
+  }));
+
+  document.getElementById('scrub').max = s.lines.length - 1;
+  document.getElementById('scrub').value = lineIdx;
+  updatePlayerLabel();
+}
+
+function updatePlayerLabel(){
+  if(cur===null) return;
+  const s = SCENARIOS[cur];
+  document.getElementById('playerLabel').textContent = `Line ${lineIdx+1} / ${s.lines.length} — ${s.title}`;
+}
+
+function highlightLine(i){
+  document.querySelectorAll('.bubble.reading').forEach(b=>b.classList.remove('reading'));
+  const b = document.getElementById('bubble-'+i);
+  if(b){ b.classList.add('reading'); b.scrollIntoView({behavior:'smooth', block:'center'}); }
+  lineIdx = i;
+  document.getElementById('scrub').value = i;
+  updatePlayerLabel();
+}
+
+function speakLine(i, chain){
+  const s = SCENARIOS[cur];
+  if(i >= s.lines.length){
+    playing = false;
+    document.getElementById('playBtn').textContent = '▶️';
+    return;
+  }
+  highlightLine(i);
+  const myToken = queueToken;
+  const u = new SpeechSynthesisUtterance(s.lines[i].de.replace(/[„“]/g,''));
+  u.lang = 'de-DE';
+  u.rate = rate;
+  u.volume = volume;
+  if(chain){
+    u.onend = () => { if(myToken===queueToken) speakLine(i+1, true); };
+  }
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+function stopReading(){
+  queueToken++;
+  window.speechSynthesis.cancel();
+  playing = false;
+  document.getElementById('playBtn').textContent = '▶️';
+}
+
+function startReading(){
+  if(cur===null) return;
+  playing = true;
+  document.getElementById('playBtn').textContent = '⏸';
+  queueToken++;
+  speakLine(lineIdx, true);
+}
+
+function togglePlay(){
+  if(cur===null) return;
+  if(playing){ stopReading(); }
+  else { startReading(); }
+}
+
+function stepLine(delta){
+  if(cur===null) return;
+  const s = SCENARIOS[cur];
+  const wasPlaying = playing;
+  stopReading();
+  const newIdx = Math.max(0, Math.min(s.lines.length-1, lineIdx+delta));
+  highlightLine(newIdx);
+  if(wasPlaying) startReading();
+}
+
+document.getElementById('prevBtn').onclick = () => stepLine(-1);
+document.getElementById('nextBtn').onclick = () => stepLine(1);
+document.getElementById('playBtn').onclick = togglePlay;
+document.getElementById('scrub').oninput = (e) => {
+  if(cur===null) return;
+  const wasPlaying = playing;
+  stopReading();
+  highlightLine(+e.target.value);
+  if(wasPlaying) startReading();
+};
+document.getElementById('speedSlider').oninput = (e) => {
+  rate = +e.target.value;
+  document.getElementById('speedVal').textContent = rate.toFixed(2)+'x';
+};
+document.getElementById('volumeSlider').oninput = (e) => {
+  volume = +e.target.value;
+  document.getElementById('volumeVal').textContent = Math.round(volume*100)+'%';
+};
+
+function checkHash(){
+  const id = location.hash.replace('#','');
+  if(id){
+    const idx = SCENARIOS.findIndex(s=>s.id===id);
+    if(idx>=0) openScenario(idx);
+  }
+}
+
+loadPracticed();
+renderGrid();
+checkHash();
+
+function initMode(){
+  const saved=localStorage.getItem('a1-dark');
+  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+
+(function(){
+  let tipEl, timer, autoHideTimer;
+  function ensureTip(){
+    if(!tipEl){ tipEl=document.createElement('div'); tipEl.id='glossTip'; document.body.appendChild(tipEl); }
+    return tipEl;
+  }
+  function showTip(target){
+    const tip=ensureTip();
+    tip.textContent=target.dataset.tip;
+    tip.classList.add('show');
+    const r=target.getBoundingClientRect();
+    tip.style.left=Math.min(Math.max(r.left+r.width/2,60),window.innerWidth-60)+'px';
+    tip.style.top=Math.max(r.top-10,10)+'px';
+    tip.style.transform='translate(-50%,-100%)';
+    clearTimeout(autoHideTimer);
+    autoHideTimer=setTimeout(hideTip,5000);
+  }
+  function hideTip(){ clearTimeout(timer); clearTimeout(autoHideTimer); ensureTip().classList.remove('show'); }
+  document.addEventListener('mouseover',e=>{
+    const g=e.target.closest('.gw'); if(!g)return;
+    clearTimeout(timer); timer=setTimeout(()=>showTip(g),500);
+  });
+  document.addEventListener('mouseout',e=>{ if(e.target.closest('.gw')) hideTip(); });
+})();
+</script>
+</body>
+</html>
