@@ -55,6 +55,13 @@ footer{margin-top:40px;font-size:11.5px;color:var(--muted)}
 <script>
 const MODULES = [
 {
+icon:"📗",
+title:"A1 Vocabulary — Complete",
+desc:"Full Goethe A1 vocab by chapter, with flashcards, quiz mode, and per-word pronunciation.",
+tags:["Vocabulary","A1","Flashcards"],
+href:"vocabulary.html"
+},
+{
 icon:"🎧",
 title:"Listening — A1 Chapters",
 desc:"English word, pause, German word, chapter by chapter. Plays in the background with the screen locked.",
@@ -62,11 +69,19 @@ tags:["Listening","Audio","A1"],
 href:"listening.html"
 },
 {
-icon:"📗",
-title:"A1 Vocabulary — Complete",
-desc:"Full Goethe A1 vocab by chapter, with flashcards, quiz mode, and per-word pronunciation.",
-tags:["Vocabulary","A1","Flashcards"],
-href:"vocabulary.html"
+icon:"✍️",
+title:"Writing Practice",
+desc:"Produce your own sentences with vocabulary you've already learned — fill-in-the-blank exercises by chapter, in both translation directions.",
+tags:["Production","Fill-in-the-blank","By chapter"],
+href:"writing-practice.html"
+},
+{
+icon:"🗣️",
+title:"Speaking Practice",
+desc:"Opens a fresh Claude chat — tap the sound-wave icon in the message box to start voice mode, then just talk in German.",
+tags:["Speaking","Voice","Practice"],
+href:"https://claude.ai/new",
+external:true
 },
 {
 icon:"💬",
@@ -90,13 +105,6 @@ tags:["Reading","Graded Reader","TTS"],
 href:"books.html"
 },
 {
-icon:"✍️",
-title:"Writing Practice",
-desc:"Produce your own sentences with vocabulary you've already learned — fill-in-the-blank exercises by chapter, in both translation directions.",
-tags:["Production","Fill-in-the-blank","By chapter"],
-href:"writing-practice.html"
-},
-{
 icon:"🌐",
 title:"Translate & Practice",
 desc:"Write your own script in English or German, translate it, edit it, and read it aloud to practice — with a round-trip check for accuracy.",
@@ -107,7 +115,7 @@ href:"translate.html"
 function render(){
 const g=document.getElementById('grid');
 g.innerHTML = MODULES.map(m=>`
-<a class="mcard" href="${m.href}">
+<a class="mcard" href="${m.href}"${m.external?' target="_blank" rel="noopener"':''}>
 <div class="icon">${m.icon}</div>
 <h2>${m.title}</h2>
 <p>${m.desc}</p>
