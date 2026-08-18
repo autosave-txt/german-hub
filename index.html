@@ -7,26 +7,24 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
-  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
-  --border:#e4e0da;--card:#fafaf8;
-  --shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
+--bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+--accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+--border:#e4e0da;--card:#fafaf8;
+--shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
 }
 body.dark{
-  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
-  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
-  --border:#333630;--card:#262a25;--shadow:0 1px 3px rgba(0,0,0,.3);
+--bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+--accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+--border:#333630;--card:#262a25;--shadow:0 1px 3px rgba(0,0,0,.3);
 }
 body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
 .mode-toggle{position:fixed;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:10}
-
 .top{margin-bottom:28px}
 .top .kicker{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
 .top h1{font-size:26px;font-weight:800;color:var(--accent-d);margin-top:4px}
 .top .sub{font-size:13.5px;color:var(--sub);margin-top:6px;max-width:560px}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:20px}
 .mcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;transition:transform .12s,border-color .12s}
 .mcard:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -36,102 +34,101 @@ a{color:inherit;text-decoration:none}
 .mcard .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
 .mcard .tag{font-size:10.5px;font-weight:600;background:var(--accent-l);color:var(--accent-d);padding:3px 8px;border-radius:99px}
 .mcard .open{margin-top:10px;font-size:13px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:4px}
-
 .ghost{border-style:dashed;align-items:center;justify-content:center;text-align:center;color:var(--muted)}
 .ghost .icon{opacity:.5}
-
 .section-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sub);margin:30px 0 4px}
-
 footer{margin-top:40px;font-size:11.5px;color:var(--muted)}
 </style>
 </head>
 <body>
 <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
 <div class="wrap">
-  <div class="top">
-    <div class="kicker">Persönliches Projekt</div>
-    <h1>German Learning Hub</h1>
-    <div class="sub">Everything in one place — vocab, phrases, grammar notes. Bookmark this page on any device to pick up where you left off.</div>
-  </div>
-
-  <div class="section-label">Guides</div>
-  <div class="grid" id="grid"></div>
-
-  <footer>Add new guides here as they're built — this page just needs a new card + the file sitting alongside it.</footer>
+<div class="top">
+<div class="kicker">Persönliches Projekt</div>
+<h1>German Learning Hub</h1>
+<div class="sub">Everything in one place — vocab, phrases, grammar notes. Bookmark this page on any device to pick up where you left off.</div>
 </div>
-
+<div class="section-label">Guides</div>
+<div class="grid" id="grid"></div>
+<footer>Add new guides here as they're built — this page just needs a new card + the file sitting alongside it.</footer>
+</div>
 <script>
 const MODULES = [
-  {
-    icon:"📗",
-    title:"A1 Vocabulary — Complete",
-    desc:"Full Goethe A1 vocab by chapter, with flashcards, quiz mode, and per-word pronunciation.",
-    tags:["Vocabulary","A1","Flashcards"],
-    href:"vocabulary.html"
-  },
-  {
-    icon:"💬",
-    title:"Self-Introduction Phrasebook",
-    desc:"Q&A patterns from Easy German — every phrase in both du (informal) and Sie (formal), with pronunciation and grammar notes.",
-    tags:["Phrases","Du/Sie","Speaking"],
-    href:"phrasebook.html"
-  },
-  {
-    icon:"🔤",
-    title:"Verbs",
-    desc:"Deep-dives per verb — every tense, real examples, and helper-verb roles. All six core modals now covered: sein, haben, werden, können, müssen, wollen, sollen, dürfen.",
-    tags:["Grammar","Verbs","Conjugation"],
-    href:"verbs.html"
-  },
-  {
-    icon:"📖",
-    title:"Simple Books",
-    desc:"Full public-domain stories, retold in extremely simplified original German — paginated, with word-by-word translations and a read-aloud player.",
-    tags:["Reading","Graded Reader","TTS"],
-    href:"books.html"
-  },
-  {
-    icon:"✍️",
-    title:"Writing Practice",
-    desc:"Produce your own sentences with vocabulary you've already learned — fill-in-the-blank exercises by chapter, in both translation directions.",
-    tags:["Production","Fill-in-the-blank","By chapter"],
-    href:"writing-practice.html"
-  },
-  {
-    icon:"🌐",
-    title:"Translate & Practice",
-    desc:"Write your own script in English or German, translate it, edit it, and read it aloud to practice — with a round-trip check for accuracy.",
-    tags:["Free-form","Translation","Speaking"],
-    href:"translate.html"
-  }
+{
+icon:"🎧",
+title:"Listening — A1 Chapters",
+desc:"English word, pause, German word, chapter by chapter. Plays in the background with the screen locked.",
+tags:["Listening","Audio","A1"],
+href:"listening.html"
+},
+{
+icon:"📗",
+title:"A1 Vocabulary — Complete",
+desc:"Full Goethe A1 vocab by chapter, with flashcards, quiz mode, and per-word pronunciation.",
+tags:["Vocabulary","A1","Flashcards"],
+href:"vocabulary.html"
+},
+{
+icon:"💬",
+title:"Self-Introduction Phrasebook",
+desc:"Q&A patterns from Easy German — every phrase in both du (informal) and Sie (formal), with pronunciation and grammar notes.",
+tags:["Phrases","Du/Sie","Speaking"],
+href:"phrasebook.html"
+},
+{
+icon:"🔤",
+title:"Verbs",
+desc:"Deep-dives per verb — every tense, real examples, and helper-verb roles. All six core modals now covered: sein, haben, werden, können, müssen, wollen, sollen, dürfen.",
+tags:["Grammar","Verbs","Conjugation"],
+href:"verbs.html"
+},
+{
+icon:"📖",
+title:"Simple Books",
+desc:"Full public-domain stories, retold in extremely simplified original German — paginated, with word-by-word translations and a read-aloud player.",
+tags:["Reading","Graded Reader","TTS"],
+href:"books.html"
+},
+{
+icon:"✍️",
+title:"Writing Practice",
+desc:"Produce your own sentences with vocabulary you've already learned — fill-in-the-blank exercises by chapter, in both translation directions.",
+tags:["Production","Fill-in-the-blank","By chapter"],
+href:"writing-practice.html"
+},
+{
+icon:"🌐",
+title:"Translate & Practice",
+desc:"Write your own script in English or German, translate it, edit it, and read it aloud to practice — with a round-trip check for accuracy.",
+tags:["Free-form","Translation","Speaking"],
+href:"translate.html"
+}
 ];
-
 function render(){
-  const g=document.getElementById('grid');
-  g.innerHTML = MODULES.map(m=>`
-    <a class="mcard" href="${m.href}">
-      <div class="icon">${m.icon}</div>
-      <h2>${m.title}</h2>
-      <p>${m.desc}</p>
-      <div class="meta">${m.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      <div class="open">Open →</div>
-    </a>
-  `).join('') + `
-    <div class="mcard ghost">
-      <div class="icon">➕</div>
-      <p>Next guide goes here</p>
-    </div>
-  `;
+const g=document.getElementById('grid');
+g.innerHTML = MODULES.map(m=>`
+<a class="mcard" href="${m.href}">
+<div class="icon">${m.icon}</div>
+<h2>${m.title}</h2>
+<p>${m.desc}</p>
+<div class="meta">${m.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+<div class="open">Open →</div>
+</a>
+`).join('') + `
+<div class="mcard ghost">
+<div class="icon">➕</div>
+<p>Next guide goes here</p>
+</div>
+`;
 }
 render();
-
 function initMode(){
-  const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setMode(prefersDark);
+const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+setMode(prefersDark);
 }
 function setMode(dark){
-  document.body.classList.toggle('dark',dark);
-  document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+document.body.classList.toggle('dark',dark);
+document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
 }
 document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
 initMode();
