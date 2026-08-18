@@ -7,35 +7,41 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+--bg:#e9e7e2;--panel:#f7f6f3;--ink:#1e1e1e;--sub:#666;--muted:#888;
 --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
---border:#e4e0da;--card:#fafaf8;
+--border:#dcd8d0;--card:#f0efeb;
 --shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
 }
 body.dark{
---bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+--bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#b7b5ac;--muted:#93918a;
 --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
 --border:#333630;--card:#262a25;--shadow:0 1px 3px rgba(0,0,0,.3);
 }
 body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit}
-.wrap{max-width:900px;margin:0 auto;padding:32px 20px 120px}
-.mode-toggle{position:fixed;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:20}
-.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);margin-bottom:18px}
+
+/* Unified top bar — same pattern as vocabulary.html: fixed top-right, home + dark-mode toggle */
+.top-bar{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:100}
+.top-bar button,.top-bar a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.home-link{width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink)!important;text-decoration:none!important}
+
+.wrap{max-width:900px;margin:0 auto;padding:70px 20px 120px}
 .top{margin-bottom:28px}
 .top .kicker{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
 .top h1{font-size:26px;font-weight:800;color:var(--accent-d);margin-top:4px}
 .top .sub{font-size:13.5px;color:var(--sub);margin-top:6px;max-width:560px}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:20px}
-.ccard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;transition:transform .12s,border-color .12s;cursor:pointer;text-align:left}
+.ccard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;transition:transform .12s,border-color .12s;text-align:left}
 .ccard:hover{transform:translateY(-2px);border-color:var(--accent)}
-.ccard.playing{border-color:var(--accent);background:var(--accent-l)}
+.ccard .clickzone{cursor:pointer}
 .ccard .num{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.4px;text-transform:uppercase}
-.ccard h3{font-size:14.5px;font-weight:700;margin-top:2px}
+.ccard h3{font-size:14.5px;font-weight:700;margin-top:2px;color:var(--ink)}
 .ccard .de{font-size:12px;color:var(--sub);font-style:italic}
-.ccard .meta{font-size:11px;color:var(--muted);margin-top:4px}
+.ccard .meta{font-size:11.5px;color:var(--sub);margin-top:4px}
+.vocab-btn{font-size:11.5px;font-weight:700;color:var(--accent);margin-top:8px;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:99px;background:var(--accent-l);border:1px solid var(--accent);align-self:flex-start}
+.vocab-btn:hover{background:var(--accent);color:#fff}
 
 .player-view{display:none}
 .player-view.active{display:block}
@@ -45,7 +51,9 @@ button{font-family:inherit}
 .pv-num{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px}
 .pv-title{font-size:22px;font-weight:800;color:var(--accent-d);margin-top:4px}
 .pv-de{font-size:14px;color:var(--sub);font-style:italic;margin-top:2px}
-.pv-meta{font-size:12.5px;color:var(--muted);margin-top:8px}
+.pv-meta{font-size:12.5px;color:var(--sub);margin-top:8px}
+.pv-vocab-btn{font-size:13px;font-weight:700;color:var(--accent);margin-top:12px;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:var(--accent-l);border:1px solid var(--accent)}
+.pv-vocab-btn:hover{background:var(--accent);color:#fff}
 
 .player-box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-top:20px}
 audio{width:100%}
@@ -57,20 +65,20 @@ audio{width:100%}
 
 .chapter-list{margin-top:28px}
 .chapter-list h4{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sub);margin-bottom:8px}
-.mini-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;cursor:pointer;font-size:13px;border:1px solid transparent}
+.mini-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;cursor:pointer;font-size:13px;border:1px solid transparent;color:var(--ink)}
 .mini-row:hover{background:var(--card)}
 .mini-row.active{background:var(--accent-l);border-color:var(--accent);font-weight:700;color:var(--accent-d)}
 .mini-row .n{color:var(--muted);font-size:11px;width:24px;flex-shrink:0}
 
-.section-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sub);margin:30px 0 4px}
 footer{margin-top:40px;font-size:11.5px;color:var(--muted)}
 </style>
 </head>
 <body>
-<button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+<div class="top-bar">
+  <a class="home-link" href="index.html" title="Back to home">🏠 Home</a>
+  <button id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
 <div class="wrap">
-
-<a class="back-link" href="index.html">← Back to hub</a>
 
 <div class="grid-view" id="gridView">
   <div class="top">
@@ -87,6 +95,7 @@ footer{margin-top:40px;font-size:11.5px;color:var(--muted)}
     <div class="pv-title" id="pvTitle"></div>
     <div class="pv-de" id="pvDe"></div>
     <div class="pv-meta" id="pvMeta"></div>
+    <a class="pv-vocab-btn" id="pvVocabLink" target="_blank" rel="noopener">📖 View this chapter's vocab list →</a>
   </div>
 
   <div class="player-box">
@@ -107,11 +116,37 @@ footer{margin-top:40px;font-size:11.5px;color:var(--muted)}
 </div>
 
 <script>
-const CHAPTERS = [{"num": 1, "key": "01_Greetings_and_Introductions", "title": "Greetings & Introductions", "de": "Begrüßung & Vorstellung", "wordCount": 44, "phraseCount": 14}, {"num": 2, "key": "02_Numbers", "title": "Numbers", "de": "Zahlen", "wordCount": 37, "phraseCount": 4}, {"num": 3, "key": "03_Days_of_the_Week_and_Parts_of_the_Day", "title": "Days of the Week & Parts of the Day", "de": "Wochentage & Tageszeiten", "wordCount": 27, "phraseCount": 6}, {"num": 4, "key": "04_Months_Seasons_and_Dates", "title": "Months, Seasons & Dates", "de": "Monate, Jahreszeiten & Datum", "wordCount": 25, "phraseCount": 7}, {"num": 5, "key": "05_Telling_the_Time", "title": "Telling the Time", "de": "Die Uhrzeit", "wordCount": 19, "phraseCount": 7}, {"num": 6, "key": "06_Family_and_People", "title": "Family & People", "de": "Familie & Personen", "wordCount": 35, "phraseCount": 5}, {"num": 7, "key": "07_Colors_and_Appearances", "title": "Colors & Appearances", "de": "Farben & Aussehen", "wordCount": 20, "phraseCount": 5}, {"num": 8, "key": "08_Food_and_Drink", "title": "Food & Drink", "de": "Essen & Trinken", "wordCount": 49, "phraseCount": 8}, {"num": 9, "key": "09_Shopping_and_Money", "title": "Shopping & Money", "de": "Einkaufen & Geld", "wordCount": 26, "phraseCount": 6}, {"num": 10, "key": "10_Home_and_Living", "title": "Home & Living", "de": "Wohnen & Zuhause", "wordCount": 37, "phraseCount": 6}, {"num": 11, "key": "11_Body_and_Health", "title": "Body & Health", "de": "Körper & Gesundheit", "wordCount": 22, "phraseCount": 6}, {"num": 12, "key": "12_Getting_Around_Directions_and_Transport", "title": "Getting Around: Directions & Transport", "de": "Unterwegs: Richtungen & Verkehr", "wordCount": 39, "phraseCount": 8}, {"num": 13, "key": "13_Travel_and_Accommodation", "title": "Travel & Accommodation", "de": "Reisen & Unterkunft", "wordCount": 26, "phraseCount": 6}, {"num": 14, "key": "14_Work_and_Daily_Routine", "title": "Work & Daily Routine", "de": "Arbeit & Alltag", "wordCount": 16, "phraseCount": 6}, {"num": 15, "key": "15_School_and_Learning", "title": "School & Learning", "de": "Schule & Lernen", "wordCount": 32, "phraseCount": 8}, {"num": 16, "key": "16_Hobbies_and_Free_Time", "title": "Hobbies & Free Time", "de": "Hobbys & Freizeit", "wordCount": 27, "phraseCount": 6}, {"num": 17, "key": "17_Weather_and_Nature", "title": "Weather & Nature", "de": "Wetter & Natur", "wordCount": 10, "phraseCount": 4}, {"num": 18, "key": "18_Post_Office_Bank_and_Official_Matters", "title": "Post Office, Bank & Official Matters", "de": "Post, Bank & Behörden", "wordCount": 33, "phraseCount": 6}, {"num": 19, "key": "19_Measures_Weights_and_Units", "title": "Measures, Weights & Units", "de": "Maße, Gewichte & Einheiten", "wordCount": 11, "phraseCount": 3}, {"num": 20, "key": "20_Essential_Verbs", "title": "Essential Verbs", "de": "Wichtige Verben", "wordCount": 52, "phraseCount": 6}, {"num": 21, "key": "21_Describing_Things_Adjectives_and_Adverbs", "title": "Describing Things: Adjectives & Adverbs", "de": "Dinge beschreiben: Adjektive & Adverbien", "wordCount": 43, "phraseCount": 5}, {"num": 22, "key": "22_Question_Words", "title": "Question Words", "de": "Fragewörter", "wordCount": 11, "phraseCount": 8}, {"num": 23, "key": "23_Pronouns_Articles_and_Small_Words", "title": "Pronouns, Articles & Small Words", "de": "Pronomen, Artikel & kleine Wörter", "wordCount": 27, "phraseCount": 4}, {"num": 24, "key": "24_Prepositions_and_Linking_Words", "title": "Prepositions & Linking Words", "de": "Präpositionen & Bindewörter", "wordCount": 31, "phraseCount": 6}, {"num": 25, "key": "25_Common_Everyday_Expressions", "title": "Common Everyday Expressions", "de": "Häufige Alltagsausdrücke", "wordCount": 51, "phraseCount": 12}];
+const CHAPTERS = [
+{"num":1,"key":"01_Greetings_and_Introductions","title":"Greetings & Introductions","de":"Begrüßung & Vorstellung","wordCount":44,"phraseCount":14},
+{"num":2,"key":"02_Numbers","title":"Numbers","de":"Zahlen","wordCount":37,"phraseCount":4},
+{"num":3,"key":"03_Days_of_the_Week_and_Parts_of_the_Day","title":"Days of the Week & Parts of the Day","de":"Wochentage & Tageszeiten","wordCount":27,"phraseCount":6},
+{"num":4,"key":"04_Months_Seasons_and_Dates","title":"Months, Seasons & Dates","de":"Monate, Jahreszeiten & Datum","wordCount":25,"phraseCount":7},
+{"num":5,"key":"05_Telling_the_Time","title":"Telling the Time","de":"Die Uhrzeit","wordCount":19,"phraseCount":7},
+{"num":6,"key":"06_Family_and_People","title":"Family & People","de":"Familie & Personen","wordCount":35,"phraseCount":5},
+{"num":7,"key":"07_Colors_and_Appearances","title":"Colors & Appearances","de":"Farben & Aussehen","wordCount":20,"phraseCount":5},
+{"num":8,"key":"08_Food_and_Drink","title":"Food & Drink","de":"Essen & Trinken","wordCount":49,"phraseCount":8},
+{"num":9,"key":"09_Shopping_and_Money","title":"Shopping & Money","de":"Einkaufen & Geld","wordCount":26,"phraseCount":6},
+{"num":10,"key":"10_Home_and_Living","title":"Home & Living","de":"Wohnen & Zuhause","wordCount":37,"phraseCount":6},
+{"num":11,"key":"11_Body_and_Health","title":"Body & Health","de":"Körper & Gesundheit","wordCount":22,"phraseCount":6},
+{"num":12,"key":"12_Getting_Around_Directions_and_Transport","title":"Getting Around: Directions & Transport","de":"Unterwegs: Richtungen & Verkehr","wordCount":39,"phraseCount":8},
+{"num":13,"key":"13_Travel_and_Accommodation","title":"Travel & Accommodation","de":"Reisen & Unterkunft","wordCount":26,"phraseCount":6},
+{"num":14,"key":"14_Work_and_Daily_Routine","title":"Work & Daily Routine","de":"Arbeit & Alltag","wordCount":16,"phraseCount":6},
+{"num":15,"key":"15_School_and_Learning","title":"School & Learning","de":"Schule & Lernen","wordCount":32,"phraseCount":8},
+{"num":16,"key":"16_Hobbies_and_Free_Time","title":"Hobbies & Free Time","de":"Hobbys & Freizeit","wordCount":27,"phraseCount":6},
+{"num":17,"key":"17_Weather_and_Nature","title":"Weather & Nature","de":"Wetter & Natur","wordCount":10,"phraseCount":4},
+{"num":18,"key":"18_Post_Office_Bank_and_Official_Matters","title":"Post Office, Bank & Official Matters","de":"Post, Bank & Behörden","wordCount":33,"phraseCount":6},
+{"num":19,"key":"19_Measures_Weights_and_Units","title":"Measures, Weights & Units","de":"Maße, Gewichte & Einheiten","wordCount":11,"phraseCount":3},
+{"num":20,"key":"20_Essential_Verbs","title":"Essential Verbs","de":"Wichtige Verben","wordCount":52,"phraseCount":6},
+{"num":21,"key":"21_Describing_Things_Adjectives_and_Adverbs","title":"Describing Things: Adjectives & Adverbs","de":"Dinge beschreiben: Adjektive & Adverbien","wordCount":43,"phraseCount":5},
+{"num":22,"key":"22_Question_Words","title":"Question Words","de":"Fragewörter","wordCount":11,"phraseCount":8},
+{"num":23,"key":"23_Pronouns_Articles_and_Small_Words","title":"Pronouns, Articles & Small Words","de":"Pronomen, Artikel & kleine Wörter","wordCount":27,"phraseCount":4},
+{"num":24,"key":"24_Prepositions_and_Linking_Words","title":"Prepositions & Linking Words","de":"Präpositionen & Bindewörter","wordCount":31,"phraseCount":6},
+{"num":25,"key":"25_Common_Everyday_Expressions","title":"Common Everyday Expressions","de":"Häufige Alltagsausdrücke","wordCount":51,"phraseCount":12}
+];
 
 const AUDIO_BASE = "audio/";
-
 function audioUrl(ch){ return AUDIO_BASE + "A1_" + ch.key + ".mp3"; }
+function vocabUrl(ch){ return "vocabulary.html#ch-" + String(ch.num).padStart(2,'0'); }
 
 const grid = document.getElementById('grid');
 const gridView = document.getElementById('gridView');
@@ -123,15 +158,19 @@ let currentIndex = null;
 
 function renderGrid(){
   grid.innerHTML = CHAPTERS.map((c,i)=>`
-    <button class="ccard" data-i="${i}">
-      <div class="num">Chapter ${c.num}</div>
-      <h3>${c.title}</h3>
-      <div class="de">${c.de}</div>
-      <div class="meta">${c.wordCount} words · ${c.phraseCount} phrases</div>
-    </button>
+    <div class="ccard">
+      <div class="clickzone" data-i="${i}">
+        <div class="num">Chapter ${c.num}</div>
+        <h3>${c.title}</h3>
+        <div class="de">${c.de}</div>
+        <div class="meta">${c.wordCount} words · ${c.phraseCount} phrases</div>
+      </div>
+      <a class="vocab-btn" href="${vocabUrl(c)}" target="_blank" rel="noopener">📖 View vocab list →</a>
+    </div>
   `).join('');
-  grid.querySelectorAll('.ccard').forEach(btn=>{
-    btn.addEventListener('click', ()=> openChapter(+btn.dataset.i, true));
+  grid.querySelectorAll('.clickzone').forEach(zone=>{
+    zone.style.cursor='pointer';
+    zone.addEventListener('click', ()=> openChapter(+zone.dataset.i, true));
   });
 }
 
@@ -157,6 +196,7 @@ function openChapter(i, autoplay){
   document.getElementById('pvTitle').textContent = c.title;
   document.getElementById('pvDe').textContent = c.de;
   document.getElementById('pvMeta').textContent = c.wordCount + ' words · ' + c.phraseCount + ' phrases';
+  document.getElementById('pvVocabLink').href = vocabUrl(c);
 
   audio.src = audioUrl(c);
   if(autoplay){
@@ -170,12 +210,7 @@ function openChapter(i, autoplay){
   updateMediaSession(c);
 
   history.replaceState(null, '', '#ch=' + c.num);
-}
-
-function backToGrid(){
-  gridView.classList.remove('hidden');
-  playerView.classList.remove('active');
-  history.replaceState(null, '', '#');
+  window.scrollTo(0,0);
 }
 
 function updateMediaSession(c){
@@ -203,38 +238,27 @@ document.getElementById('nextBtn').onclick = ()=>{
   if(currentIndex < CHAPTERS.length - 1) openChapter(currentIndex + 1, true);
 };
 
-// Auto-advance to next chapter when one finishes
 audio.addEventListener('ended', ()=>{
   if(currentIndex !== null && currentIndex < CHAPTERS.length - 1){
     openChapter(currentIndex + 1, true);
   }
 });
 
-// Keep media session position state in sync (helps lock-screen scrubbing)
 audio.addEventListener('loadedmetadata', ()=>{
   if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
     try{
-      navigator.mediaSession.setPositionState({
-        duration: audio.duration || 0,
-        playbackRate: audio.playbackRate,
-        position: 0
-      });
+      navigator.mediaSession.setPositionState({duration: audio.duration || 0, playbackRate: audio.playbackRate, position: 0});
     }catch(e){}
   }
 });
 audio.addEventListener('timeupdate', ()=>{
   if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession && audio.duration){
     try{
-      navigator.mediaSession.setPositionState({
-        duration: audio.duration,
-        playbackRate: audio.playbackRate,
-        position: audio.currentTime
-      });
+      navigator.mediaSession.setPositionState({duration: audio.duration, playbackRate: audio.playbackRate, position: audio.currentTime});
     }catch(e){}
   }
 });
 
-// Deep link support: index.html#ch=3
 function checkHash(){
   const m = location.hash.match(/ch=(\d+)/);
   if(m){
@@ -248,12 +272,14 @@ renderGrid();
 checkHash();
 
 function initMode(){
+  const saved=localStorage.getItem('a1-dark');
   const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setMode(prefersDark);
+  setMode(saved!==null?saved==='1':prefersDark);
 }
 function setMode(dark){
   document.body.classList.toggle('dark',dark);
   document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
 }
 document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
 initMode();
