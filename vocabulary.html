@@ -173,7 +173,7 @@ function renderNav(){
     const d=document.createElement('div');
     d.className='nav-item'+(i===cur?' active':'');
     d.innerHTML=`<span class="num">${c.num}.</span><span class="label">${c.en}</span><span class="badge">${n}/${t}</span>`;
-    d.onclick=()=>{cur=i;render();document.getElementById('nav').classList.remove('open');};
+    d.onclick=()=>{cur=i;render();document.getElementById('main').scrollTop=0;document.getElementById('nav').classList.remove('open');};
     el.appendChild(d);
   });
   const tl=totalLearned(),tw=totalWords();
@@ -230,7 +230,6 @@ function renderMain(){
   }
 
   m.innerHTML=h;
-  m.scrollTop=0;
 
   // Events
   m.querySelectorAll('.speak,.p-speak').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();speak(e.currentTarget.dataset.de);}));
