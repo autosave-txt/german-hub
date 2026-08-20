@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+--bg:#e9e7e2;--panel:#f7f6f3;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
 --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
 --border:#e4e0da;--card:#fafaf8;
 --shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
@@ -65,6 +65,28 @@ tags:["Vocabulary","A1","Flashcards"],
 href:"vocabulary.html"
 },
 {
+icon:"🎧",
+title:"Listening — A1 Chapters",
+desc:"English word, pause, German word, chapter by chapter. Plays in the background with the screen locked.",
+tags:["Listening","Audio","A1"],
+href:"listening.html"
+},
+{
+icon:"🎭",
+title:"Scenarios",
+desc:"Full two-person dialogues for real situations — restaurant, airport, shopping, renting a room, emergencies, and more. Every scenario reshuffles into a different conversation each time.",
+tags:["Dialogues","Real-Life","Practice"],
+href:"scenarios.html"
+},
+{
+icon:"🗣️",
+title:"Speaking Practice",
+desc:"Opens a fresh Claude chat — tap the sound-wave icon in the message box to start voice mode, then just talk in German.",
+tags:["Speaking","Voice","Practice"],
+href:"https://claude.ai/new",
+external:true
+},
+{
 icon:"📘",
 title:"Menschen A1",
 desc:"Interactive Kursbuch guide — all 24 lessons with dialogues, grammar, and vocab. Hover any German phrase for the translation, tap 🔊 to hear it spoken.",
@@ -111,7 +133,7 @@ href:"translate.html"
 function render(){
 const g=document.getElementById('grid');
 g.innerHTML = MODULES.map(m=>`
-<a class="mcard" href="${m.href}">
+<a class="mcard" href="${m.href}"${m.external?' target="_blank" rel="noopener"':''}>
 <div class="icon">${m.icon}</div>
 <h2>${m.title}</h2>
 <p>${m.desc}</p>
@@ -128,12 +150,14 @@ g.innerHTML = MODULES.map(m=>`
 render();
 
 function initMode(){
+const saved=localStorage.getItem('a1-dark');
 const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-setMode(prefersDark);
+setMode(saved!==null?saved==='1':prefersDark);
 }
 function setMode(dark){
 document.body.classList.toggle('dark',dark);
 document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
 }
 document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
 initMode();
