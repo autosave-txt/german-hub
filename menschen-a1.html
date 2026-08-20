@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menschen A1 — Interactive Study Guide</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--surface:#161b22;--surface2:#1c2333;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#58a6ff;--accent2:#3fb950;--red:#f85149;--orange:#d29922;--purple:#bc8cff}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:1rem}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(13,17,23,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem}
+.topbar h1{font-size:1.1rem;font-weight:600;color:var(--accent);white-space:nowrap}
+.topbar select{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.6rem;font-size:0.85rem;flex:1;max-width:300px}
+.module-header{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin:1.5rem 0 1rem}
+.module-header h2{font-size:1.1rem;color:var(--accent);margin-bottom:0.25rem}
+.module-header p{font-size:0.85rem;color:var(--text2)}
+.lesson{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden}
+.lesson-head{padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s}
+.lesson-head:hover{background:var(--surface2)}
+.lesson-head h3{font-size:0.95rem;color:var(--text)}
+.lesson-head .topic{font-size:0.8rem;color:var(--text2);margin-top:0.15rem}
+.lesson-head .arrow{color:var(--text2);font-size:1.2rem;transition:transform 0.3s}
+.lesson-head.open .arrow{transform:rotate(180deg)}
+.lesson-body{display:none;padding:0 1.25rem 1.25rem}
+.lesson-body.show{display:block;animation:fadeIn 0.3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.tabs{display:flex;gap:0;margin-bottom:1rem;border-bottom:1px solid var(--border)}
+.tab{padding:0.5rem 1rem;font-size:0.8rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none}.tab-content.active{display:block}
+.dialogue-row{display:flex;align-items:flex-start;gap:0.5rem;padding:0.6rem 0;border-bottom:1px solid rgba(48,54,61,0.5)}
+.dialogue-row:last-child{border-bottom:none}
+.speak-btn{background:none;border:none;color:var(--accent);cursor:pointer;font-size:1rem;padding:0.2rem;border-radius:4px;flex-shrink:0;transition:all 0.15s;line-height:1}
+.speak-btn:hover{background:rgba(88,166,255,0.15);transform:scale(1.15)}
+.speak-btn:active{transform:scale(0.95)}
+.speak-btn.playing{color:var(--accent2);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.de-text{font-weight:600;color:var(--text);font-size:0.93rem;cursor:help;position:relative;display:inline}
+.tooltip-box{display:none;position:absolute;bottom:calc(100% + 8px);left:0;background:#1f2937;color:var(--text2);font-size:0.82rem;font-weight:400;padding:0.45rem 0.75rem;border-radius:6px;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,0.5);pointer-events:none;max-width:340px;white-space:normal;line-height:1.4}
+.tooltip-box::after{content:'';position:absolute;top:100%;left:16px;border:6px solid transparent;border-top-color:#1f2937}
+.de-text:hover .tooltip-box{display:block}
+.grammar-item{background:var(--surface2);border-radius:6px;padding:0.5rem 0.75rem;margin-bottom:0.4rem;font-size:0.88rem;color:var(--text);display:flex;align-items:flex-start;gap:0.5rem}
+.grammar-item.header{background:none;padding:0.7rem 0 0.2rem;font-weight:700;color:var(--orange);font-size:0.85rem}
+.grammar-spacer{height:0.5rem}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:8px;overflow:hidden}
+.vocab-grid .vheader{background:var(--surface2);padding:0.5rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.05em}
+.vocab-cell{background:var(--surface);padding:0.45rem 0.75rem;font-size:0.86rem;display:flex;align-items:center;gap:0.35rem;transition:background 0.15s}
+.vocab-cell:hover{background:var(--surface2)}
+.vocab-cell.de{font-weight:600;color:var(--text)}
+.vocab-cell.en{color:var(--text2)}
+.vocab-cell .speak-btn{font-size:0.85rem;padding:0.1rem}
+.search-bar{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.6rem 1rem;color:var(--text);font-size:0.9rem;width:100%;margin-bottom:1rem;outline:none;transition:border-color 0.2s}
+.search-bar:focus{border-color:var(--accent)}
+.search-bar::placeholder{color:var(--text2)}
+.footer{text-align:center;padding:2rem 0;color:var(--text2);font-size:0.8rem}
+@media(max-width:600px){.container{padding:0.5rem}.topbar h1{font-size:0.95rem}.tooltip-box{left:-10px;max-width:250px}.vocab-grid{font-size:0.8rem}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>&#x1F1E9;&#x1F1EA; Menschen A1</h1>
+  <select id="jumpTo" onchange="jumpToLesson(this.value)"><option value="">Jump to lesson...</option></select>
+</div>
+<div class="container">
+  <input type="text" class="search-bar" id="searchBar" placeholder="Search German or English..." oninput="doFilter(this.value)">
+  <div id="content"></div>
+  <div class="footer">
+    <p>Interactive Study Guide &mdash; Menschen A1 Kursbuch</p>
+    <p style="margin-top:0.25rem">Hover German text for translation &middot; Click &#x1F50A; to hear pronunciation</p>
+  </div>
+</div>
+<script>
+const LESSONS = [
+  {
+    module: "Modul 1",
+    moduleTitle: "Greetings, People & Family",
+    lessons: [
+      {
+        num: 0, title: "Die erste Stunde",
+        topic: "Greetings & Introductions",
+        dialogues: [
+          {de:"Hallo. Ich heiße Lydia Wirth.",en:"Hello. My name is Lydia Wirth."},
+          {de:"Wie heißen Sie?",en:"What is your name? (formal)"},
+          {de:"Wie heißt du?",en:"What is your name? (informal)"},
+          {de:"Das ist Paola Grilli.",en:"This is Paola Grilli."},
+        ],
+        grammar: [
+          "**Verb conjugation:**",
+          "ich heiße = I am called",
+          "du heißt / Sie heißen = you are called (informal / formal)",
+          "er/sie heißt = he/she is called",
+        ],
+        vocab: [
+          ["Hallo","Hello"],["Guten Morgen","Good morning"],["Guten Tag","Good day"],
+          ["Guten Abend","Good evening"],["Gute Nacht","Good night"],
+          ["Tschüss","Bye (informal)"],["Auf Wiedersehen","Goodbye (formal)"],
+        ]
+      },
+      {
+        num: 1, title: "Lektion 1: Hallo! Ich bin Nicole...",
+        topic: "Greetings, Origins, Alphabet",
+        dialogues: [
+          {de:"Hallo! Ich bin Nicole. Und wer bist du? / Und wer sind Sie?",en:"Hello! I am Nicole. And who are you? (informal / formal)"},
+          {de:"Woher kommst du? / Woher kommen Sie?",en:"Where do you come from? (informal / formal)"},
+          {de:"Nein, ich komme aus Mexiko.",en:"No, I come from Mexico."},
+          {de:"Du kommst aus Deutschland, hm? Oder der Schweiz?",en:"You're from Germany? Or Switzerland?"},
+          {de:"Ich komme aus Österreich.",en:"I come from Austria."},
+          {de:"Wie geht es Ihnen? / Wie geht es dir? / Wie geht's?",en:"How are you? (formal / informal / casual)"},
+          {de:"Gut, danke. / Es geht. / Nicht so gut.",en:"Good, thanks. / OK. / Not so good."},
+          {de:"Wie bitte? Ich buchstabiere: V-a-l-...",en:"Pardon? I'll spell it: V-a-l-..."},
+        ],
+        grammar: [
+          "**Verb conjugation (Singular):**",
+          "kommen: ich komme / du kommst / Sie kommen / er·sie kommt",
+          "heißen: ich heiße / du heißt / Sie heißen / er·sie heißt",
+          "sein: ich bin / du bist / Sie sind / er·sie ist",
+          "",
+          "**W-Fragen:**",
+          "Wer ist das? — Das ist Paco.",
+          "Wie heißen Sie? / Wie heißt du? — Ich heiße Nicole.",
+          "Woher kommen Sie? / Woher kommst du? — Aus Mexiko.",
+          "",
+          "**Verb = always Position 2**",
+          "Ich heiße Paco. / Mein Name ist Valerie.",
+          "",
+          "**Countries with articles:**",
+          "aus + country: aus Mexiko, aus Deutschland",
+          "aus der Schweiz / aus der Türkei (feminine)",
+          "aus dem Iran / aus dem Irak (masculine)",
+        ],
+        vocab: [
+          ["Woher?","Where from?"],["aus","from"],["und","and"],["oder","or"],
+          ["Wie geht's?","How are you?"],["Gut / Sehr gut","Good / Very good"],
+          ["Es geht.","OK / So-so"],["Nicht so gut","Not so good"],
+          ["Danke","Thank you"],["buchstabieren","to spell"],["Wie bitte?","Pardon?"],
+        ]
+      },
+      {
+        num: 2, title: "Lektion 2: Ich bin Journalistin.",
+        topic: "Jobs, Personal Info, Negation",
+        dialogues: [
+          {de:"Was sind Sie von Beruf? / Was bist du von Beruf?",en:"What is your profession? (formal / informal)"},
+          {de:"Ich bin Journalistin. Ich arbeite als Journalistin bei X-Media.",en:"I am a journalist. I work as a journalist at X-Media."},
+          {de:"Wo wohnen Sie? / Wo wohnst du? — Ich wohne in Berlin.",en:"Where do you live? — I live in Berlin. (formal / informal)"},
+          {de:"Wie alt sind Sie? / Wie alt bist du? — Ich bin 32 Jahre alt.",en:"How old are you? — I am 32 years old."},
+          {de:"Sind Sie verheiratet? / Bist du verheiratet? — Nein, ich bin ledig.",en:"Are you married? — No, I am single."},
+          {de:"Wir leben nicht zusammen.",en:"We don't live together."},
+          {de:"Ich habe ein Kind / keine Kinder.",en:"I have one child / no children."},
+        ],
+        grammar: [
+          "**Full conjugation (all persons):**",
+          "machen: ich mache / du machst / er·sie macht / wir machen / ihr macht / sie·Sie machen",
+          "arbeiten: ich arbeite / du arbeitest / er·sie arbeitet / wir arbeiten / ihr arbeitet",
+          "haben: ich habe / du hast / er·sie hat / wir haben / ihr habt / sie·Sie haben",
+          "sein: ich bin / du bist / er·sie ist / wir sind / ihr seid / sie·Sie sind",
+          "",
+          "**Prepositions als / bei / in:**",
+          "Ich arbeite als Journalistin. (as)",
+          "Ich arbeite bei X-Media. (at/for)",
+          "Ich lebe in Köln. (in)",
+          "",
+          "**Feminine job titles: -in**",
+          "der Journalist → die Journalistin / der Arzt → die Ärztin",
+          "",
+          "**Negation: nicht**",
+          "Wir leben nicht zusammen. / Sie wohnt nicht in Köln.",
+        ],
+        vocab: [
+          ["der Beruf","profession"],["der Lehrer / die Lehrerin","teacher (m/f)"],
+          ["der Arzt / die Ärztin","doctor (m/f)"],["der Ingenieur / die Ingenieurin","engineer (m/f)"],
+          ["die Ausbildung","apprenticeship"],["das Praktikum","internship"],
+          ["verheiratet / geschieden / ledig","married / divorced / single"],
+          ["wohnen / leben","to live (reside)"],["arbeiten","to work"],
+          ["zusammen","together"],["die Sprache","language"],
+        ]
+      },
+      {
+        num: 3, title: "Lektion 3: Das ist meine Mutter.",
+        topic: "Family, Possessives, Languages",
+        dialogues: [
+          {de:"Das ist meine Mutter.",en:"This is my mother."},
+          {de:"Und wer ist das? — Das ist mein Bruder.",en:"And who is that? — That is my brother."},
+          {de:"Haben Sie Geschwister? / Hast du Geschwister?",en:"Do you have siblings? (formal / informal)"},
+          {de:"Ja, ich habe eine Schwester.",en:"Yes, I have a sister."},
+          {de:"Haben Sie Kinder? / Hast du Kinder? — Nein, ich habe keine Kinder.",en:"Do you have children? — No, I have no children."},
+          {de:"Welche Sprachen sprechen Sie? / sprichst du?",en:"Which languages do you speak? (formal / informal)"},
+          {de:"Ich spreche sehr gut Dänisch und ein bisschen Deutsch.",en:"I speak Danish very well and a little German."},
+        ],
+        grammar: [
+          "**Possessive articles (Nominative):**",
+          "mein Bruder / meine Schwester / mein Kind (my)",
+          "dein Bruder / deine Schwester (your, informal)",
+          "Ihr Bruder / Ihre Schwester (your, formal)",
+          "sein/ihr Bruder (his/her)",
+          "",
+          "**Negation with kein:**",
+          "Ich habe keinen Bruder. (masc acc)",
+          "Ich habe keine Schwester. (fem)",
+          "Ich habe kein Kind. (neuter)",
+        ],
+        vocab: [
+          ["die Mutter / die Mama","mother / mom"],["der Vater / der Papa","father / dad"],
+          ["der Bruder","brother"],["die Schwester","sister"],
+          ["die Geschwister","siblings"],["der Sohn","son"],["die Tochter","daughter"],
+          ["das Kind / die Kinder","child / children"],
+          ["die Großmutter / die Oma","grandmother"],["der Großvater / der Opa","grandfather"],
+          ["die Eltern","parents"],["die Familie","family"],["sprechen","to speak"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 2",
+    moduleTitle: "Shopping, Objects & Technology",
+    lessons: [
+      {
+        num: 4, title: "Lektion 4: Der Tisch ist schön!",
+        topic: "Furniture, Shopping, Evaluating",
+        dialogues: [
+          {de:"Was kostet die Lampe? — Die Lampe kostet nur 119 Euro.",en:"How much does the lamp cost? — Only 119 euros."},
+          {de:"Brauchen Sie Hilfe? / Brauchst du Hilfe? — Ja, bitte.",en:"Do you need help? — Yes, please."},
+          {de:"Wie finden Sie den Stuhl? / Wie findest du den Stuhl?",en:"How do you like the chair?"},
+          {de:"Ich finde die Lampe wirklich sehr schön.",en:"I find the lamp really very beautiful."},
+          {de:"Das finde ich auch. / Das finde ich nicht.",en:"I agree. / I don't think so."},
+          {de:"Der Tisch ist zu groß / zu klein.",en:"The table is too big / too small."},
+        ],
+        grammar: [
+          "**Definite articles (Nominative):**",
+          "der Tisch (masc) / das Bett (neuter) / die Lampe (fem)",
+          "",
+          "**Personal pronouns replacing nouns:**",
+          "der Tisch → er kostet... / das Bett → es kostet... / die Lampe → sie kostet...",
+        ],
+        vocab: [
+          ["der Tisch","table"],["der Stuhl","chair"],["das Sofa","sofa"],
+          ["die Lampe","lamp"],["der Schrank","wardrobe/cabinet"],["das Bett","bed"],
+          ["das Regal","shelf"],["der Sessel","armchair"],
+          ["schön","beautiful"],["hässlich","ugly"],["billig / günstig","cheap"],
+          ["teuer","expensive"],["modern","modern"],["praktisch","practical"],
+          ["kosten","to cost"],["brauchen","to need"],["finden","to find/think"],
+        ]
+      },
+      {
+        num: 5, title: "Lektion 5: Was ist das? — Das ist ein F.",
+        topic: "Objects, Products, Indefinite Articles",
+        dialogues: [
+          {de:"Was ist das? — Das ist ein Kugelschreiber.",en:"What is that? — That is a pen."},
+          {de:"Ist das eine Tasche? — Nein, das ist keine Tasche.",en:"Is that a bag? — No, that is not a bag."},
+          {de:"Entschuldigung, wie heißt das auf Deutsch?",en:"Excuse me, what is that called in German?"},
+          {de:"Wie schreibt man das?",en:"How do you spell/write that?"},
+          {de:"Noch einmal, bitte. / Wie bitte?",en:"Once more, please. / Pardon?"},
+          {de:"Danke. — Bitte schön. / Gern. / Kein Problem.",en:"Thanks. — You're welcome. / Sure. / No problem."},
+        ],
+        grammar: [
+          "**Indefinite articles (Nominative):**",
+          "ein Schlüssel (masc) / ein Buch (neuter) / eine Brille (fem)",
+          "",
+          "**Negative articles:**",
+          "kein Schlüssel / kein Buch / keine Brille",
+          "",
+          "**Describing objects:**",
+          "Die Brille ist aus Plastik / Holz / Metall / Glas.",
+          "Die Brille ist rund / eckig / rot / braun.",
+        ],
+        vocab: [
+          ["der Kugelschreiber / der Kuli","pen"],["das Buch","book"],["das Heft","notebook"],
+          ["die Tasche","bag"],["der Schlüssel","key"],["das Handy","mobile phone"],
+          ["die Brille","glasses"],["der Geldbeutel","wallet"],["die Flasche","bottle"],
+          ["der Regenschirm","umbrella"],["das Feuerzeug","lighter"],
+          ["rund / eckig","round / angular"],
+          ["Plastik / Holz / Metall / Glas","plastic / wood / metal / glass"],
+        ]
+      },
+      {
+        num: 6, title: "Lektion 6: Ich brauche kein Büro.",
+        topic: "Office, Phone Calls, Plurals, Accusative",
+        dialogues: [
+          {de:"Ich brauche kein Büro.",en:"I don't need an office."},
+          {de:"Haben Sie einen Computer? / Hast du einen Computer?",en:"Do you have a computer?"},
+          {de:"Haben Sie kein Telefon? / Hast du kein Telefon? — Doch, natürlich!",en:"Don't you have a phone? — Yes I do, of course!"},
+          {de:"Guten Tag. Hier ist Christian Schmidt.",en:"Hello. This is Christian Schmidt. (on phone)"},
+          {de:"Tschüss. / Auf Wiederhören.",en:"Bye. / Goodbye (on phone)."},
+        ],
+        grammar: [
+          "**Accusative (after haben, brauchen, suchen):**",
+          "maskulin: den / einen / keinen Schlüssel",
+          "neutral: das / ein / kein Formular",
+          "feminin: die / eine / keine Briefmarke",
+          "Plural: die / — / keine Stifte",
+          "",
+          "**Noun plurals (5 patterns):**",
+          "-e/¨e: der Stift → die Stifte / der Schrank → die Schränke",
+          "-(e)n: die Briefmarke → die Briefmarken",
+          "-s: das Sofa → die Sofas",
+          "-er/¨er: das Bild → die Bilder",
+          "-/¨: der Kalender → die Kalender",
+          "",
+          "**doch = yes (contradicting negative question)**",
+          "Hast du kein Auto? — Doch! / Haben Sie kein Auto? — Doch!",
+        ],
+        vocab: [
+          ["das Büro","office"],["der Computer / der Laptop","computer / laptop"],
+          ["der Drucker","printer"],["die Kamera","camera"],
+          ["das Telefon / das Handy","telephone / mobile"],
+          ["die Briefmarke","stamp"],["das Formular","form"],
+          ["die Rechnung","bill/invoice"],["der Stift","pen/pencil"],
+          ["das Notizbuch","notebook"],["das Bild","picture"],
+          ["der Kalender","calendar"],["doch","yes (contradicting)"],
+          ["natürlich","of course"],["Auf Wiederhören","Goodbye (phone)"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 3",
+    moduleTitle: "Hobbies, Time & Food",
+    lessons: [
+      {
+        num: 7, title: "Lektion 7: Du kannst wirklich toll...!",
+        topic: "Hobbies, Abilities, können, Permission",
+        dialogues: [
+          {de:"Was sind deine Hobbys? / Was sind Ihre Hobbys?",en:"What are your hobbies? (informal / formal)"},
+          {de:"Was machst du in der Freizeit? / Was machen Sie in der Freizeit?",en:"What do you do in your free time?"},
+          {de:"Ich lese gern und treffe Freunde.",en:"I like reading and meeting friends."},
+          {de:"Du kannst / Sie können wirklich super Gitarre spielen!",en:"You can really play guitar amazingly!"},
+          {de:"Kannst du / Können Sie das noch einmal sagen?",en:"Can you say that again?"},
+          {de:"Kann ich mal telefonieren? — Ja, klar. / Nein, tut mir leid.",en:"Can I make a phone call? — Sure. / No, sorry."},
+        ],
+        grammar: [
+          "**Modal verb: können (can)**",
+          "ich kann / du kannst / Sie können / er·sie kann",
+          "wir können / ihr könnt / sie können",
+          "",
+          "**Word order with modals:**",
+          "Du kannst wirklich super Gitarre spielen.",
+          "(modal = Position 2, infinitive = end)",
+          "",
+          "**gern = like to:**",
+          "Ich lese gern. / Ich fahre gern Fahrrad.",
+        ],
+        vocab: [
+          ["kochen","to cook"],["singen","to sing"],["tanzen","to dance"],
+          ["schwimmen","to swim"],["spielen","to play"],["lesen","to read"],
+          ["Fahrrad fahren","to ride a bicycle"],["Freunde treffen","to meet friends"],
+          ["Musik hören","to listen to music"],["gern / gerne","gladly / like to"],
+          ["wirklich","really"],["toll / super","great / super"],
+          ["ein bisschen","a little bit"],["Das macht Spaß.","That's fun."],
+        ]
+      },
+      {
+        num: 8, title: "Lektion 8: Kein Problem. Ich habe Zeit!",
+        topic: "Appointments, Time, Invitations",
+        dialogues: [
+          {de:"Hast du heute Abend Zeit? / Haben Sie heute Abend Zeit?",en:"Do you have time tonight?"},
+          {de:"Wie spät ist es? / Wie viel Uhr ist es?",en:"What time is it?"},
+          {de:"Es ist Viertel vor drei / halb sechs.",en:"It's quarter to three / half past five."},
+          {de:"Gehen wir ins Kino? — Gute Idee!",en:"Shall we go to the cinema? — Good idea!"},
+          {de:"Leider habe ich keine Zeit. / Tut mir leid, ich habe keine Lust.",en:"Unfortunately I have no time. / Sorry, I don't feel like it."},
+          {de:"Ich kann leider doch nicht kommen.",en:"Unfortunately I can't come after all."},
+        ],
+        grammar: [
+          "**Time prepositions:**",
+          "am + days/day-parts: am Dienstag / am Abend / in der Nacht",
+          "um + clock times: um drei Uhr",
+          "",
+          "**Verb position (inversion):**",
+          "Leider habe ich doch keine Zeit. (verb still Position 2)",
+          "",
+          "**Telling time:**",
+          "drei Uhr / halb vier (= half past 3!) / Viertel nach/vor drei",
+        ],
+        vocab: [
+          ["die Zeit","time"],["die Uhr","clock / o'clock"],["der Termin","appointment"],
+          ["halb","half"],["Viertel","quarter"],["nach / vor","past / to"],
+          ["heute / morgen / gestern","today / tomorrow / yesterday"],
+          ["Abend / Morgen / Mittag / Nacht","evening / morning / noon / night"],
+          ["die Lust","desire/inclination"],["ins Kino / ins Theater","to the cinema / theater"],
+          ["leider","unfortunately"],
+        ]
+      },
+      {
+        num: 9, title: "Lektion 9: Ich möchte was essen, Onkel Harry.",
+        topic: "Food, Ordering, mögen & möchte",
+        dialogues: [
+          {de:"Was isst du gern? / Was essen Sie gern zum Frühstück?",en:"What do you like to eat for breakfast?"},
+          {de:"Ich mag keinen Käse, aber Müsli esse ich gern.",en:"I don't like cheese, but I like muesli."},
+          {de:"Was möchten Sie? / Was möchtest du?",en:"What would you like? (formal / informal)"},
+          {de:"Ich möchte einen Kaffee, bitte.",en:"I'd like a coffee, please."},
+          {de:"Möchten Sie noch etwas Suppe? — Nein, danke!",en:"Would you like more soup? — No, thanks!"},
+          {de:"Guten Appetit! — Danke, ebenfalls.",en:"Enjoy your meal! — Thanks, likewise."},
+        ],
+        grammar: [
+          "**mögen (to like — general):**",
+          "ich mag / du magst / Sie mögen / er·sie mag",
+          "",
+          "**möchte (would like — polite):**",
+          "ich möchte / du möchtest / Sie möchten / er·sie möchte",
+          "",
+          "**Compound nouns:**",
+          "die Schokolade + der Kuchen = der Schokoladenkuchen",
+        ],
+        vocab: [
+          ["essen / trinken","to eat / to drink"],["frühstücken","to have breakfast"],
+          ["der Kaffee / der Tee","coffee / tea"],["das Wasser / der Saft / das Bier","water / juice / beer"],
+          ["die Suppe","soup"],["das Brot / das Brötchen","bread / roll"],
+          ["der Kuchen","cake"],["der Käse","cheese"],["der Fisch","fish"],
+          ["die Vorspeise / das Hauptgericht / das Dessert","starter / main / dessert"],
+          ["schmecken","to taste"],["Guten Appetit!","Enjoy your meal!"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 4",
+    moduleTitle: "Transport, Past Tense & Seasons",
+    lessons: [
+      {
+        num: 10, title: "Lektion 10: Also dann, auf Wiedersehen!",
+        topic: "Transport, Separable Verbs, Train Station",
+        dialogues: [
+          {de:"Wo fährt der Zug nach München ab? — Auf Gleis 3.",en:"Where does the train to Munich depart? — Platform 3."},
+          {de:"Wann kommst du an? / Wann kommen Sie an? — Um 15 Uhr.",en:"When do you arrive? — At 3 PM."},
+          {de:"Wo steigen wir aus? — Am Bahnhof.",en:"Where do we get off? — At the station."},
+          {de:"Holst du mich ab? / Holen Sie mich ab?",en:"Will you pick me up? (informal / formal)"},
+          {de:"Vielleicht kaufe ich noch was ein.",en:"Maybe I'll do some more shopping."},
+          {de:"Mach's gut! / Pass auf dich auf! / Passen Sie auf sich auf!",en:"Take care! / Look after yourself!"},
+        ],
+        grammar: [
+          "**Separable verbs (trennbare Verben):**",
+          "anrufen: Ich rufe dich/Sie an.",
+          "einkaufen: Ich kaufe noch was ein.",
+          "ankommen: Wann kommst du / kommen Sie an?",
+          "abfahren: Der Zug fährt um 10 ab.",
+          "einsteigen / aussteigen / umsteigen",
+          "",
+          "**Word order:**",
+          "Aussage: Vielleicht kaufe ich noch was ein.",
+          "W-Frage: Wann kommst du an?",
+          "Ja/Nein: Rufst du mich an? / Rufen Sie mich an?",
+        ],
+        vocab: [
+          ["der Zug","train"],["der Bus","bus"],["die S-Bahn / die U-Bahn","suburban train / subway"],
+          ["die Straßenbahn","tram"],["das Flugzeug","airplane"],
+          ["der Bahnhof / der Flughafen","train station / airport"],
+          ["das Gleis","platform/track"],["die Haltestelle","stop (bus/tram)"],
+          ["abfahren / ankommen","to depart / to arrive"],
+          ["einsteigen / aussteigen / umsteigen","to board / get off / transfer"],
+          ["abholen","to pick up"],["einkaufen","to shop"],
+        ]
+      },
+      {
+        num: 11, title: "Lektion 11: Was hast du heute gemacht?",
+        topic: "Daily Activities, Perfekt with haben",
+        dialogues: [
+          {de:"Was hast du heute gemacht? / Was haben Sie heute gemacht?",en:"What did you do today?"},
+          {de:"Von neun bis eins habe ich gearbeitet.",en:"From nine to one I worked."},
+          {de:"Ich habe eine E-Mail geschrieben.",en:"I wrote an email."},
+          {de:"Ab 9 Uhr habe ich gearbeitet.",en:"From 9 o'clock I worked."},
+        ],
+        grammar: [
+          "**Perfekt with haben:**",
+          "haben + Partizip (ge-...-t / ge-...-en)",
+          "",
+          "**Regular (-t):** machen → gemacht, arbeiten → gearbeitet",
+          "**Irregular (-en):** schreiben → geschrieben, essen → gegessen, trinken → getrunken",
+          "**Separable:** aufräumen → aufgeräumt, anrufen → angerufen",
+          "**-ieren (no ge-!):** telefonieren → telefoniert, fotografieren → fotografiert",
+          "",
+          "**Word order:** Ich habe um sieben Uhr gefrühstückt.",
+          "**Temporal:** von...bis / ab: Von neun bis zwölf habe ich gearbeitet.",
+        ],
+        vocab: [
+          ["gemacht","done/made"],["gearbeitet","worked"],["gefrühstückt","had breakfast"],
+          ["gekocht","cooked"],["eingekauft","shopped"],["aufgeräumt","tidied up"],
+          ["angerufen","called (phone)"],["telefoniert","phoned"],
+          ["geschrieben","written"],["gegessen","eaten"],["getrunken","drunk"],
+          ["gelesen","read"],["ferngesehen","watched TV"],["eingeladen","invited"],
+        ]
+      },
+      {
+        num: 12, title: "Lektion 12: Was ist hier passiert?",
+        topic: "Seasons, Months, Festivals, Perfekt with sein",
+        dialogues: [
+          {de:"Was ist hier passiert?",en:"What happened here?"},
+          {de:"Henry ist vor drei Monaten nach Deutschland gekommen.",en:"Henry came to Germany three months ago."},
+          {de:"Letztes Jahr ist er nach München geflogen.",en:"Last year he flew to Munich."},
+          {de:"Im Frühling fahren wir Fahrrad.",en:"In spring we ride bicycles."},
+          {de:"Warst du schon mal in Deutschland? / Waren Sie schon mal in Deutschland?",en:"Have you ever been to Germany?"},
+        ],
+        grammar: [
+          "**Perfekt with sein (movement/change verbs):**",
+          "gehen → ist gegangen / fliegen → ist geflogen",
+          "fahren → ist gefahren / kommen → ist gekommen",
+          "ankommen → ist angekommen / einsteigen → ist eingestiegen",
+          "",
+          "**Temporal: im + month/season:**",
+          "im Oktober / im Herbst / im Frühling",
+        ],
+        vocab: [
+          ["der Frühling","spring"],["der Sommer","summer"],["der Herbst","autumn"],["der Winter","winter"],
+          ["Januar / Februar / März / April","Jan / Feb / Mar / Apr"],
+          ["Mai / Juni / Juli / August","May / Jun / Jul / Aug"],
+          ["September / Oktober / November / Dezember","Sep / Oct / Nov / Dec"],
+          ["das Fest / die Hochzeit / der Geburtstag","festival / wedding / birthday"],
+          ["Silvester / Karneval","New Year's Eve / Carnival"],
+          ["gegangen / geflogen / gefahren / gekommen","went / flew / drove / came"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 5",
+    moduleTitle: "Directions, Housing & City Life",
+    lessons: [
+      {
+        num: 13, title: "Lektion 13: Wir suchen das Hotel Maritim.",
+        topic: "Directions, Dative Prepositions, Politeness",
+        dialogues: [
+          {de:"Entschuldigung! / Entschuldigen Sie bitte.",en:"Excuse me!"},
+          {de:"Können Sie mir helfen? / Kannst du mir helfen?",en:"Can you help me?"},
+          {de:"Wo finde ich das Café Schiffer?",en:"Where can I find Café Schiffer?"},
+          {de:"Fahren Sie / Fahr zuerst geradeaus und dann nach rechts.",en:"Drive straight ahead first, then right."},
+          {de:"Biegen Sie / Bieg rechts ab.",en:"Turn right."},
+          {de:"Ich bin auch fremd hier. / Ich bin nicht von hier.",en:"I'm a stranger here too. / I'm not from here."},
+        ],
+        grammar: [
+          "**Lokale Präpositionen with Dative (Wo?):**",
+          "neben dem Dom / neben dem Café / neben der Post",
+          "Also: auf, an, vor, hinter, zwischen, über, unter, in",
+          "in dem = im / an dem = am",
+          "",
+          "**Polite requests:**",
+          "Entschuldigen Sie bitte. Können Sie mir helfen?",
+          "Haben Sie einen Moment Zeit? Eine Frage bitte...",
+        ],
+        vocab: [
+          ["geradeaus","straight ahead"],["links / rechts","left / right"],
+          ["abbiegen","to turn"],["die Straße","street"],["die Ampel","traffic light"],
+          ["die Kreuzung","intersection"],["der Bahnhof","train station"],
+          ["die Brücke","bridge"],["die Nähe","vicinity"],
+          ["neben / vor / hinter","next to / in front of / behind"],["fremd","foreign/strange"],
+        ]
+      },
+      {
+        num: 14, title: "Lektion 14: Wie findest du Ottos Haus?",
+        topic: "Housing, Rooms, Possessives sein/ihr",
+        dialogues: [
+          {de:"Die Wohnung ist 80m² groß und kostet 600 Euro.",en:"The apartment is 80m² and costs 600 euros."},
+          {de:"Im Erdgeschoss sind drei Zimmer.",en:"On the ground floor there are three rooms."},
+          {de:"Hier vorne links ist die Küche.",en:"Here in the front left is the kitchen."},
+          {de:"Wie finden Sie das Haus? / Wie findest du das Haus?",en:"How do you like the house?"},
+          {de:"Ich finde das interessant. / ...mag ich besonders / gar nicht.",en:"I find that interesting. / I especially like / don't like at all."},
+        ],
+        grammar: [
+          "**Genitiv bei Eigennamen:**",
+          "Ottos Nachbarin = die Nachbarin von Otto",
+          "",
+          "**Possessive sein/ihr (Nom + Akk):**",
+          "Nom: sein Garten / sein Haus / seine Küche",
+          "Akk: seinen Garten / sein Haus / seine Küche",
+          "ihr (her): ihren Garten / ihr Haus / ihre Küche",
+          "Ihr (your, formal): Ihren Garten / Ihr Haus / Ihre Küche",
+        ],
+        vocab: [
+          ["das Haus / die Wohnung","house / apartment"],["das Zimmer","room"],
+          ["die Küche","kitchen"],["das Wohnzimmer / das Schlafzimmer","living / bedroom"],
+          ["das Bad / das Badezimmer","bathroom"],["der Garten / der Balkon","garden / balcony"],
+          ["das Erdgeschoss / der erste Stock","ground floor / first floor"],
+          ["hell / dunkel","bright / dark"],["gemütlich","cozy"],
+          ["groß / klein","big / small"],["besonders","especially"],["gar nicht","not at all"],
+        ]
+      },
+      {
+        num: 15, title: "Lektion 15: In Giesing wohnt das Leben!",
+        topic: "City Life, Dative Pronouns, es gibt",
+        dialogues: [
+          {de:"Was gefällt Ihnen / dir an dem Viertel?",en:"What do you like about the neighborhood?"},
+          {de:"Gibt es eigentlich auch ein Kino?",en:"Is there actually also a cinema?"},
+          {de:"Es gibt viele Kneipen und Restaurants.",en:"There are many bars and restaurants."},
+          {de:"Das gehört mir.",en:"That belongs to me."},
+        ],
+        grammar: [
+          "**Personal pronouns in Dative:**",
+          "ich → mir / du → dir / er·es → ihm / sie → ihr",
+          "wir → uns / ihr → euch / sie·Sie → ihnen/Ihnen",
+          "",
+          "**Verbs with Dative:**",
+          "Das gehört mir. / Das gefällt dir/Ihnen. / Das hilft ihm. / Ich danke ihr.",
+          "",
+          "**es gibt + Accusative:**",
+          "Es gibt einen Park / ein Café / eine Schule.",
+        ],
+        vocab: [
+          ["das Viertel / der Stadtteil","quarter / district"],
+          ["der Supermarkt / das Geschäft","supermarket / shop"],
+          ["die Kneipe / das Restaurant","pub / restaurant"],["das Kino","cinema"],
+          ["gehören","to belong"],["gefallen","to please"],
+          ["helfen","to help"],["danken","to thank"],
+          ["es gibt","there is/are"],["wenige / viele","few / many"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 6",
+    moduleTitle: "Appointments, Plans & Health",
+    lessons: [
+      {
+        num: 16, title: "Lektion 16: Wir haben hier ein Problem.",
+        topic: "Help, Appointments, Temporal Prepositions",
+        dialogues: [
+          {de:"Was kann ich für Sie tun? / Wie kann ich Ihnen / dir helfen?",en:"What can I do for you? / How can I help you?"},
+          {de:"... ist kaputt / funktioniert nicht.",en:"... is broken / doesn't work."},
+          {de:"Ich kümmere mich sofort darum.",en:"I'll take care of it right away."},
+          {de:"Ich möchte den Termin verschieben.",en:"I'd like to reschedule."},
+          {de:"Passt Ihnen / dir das? Passt es Ihnen / dir am Mittwoch?",en:"Does that work for you?"},
+          {de:"Kein Problem! / Das macht doch nichts.",en:"No problem! / It doesn't matter."},
+        ],
+        grammar: [
+          "**Temporal prepositions vor/nach/in + Dative:**",
+          "vor einem Monat / nach einem Jahr / in einer Stunde",
+          "",
+          "**für + Accusative:**",
+          "für einen Tag / für eine Woche / für zwei Wochen",
+        ],
+        vocab: [
+          ["das Problem","problem"],["kaputt","broken"],["funktionieren","to function/work"],
+          ["sich kümmern um","to take care of"],["sofort","immediately"],
+          ["der Termin","appointment"],["verschieben","to reschedule"],
+          ["passen","to suit/fit"],["vor / nach / in","before / after / in (time)"],
+          ["für","for (duration)"],["Schade!","Too bad!"],
+        ]
+      },
+      {
+        num: 17, title: "Lektion 17: Wer will Popstar werden?",
+        topic: "Plans, Wishes, wollen, mit/ohne",
+        dialogues: [
+          {de:"Was willst du / wollen Sie werden?",en:"What do you want to become?"},
+          {de:"Ich will Popstar werden.",en:"I want to become a popstar."},
+          {de:"Ich will unbedingt noch nach Spanien reisen.",en:"I definitely want to travel to Spain."},
+          {de:"Ohne das Handy gehe ich nie aus dem Haus.",en:"I never leave without my phone."},
+        ],
+        grammar: [
+          "**Modal verb: wollen (to want)**",
+          "ich will / du willst / Sie wollen / er·sie will",
+          "wir wollen / ihr wollt / sie wollen",
+          "",
+          "**Prepositions mit/ohne:**",
+          "ohne + Akkusativ: ohne das Handy",
+          "mit + Dativ: mit dem Handy",
+        ],
+        vocab: [
+          ["wollen","to want"],["werden","to become"],["unbedingt","definitely"],
+          ["vielleicht","maybe"],["bestimmt","certainly"],["hoffentlich","hopefully"],
+          ["wichtig","important"],["ohne","without"],["mit","with"],
+          ["reisen","to travel"],["auf keinen Fall","no way"],
+        ]
+      },
+      {
+        num: 18, title: "Lektion 18: Geben Sie ihm doch diesen Tee!",
+        topic: "Health, Body, sollen, Imperative (Sie)",
+        dialogues: [
+          {de:"Mein Kopf / Meine Beine tut/tun weh.",en:"My head / legs hurt(s)."},
+          {de:"Ich habe Halsschmerzen / Kopfschmerzen.",en:"I have a sore throat / headache."},
+          {de:"Haben Sie / Hast du etwas für mich?",en:"Do you have something for me?"},
+          {de:"Trinken Sie viel! / Trink viel! / Gehen Sie zum Arzt! / Geh zum Arzt!",en:"Drink a lot! / Go to the doctor! (formal / informal)"},
+          {de:"Schwester Angelika sagt, ich soll dir / Ihnen diesen Tee geben.",en:"Nurse Angelika says I should give you this tea."},
+        ],
+        grammar: [
+          "**Modal verb: sollen (should)**",
+          "ich soll / du sollst / Sie sollen / er·sie soll",
+          "",
+          "**Imperative (Sie — formal):**",
+          "Trinken Sie viel! / Geben Sie ihm Tee!",
+          "",
+          "**Direct vs indirect:**",
+          "Direct: Trinken Sie viel!",
+          "Indirect: Sie sagt, ich soll viel trinken.",
+        ],
+        vocab: [
+          ["der Kopf","head"],["der Hals","throat/neck"],["der Bauch","stomach"],
+          ["der Rücken","back"],["das Bein / der Arm","leg / arm"],
+          ["das Auge / das Ohr","eye / ear"],["der Mund / die Nase","mouth / nose"],
+          ["Kopfschmerzen / Halsschmerzen","headache / sore throat"],
+          ["weh tun","to hurt"],["die Tablette","tablet/pill"],
+          ["Gute Besserung!","Get well soon!"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 7",
+    moduleTitle: "Appearance, Household & Rules",
+    lessons: [
+      {
+        num: 19, title: "Lektion 19: Der hatte doch keinen Bauch!",
+        topic: "Appearance, Character, Präteritum sein/haben",
+        dialogues: [
+          {de:"Er hat blonde/dunkle/lange/kurze Haare.",en:"He has blond/dark/long/short hair."},
+          {de:"Er hat einen Bart / eine Brille.",en:"He has a beard / glasses."},
+          {de:"Er sieht nett/sympathisch aus.",en:"He looks nice/likeable."},
+          {de:"Früher war sie Sekretärin. / Früher hatte er lange Haare.",en:"She used to be a secretary. / He used to have long hair."},
+          {de:"Ach komm! / Ach du liebe Zeit! / Echt? / Wahnsinn!",en:"Come on! / Oh my! / Really? / Crazy!"},
+        ],
+        grammar: [
+          "**Präteritum: sein and haben**",
+          "sein: ich war / du warst / Sie waren / er·sie war / wir waren",
+          "haben: ich hatte / du hattest / Sie hatten / er·sie hatte / wir hatten",
+          "",
+          "**Perfekt: non-separable prefix verbs (no ge-!):**",
+          "erkennen → hat erkannt / bekommen → hat bekommen",
+          "vergessen → hat vergessen / entschuldigen → hat entschuldigt",
+          "",
+          "**un- = opposite:** sympathisch → unsympathisch",
+        ],
+        vocab: [
+          ["die Haare (Pl.)","hair"],["der Bart","beard"],["die Brille","glasses"],
+          ["blond / dunkel / lang / kurz","blond / dark / long / short"],
+          ["dick / dünn / groß / klein","fat / thin / tall / short"],
+          ["nett / sympathisch","nice / likeable"],["lustig / interessant","funny / interesting"],
+          ["aussehen (sieht...aus)","to look/appear"],["früher","before/earlier"],["jetzt","now"],
+        ]
+      },
+      {
+        num: 20, title: "Lektion 20: Komm sofort runter!",
+        topic: "Household, Imperatives (du/ihr), Accusative Pronouns",
+        dialogues: [
+          {de:"Spül bitte das Geschirr! / Spülen Sie bitte das Geschirr!",en:"Wash the dishes please! (informal / formal)"},
+          {de:"Deck bitte den Tisch! / Decken Sie bitte den Tisch!",en:"Set the table please!"},
+          {de:"Räum dein Zimmer auf! / Räumen Sie Ihr Zimmer auf!",en:"Clean up your room!"},
+          {de:"Vergiss das nicht! / Vergessen Sie das nicht!",en:"Don't forget that!"},
+          {de:"Ruf ihn bitte zurück. / Rufen Sie ihn bitte zurück.",en:"Please call him back."},
+          {de:"Holst du mich ab? / Holen Sie mich ab?",en:"Will you pick me up?"},
+        ],
+        grammar: [
+          "**Imperative (du / ihr / Sie):**",
+          "du: Deck! / Schlaf! / Vergiss! / Räum auf! / Sei! / Hab!",
+          "ihr: Deckt! / Schlaft! / Vergesst! / Räumt auf! / Seid!",
+          "Sie: Decken Sie! / Schlafen Sie! / Räumen Sie auf!",
+          "",
+          "**Personal pronouns in Accusative:**",
+          "ich → mich / du → dich / er → ihn / es → es / sie → sie",
+          "wir → uns / ihr → euch / sie·Sie → sie/Sie",
+        ],
+        vocab: [
+          ["spülen","to wash (dishes)"],["das Geschirr","dishes"],
+          ["abtrocknen","to dry (dishes)"],["decken (den Tisch)","to set (the table)"],
+          ["aufräumen","to tidy up"],["die Wäsche waschen","to do laundry"],
+          ["die Tür","door"],["das Fenster","window"],
+          ["sofort","immediately"],["leise","quiet"],["laut","loud"],
+        ]
+      },
+      {
+        num: 21, title: "Lektion 21: Bei Rot musst du stehen...",
+        topic: "Rules, dürfen & müssen, Opinions",
+        dialogues: [
+          {de:"Hier darf man nicht rauchen.",en:"You may not smoke here."},
+          {de:"Motorradfahrer müssen einen Helm tragen.",en:"Motorcyclists must wear a helmet."},
+          {de:"Das ist (nicht) verboten / erlaubt.",en:"That is (not) forbidden / allowed."},
+          {de:"Man muss in der Bibliothek leise sein.",en:"You must be quiet in the library."},
+          {de:"Das finde ich richtig / falsch / gefährlich.",en:"I think that's right / wrong / dangerous."},
+          {de:"Darf ich hier rauchen? / Dürfen Sie hier rauchen?",en:"May I smoke here?"},
+        ],
+        grammar: [
+          "**dürfen (may/allowed):**",
+          "ich darf / du darfst / Sie dürfen / er·sie darf",
+          "",
+          "**müssen (must/have to):**",
+          "ich muss / du musst / Sie müssen / er·sie muss",
+          "",
+          "**man = one/you (impersonal):**",
+          "Hier darf man nicht parken.",
+        ],
+        vocab: [
+          ["dürfen","may / be allowed"],["müssen","must / have to"],
+          ["man","one/you (impersonal)"],["die Regel","rule"],
+          ["verboten","forbidden"],["erlaubt","allowed"],["gefährlich","dangerous"],
+          ["richtig / falsch","right / wrong"],["der Helm","helmet"],
+          ["rauchen","to smoke"],["parken","to park"],["tragen","to wear/carry"],
+        ]
+      },
+    ]
+  },
+  {
+    module: "Modul 8",
+    moduleTitle: "Clothing, Weather & Celebrations",
+    lessons: [
+      {
+        num: 22, title: "Lektion 22: Am besten sind seine Schuhe!",
+        topic: "Clothing, Comparisons (Komparativ/Superlativ)",
+        dialogues: [
+          {de:"Welches T-Shirt finden Sie / findest du am schönsten?",en:"Which T-shirt do you find nicest?"},
+          {de:"Mir gefällt das besser. Die Farben sind schöner.",en:"I like that better. The colors are nicer."},
+          {de:"Haben Sie / Hast du das Kleid schon gesehen? Total schön.",en:"Have you seen the dress? Totally beautiful."},
+          {de:"Was? Das gefällt Ihnen / dir? Das ist doch wahnsinnig langweilig.",en:"What? You like that? It's incredibly boring."},
+          {de:"Ich ziehe es oft an.",en:"I wear it often."},
+        ],
+        grammar: [
+          "**Komparativ + Superlativ:**",
+          "gut → besser → am besten",
+          "gern → lieber → am liebsten",
+          "viel → mehr → am meisten",
+          "",
+          "**With Umlaut:** alt → älter → am ältesten / groß → größer → am größten",
+          "",
+          "**Comparison:** besser als (better than) / genauso...wie (just as...as)",
+        ],
+        vocab: [
+          ["die Jacke","jacket"],["die Hose","pants/trousers"],["das Kleid","dress"],
+          ["das Hemd","shirt"],["das T-Shirt","T-shirt"],["die Schuhe (Pl.)","shoes"],
+          ["der Mantel","coat"],["anziehen","to put on/wear"],["die Farbe","color"],
+          ["rot / blau / grün / gelb","red / blue / green / yellow"],
+          ["schwarz / weiß / lila / rosa","black / white / purple / pink"],
+          ["total / richtig / wahnsinnig","totally / really / incredibly"],
+        ]
+      },
+      {
+        num: 23, title: "Lektion 23: Ins Wasser gefallen?",
+        topic: "Weather, Travel Stories, Conjunction denn",
+        dialogues: [
+          {de:"Wie ist das Wetter?",en:"How is the weather?"},
+          {de:"Es ist sonnig. / Es regnet. / Es schneit. / Es ist windig.",en:"Sunny / Raining / Snowing / Windy."},
+          {de:"Die Sonne scheint. Es ist warm. Es sind 25 Grad.",en:"The sun is shining. It's warm. 25 degrees."},
+          {de:"Hatten Sie / Hattest du einen schönen Urlaub?",en:"Did you have a nice holiday?"},
+          {de:"Ja, denn das Wetter war wunderbar.",en:"Yes, because the weather was wonderful."},
+        ],
+        grammar: [
+          "**Conjunction denn (because):**",
+          "Es war wunderbar, denn wir hatten Traumwetter.",
+          "(denn = position 0, does NOT change word order)",
+          "",
+          "**Wortbildung: -los (without):**",
+          "die Wolken → wolkenlos (cloudless)",
+        ],
+        vocab: [
+          ["die Sonne / der Regen / der Schnee","sun / rain / snow"],
+          ["der Wind / der Nebel / die Wolken","wind / fog / clouds"],
+          ["regnen / schneien / scheinen","to rain / to snow / to shine"],
+          ["sonnig / bewölkt / neblig / windig","sunny / cloudy / foggy / windy"],
+          ["heiß / warm / kühl / kalt","hot / warm / cool / cold"],
+          ["der Grad","degree"],["der Urlaub","vacation/holiday"],
+          ["wunderbar","wonderful"],["denn","because"],
+        ]
+      },
+      {
+        num: 24, title: "Lektion 24: Ich würde am liebsten jeden Tag feiern.",
+        topic: "Celebrations, Dates, würde (Konjunktiv II)",
+        dialogues: [
+          {de:"Im Sommer würde ich gern eine Reise machen.",en:"In summer I'd like to take a trip."},
+          {de:"Was würden Sie / würdest du am liebsten machen?",en:"What would you most like to do?"},
+          {de:"Heute ist der achte Januar. / Am achten Januar.",en:"Today is January 8th. / On January 8th."},
+          {de:"Herzlichen Glückwunsch! / Alles Gute!",en:"Congratulations! / All the best!"},
+          {de:"Frohe Weihnachten! / Gutes neues Jahr!",en:"Merry Christmas! / Happy New Year!"},
+        ],
+        grammar: [
+          "**würde + infinitive (would):**",
+          "ich würde / du würdest / Sie würden / er·sie würde",
+          "wir würden / ihr würdet / sie würden",
+          "",
+          "**Ordinal numbers:**",
+          "1.-19. add -te: der erste, zweite, dritte, vierte...",
+          "20.+ add -ste: der zwanzigste...",
+          "",
+          "**Dates:** Heute ist der achte Januar. / Am achten Januar.",
+        ],
+        vocab: [
+          ["feiern","to celebrate"],["der Geburtstag","birthday"],
+          ["Weihnachten","Christmas"],["Silvester / Neujahr","New Year's Eve / New Year"],
+          ["Ostern","Easter"],["das Geschenk","gift/present"],
+          ["Herzlichen Glückwunsch!","Congratulations!"],["Alles Gute!","All the best!"],
+          ["Frohe Weihnachten!","Merry Christmas!"],["Gut gemacht!","Well done!"],
+          ["würde","would"],["die Reise","trip/journey"],
+        ]
+      },
+    ]
+  },
+];
+
+
+let currentBtn = null;
+
+function speak(text, btn) {
+  speechSynthesis.cancel();
+  if (currentBtn) currentBtn.classList.remove('playing');
+  if (currentBtn === btn) { currentBtn = null; return; }
+  text = text.replace(/\//g, ', ').replace(/—/g, ', ').replace(/·/g, ' ')
+             .replace(/\(.*?\)/g, '').replace(/\.{2,}/g, '').trim();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'de-DE'; u.rate = 0.82;
+  const voices = speechSynthesis.getVoices();
+  const dv = voices.find(v => v.lang.startsWith('de'));
+  if (dv) u.voice = dv;
+  btn.classList.add('playing'); currentBtn = btn;
+  u.onend = () => { btn.classList.remove('playing'); currentBtn = null; };
+  u.onerror = () => { btn.classList.remove('playing'); currentBtn = null; };
+  speechSynthesis.speak(u);
+}
+speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+speechSynthesis.getVoices();
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s) { return s.replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+function render(filter) {
+  const el = document.getElementById('content');
+  const jump = document.getElementById('jumpTo');
+  let h = '', jh = '<option value="">Jump to lesson...</option>';
+  const fl = (filter||'').toLowerCase();
+
+  LESSONS.forEach((mod, mi) => {
+    let mh = '';
+    mod.lessons.forEach((les, li) => {
+      const id = 'L'+mi+'_'+li;
+      if (fl) {
+        const blob = JSON.stringify(les).toLowerCase();
+        if (!blob.includes(fl)) return;
+      }
+      jh += '<option value="'+id+'">'+esc(les.title)+'</option>';
+
+      // Dialogues
+      let dh = '';
+      les.dialogues.forEach(d => {
+        dh += '<div class="dialogue-row">'
+          + '<button class="speak-btn" onclick="speak(\''+escAttr(d.de)+'\',this)" title="Listen">&#x1F50A;</button>'
+          + '<div><span class="de-text">'+esc(d.de)+'<span class="tooltip-box">'+esc(d.en)+'</span></span></div>'
+          + '</div>';
+      });
+
+      // Grammar
+      let gh = '';
+      les.grammar.forEach(g => {
+        if (g === '') { gh += '<div class="grammar-spacer"></div>'; return; }
+        if (g.startsWith('**')) {
+          gh += '<div class="grammar-item header">'+esc(g.replace(/\*\*/g,''))+'</div>';
+        } else {
+          const hasDE = /[\u00e4\u00f6\u00fc\u00df\u00c4\u00d6\u00dc]|\bich\b|\bdu\b|\bSie\b|\ber\b|\bwir\b/i.test(g);
+          gh += '<div class="grammar-item">'
+            + (hasDE ? '<button class="speak-btn" onclick="speak(\''+escAttr(g)+'\',this)">&#x1F50A;</button>' : '')
+            + '<span>'+esc(g)+'</span></div>';
+        }
+      });
+
+      // Vocab
+      let vh = '<div class="vocab-grid"><div class="vheader">German</div><div class="vheader">English</div>';
+      les.vocab.forEach(([de, en]) => {
+        vh += '<div class="vocab-cell de"><button class="speak-btn" onclick="speak(\''+escAttr(de)+'\',this)">&#x1F50A;</button>'+esc(de)+'</div>'
+            + '<div class="vocab-cell en">'+esc(en)+'</div>';
+      });
+      vh += '</div>';
+
+      mh += '<div class="lesson" id="'+id+'">'
+        + '<div class="lesson-head" onclick="toggle(this)">'
+        + '<div><h3>'+esc(les.title)+'</h3><div class="topic">'+esc(les.topic)+'</div></div>'
+        + '<span class="arrow">&#x25BE;</span></div>'
+        + '<div class="lesson-body">'
+        + '<div class="tabs">'
+        + '<div class="tab active" onclick="stab(this,\'d'+id+'\')">Dialogues</div>'
+        + '<div class="tab" onclick="stab(this,\'g'+id+'\')">Grammar</div>'
+        + '<div class="tab" onclick="stab(this,\'v'+id+'\')">Vocabulary</div>'
+        + '</div>'
+        + '<div class="tab-content active" id="d'+id+'">'+dh+'</div>'
+        + '<div class="tab-content" id="g'+id+'">'+gh+'</div>'
+        + '<div class="tab-content" id="v'+id+'">'+vh+'</div>'
+        + '</div></div>';
+    });
+    if (!fl || mh) {
+      h += '<div class="module-header"><h2>'+esc(mod.module)+'</h2><p>'+esc(mod.moduleTitle)+'</p></div>' + mh;
+    }
+  });
+  el.innerHTML = h;
+  jump.innerHTML = jh;
+}
+
+function toggle(el) {
+  const body = el.nextElementSibling;
+  const open = body.classList.contains('show');
+  document.querySelectorAll('.lesson-body.show').forEach(b => { b.classList.remove('show'); b.previousElementSibling.classList.remove('open'); });
+  if (!open) { body.classList.add('show'); el.classList.add('open'); }
+}
+
+function stab(tabEl, id) {
+  const p = tabEl.closest('.lesson-body');
+  p.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  p.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function jumpToLesson(id) {
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  const h = el.querySelector('.lesson-head'), b = el.querySelector('.lesson-body');
+  if (!b.classList.contains('show')) {
+    document.querySelectorAll('.lesson-body.show').forEach(x => { x.classList.remove('show'); x.previousElementSibling.classList.remove('open'); });
+    b.classList.add('show'); h.classList.add('open');
+  }
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+let ft;
+function doFilter(v) { clearTimeout(ft); ft = setTimeout(() => render(v), 200); }
+
+render();
+</script>
+</body>
+</html>

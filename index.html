@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#e9e7e2;--panel:#f7f6f3;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+--bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
 --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
 --border:#e4e0da;--card:#fafaf8;
 --shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
@@ -48,10 +48,13 @@ footer{margin-top:40px;font-size:11.5px;color:var(--muted)}
 <h1>German Learning Hub</h1>
 <div class="sub">Everything in one place — vocab, phrases, grammar notes. Bookmark this page on any device to pick up where you left off.</div>
 </div>
+
 <div class="section-label">Guides</div>
 <div class="grid" id="grid"></div>
+
 <footer>Add new guides here as they're built — this page just needs a new card + the file sitting alongside it.</footer>
 </div>
+
 <script>
 const MODULES = [
 {
@@ -62,33 +65,11 @@ tags:["Vocabulary","A1","Flashcards"],
 href:"vocabulary.html"
 },
 {
-icon:"🎧",
-title:"Listening — A1 Chapters",
-desc:"English word, pause, German word, chapter by chapter. Plays in the background with the screen locked.",
-tags:["Listening","Audio","A1"],
-href:"listening.html"
-},
-{
-icon:"🎭",
-title:"Scenarios",
-desc:"Full two-person dialogues for real situations — restaurant, airport, shopping, renting a room, emergencies, and more. Hover any word, hear it spoken, track what you've practiced.",
-tags:["Dialogues","Real-Life","Practice"],
-href:"scenarios.html"
-},
-{
-icon:"✍️",
-title:"Writing Practice",
-desc:"Produce your own sentences with vocabulary you've already learned — fill-in-the-blank exercises by chapter, in both translation directions.",
-tags:["Production","Fill-in-the-blank","By chapter"],
-href:"writing-practice.html"
-},
-{
-icon:"🗣️",
-title:"Speaking Practice",
-desc:"Opens a fresh Claude chat — tap the sound-wave icon in the message box to start voice mode, then just talk in German.",
-tags:["Speaking","Voice","Practice"],
-href:"https://claude.ai/new",
-external:true
+icon:"📘",
+title:"Menschen A1",
+desc:"Interactive Kursbuch guide — all 24 lessons with dialogues, grammar, and vocab. Hover any German phrase for the translation, tap 🔊 to hear it spoken.",
+tags:["Grammar","Dialogues","Audio"],
+href:"menschen-a1.html"
 },
 {
 icon:"💬",
@@ -112,6 +93,13 @@ tags:["Reading","Graded Reader","TTS"],
 href:"books.html"
 },
 {
+icon:"✍️",
+title:"Writing Practice",
+desc:"Produce your own sentences with vocabulary you've already learned — fill-in-the-blank exercises by chapter, in both translation directions.",
+tags:["Production","Fill-in-the-blank","By chapter"],
+href:"writing-practice.html"
+},
+{
 icon:"🌐",
 title:"Translate & Practice",
 desc:"Write your own script in English or German, translate it, edit it, and read it aloud to practice — with a round-trip check for accuracy.",
@@ -119,10 +107,11 @@ tags:["Free-form","Translation","Speaking"],
 href:"translate.html"
 }
 ];
+
 function render(){
 const g=document.getElementById('grid');
 g.innerHTML = MODULES.map(m=>`
-<a class="mcard" href="${m.href}"${m.external?' target="_blank" rel="noopener"':''}>
+<a class="mcard" href="${m.href}">
 <div class="icon">${m.icon}</div>
 <h2>${m.title}</h2>
 <p>${m.desc}</p>
@@ -137,6 +126,7 @@ g.innerHTML = MODULES.map(m=>`
 `;
 }
 render();
+
 function initMode(){
 const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
 setMode(prefersDark);
