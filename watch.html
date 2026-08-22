@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Watch & Listen — German Learning Hub</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="theme-color" content="#1b4332">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -25,7 +29,7 @@ button{font-family:inherit}
 .top-bar button,.top-bar a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
 .home-link{width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink)!important;text-decoration:none!important}
 
-.wrap{max-width:900px;margin:0 auto;padding:70px 20px 80px}
+.wrap{max-width:960px;margin:0 auto;padding:70px 20px 80px}
 .top{margin-bottom:20px}
 .top .kicker{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
 .top h1{font-size:26px;font-weight:800;color:var(--accent-d);margin-top:4px}
@@ -37,15 +41,21 @@ button{font-family:inherit}
 .player-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-top:16px}
 .player-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 
-.tip{margin-top:18px;font-size:12.5px;color:var(--sub)}
-.tip b{color:var(--ink)}
+.now-playing{font-size:13px;color:var(--sub);margin-top:10px}
+.now-playing b{color:var(--accent-d)}
+
+.grid-label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--sub);margin:28px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.ecard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,border-color .12s;text-align:left;display:flex;flex-direction:column;gap:4px}
+.ecard:hover{transform:translateY(-2px);border-color:var(--accent)}
+.ecard.active{border-color:var(--accent);background:var(--accent-l)}
+.ecard .enum{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.4px;text-transform:uppercase}
+.ecard .etitle{font-size:13.5px;font-weight:600;line-height:1.35;margin-top:2px}
+.ecard .emeta{font-size:11px;color:var(--muted);margin-top:2px}
+.ecard.unclear .etitle{font-style:italic;color:var(--sub)}
 
 footer{margin-top:32px;font-size:11.5px;color:var(--muted)}
 </style>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<meta name="theme-color" content="#1b4332">
 </head>
 <body>
 <div class="top-bar">
@@ -56,31 +66,62 @@ footer{margin-top:32px;font-size:11.5px;color:var(--muted)}
 <div class="top">
 <div class="kicker">Watch & Listen</div>
 <h1>A1 German Podcast</h1>
-<div class="sub">39 episodes from Learn German Podcast — each one has German and English lines built right into the video, so you get real spoken audio and both languages together without any extra setup.</div>
+<div class="sub">39 episodes from Learn German Podcast, in order. Tap an episode below to jump straight to it.</div>
 </div>
 
 <div class="note">
-<b>How to get both languages at once:</b> the German phrases are shown as on-screen text baked right into each video. Tap the <b>CC / Subtitles</b> icon in the player controls to turn on English captions — with that on, you'll see the German text (always there) and the English translation (the caption) together, without needing any extra tool.
+<b>How to get both languages at once:</b> the German phrases are shown as on-screen text baked right into each video. Tap the <b>CC / Subtitles</b> icon in the player controls to turn on English captions — in later episodes both may already be visible without needing this.
 </div>
 
 <div class="player-wrap">
 <iframe
-  src="https://www.youtube.com/embed/videoseries?list=PL_GZXNfsIFn08x5Nic4qJeFH4fkRUhzJh"
+  id="player"
+  src="https://www.youtube.com/embed/videoseries?list=PL_GZXNfsIFn08x5Nic4qJeFH4fkRUhzJh&index=38&rel=0"
   title="A1 German Podcast — Learn German Podcast"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   allowfullscreen
   loading="lazy">
 </iframe>
 </div>
+<div class="now-playing" id="nowPlaying">Now playing: <b>Episode 1 — How to Introduce Yourself in German (A1)</b></div>
 
-<div class="tip">
-<b>Tip:</b> tap the CC icon first to turn on English subtitles, then use the playlist icon (☰ top-right of the video, or swipe up on mobile) to move between all 39 episodes — captions usually stay on as you switch episodes.
-</div>
+<div class="grid-label">All Episodes</div>
+<div class="grid" id="grid"></div>
 
-<footer>Playlist: Learn German Podcast — A1 German Podcast. All video content and audio belongs to the original creator; this page only embeds their public YouTube playlist.</footer>
+<footer>Playlist: Learn German Podcast — A1 German Podcast. All video content and audio belongs to the original creator; this page only embeds their public YouTube playlist. Episode order reconstructed from the playlist on 22 Aug 2026 — if the creator reorders it, episode numbers here may drift from actual playback position.</footer>
 </div>
 
 <script>
+const EPISODES = [{"num": 1, "title": "How to Introduce Yourself in German (A1)", "duration": "10:02", "timeAgo": "7 months ago", "index": 38}, {"num": 2, "title": "How to Talk About Your Daily Routine (A1)", "duration": "7:06", "timeAgo": "7 months ago", "index": 37}, {"num": 3, "title": "Days and Months in German (A1)", "duration": "9:18", "timeAgo": "7 months ago", "index": 36}, {"num": 4, "title": "How to Talk About the Weather in German", "duration": "10:03", "timeAgo": "7 months ago", "index": 35}, {"num": 5, "title": "How to Say Hello in German", "duration": "8:17", "timeAgo": "6 months ago", "index": 34}, {"num": 6, "title": "How Do You Ask for Directions and Locations?", "duration": "7:11", "timeAgo": "6 months ago", "index": 33}, {"num": 7, "title": "How to Introduce Your Family & Friends in German", "duration": "11:29", "timeAgo": "5 months ago", "index": 32}, {"num": 8, "title": "How to Talk About Your Favorite Hobbies in German", "duration": "10:02", "timeAgo": "5 months ago", "index": 31}, {"num": 9, "title": "Talking About Food and Drink in German", "duration": "8:21", "timeAgo": "5 months ago", "index": 30}, {"num": 10, "title": "How to Talk About Shopping and Clothes in German", "duration": "9:20", "timeAgo": "5 months ago", "index": 29}, {"num": 11, "title": "How Do You Shop in a Supermarket in German", "duration": "8:40", "timeAgo": "5 months ago", "index": 28}, {"num": 12, "title": "Talking About Colors and Clothes in German", "duration": "11:01", "timeAgo": "5 months ago", "index": 27}, {"num": 13, "title": "Talking About Numbers and Dates in German", "duration": "11:19", "timeAgo": "5 months ago", "index": 26}, {"num": 14, "title": "How to Order Food in German", "duration": "10:19", "timeAgo": "5 months ago", "index": 25}, {"num": 15, "title": "How to Order at a German Café", "duration": "14:01", "timeAgo": "5 months ago", "index": 24}, {"num": 16, "title": "How to Talk About Your Daily Routine in German (A1)", "duration": "11:46", "timeAgo": "4 months ago", "index": 23}, {"num": 17, "title": "How to Introduce Yourself in German (A1)", "duration": "13:37", "timeAgo": "4 months ago", "index": 22}, {"num": 18, "title": "How to Describe Your Family in German (A1)", "duration": "8:26", "timeAgo": "4 months ago", "index": 21}, {"num": 19, "title": "How to Talk About Days and Months in German (A1)", "duration": "8:56", "timeAgo": "4 months ago", "index": 20}, {"num": 20, "title": "The Four Seasons in German (A1)", "duration": "7:20", "timeAgo": "3 months ago", "index": 19}, {"num": 21, "title": "How to Describe Your Feelings in German (A1)", "duration": "10:06", "timeAgo": "3 months ago", "index": 18}, {"num": 22, "title": "Talk About Your Day in German (A1)", "duration": "9:09", "timeAgo": "3 months ago", "index": 17}, {"num": 23, "title": "My Evening Routine in German (A1)", "duration": "9:41", "timeAgo": "3 months ago", "index": 16}, {"num": 24, "title": "How to Talk About Yourself in German (A1)", "duration": "10:13", "timeAgo": "3 months ago", "index": 15}, {"num": 25, "title": "How to Talk About Childhood Memories and the Past in German (A1)", "duration": "8:48", "timeAgo": "2 months ago", "index": 14}, {"num": 26, "title": "How to Describe Your Favorite City in German (A1)", "duration": "12:54", "timeAgo": "2 months ago", "index": 13}, {"num": 27, "title": "How to Describe Your House in German (A1)", "duration": "9:38", "timeAgo": "2 months ago", "index": 12}, {"num": 28, "title": "How to Ask for Help in German (A1)", "duration": "11:01", "timeAgo": "2 months ago", "index": 11}, {"num": 29, "title": "How to Talk About Vacation in German (A1)", "duration": "10:09", "timeAgo": "2 months ago", "index": 10}, {"num": 30, "title": "How to Ask for Directions and Location in German (A1)", "duration": "9:28", "timeAgo": "2 months ago", "index": 9}, {"num": 31, "title": "How to Talk About the Family in German (A1)", "duration": "9:03", "timeAgo": "1 month ago", "index": 8}, {"num": 32, "title": "How to Describe Your Feelings in German (A1)", "duration": "9:37", "timeAgo": "1 month ago", "index": 7}, {"num": 33, "title": "How to Describe Your Body in German (A1)", "duration": "11:03", "timeAgo": "1 month ago", "index": 6}, {"num": 34, "title": "How to Order Coffee in German? (A1)", "duration": "8:46", "timeAgo": "1 month ago", "index": 5}, {"num": 35, "title": "Talking About Fruits and Vegetables in German (A1)", "duration": "12:45", "timeAgo": "4 weeks ago", "index": 3}, {"num": 36, "title": "How to Book a Hotel Room in Germany", "duration": "12:01", "timeAgo": "3 weeks ago", "index": 2}, {"num": 37, "title": "Congratulating and Comforting in German", "duration": "11:47", "timeAgo": "2 weeks ago", "index": 1}, {"num": 38, "title": "What Do You Do in Your Free Time in German", "duration": "11:31", "timeAgo": "4 days ago", "index": 0}, {"num": 39, "title": "New Episode (title not loaded when captured)", "duration": null, "timeAgo": "recent", "index": 4}];
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderGrid(activeNum){
+  const el = document.getElementById('grid');
+  el.innerHTML = EPISODES.map(e => `
+    <div class="ecard${e.num===activeNum?' active':''}${e.duration?'':' unclear'}" data-index="${e.index}" data-num="${e.num}">
+      <div class="enum">Episode ${e.num}</div>
+      <div class="etitle">${esc(e.title)}</div>
+      <div class="emeta">${e.duration ? e.duration+' · '+e.timeAgo : e.timeAgo}</div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.ecard').forEach(c => c.addEventListener('click', () => {
+    playEpisode(+c.dataset.index, +c.dataset.num);
+  }));
+}
+
+function playEpisode(index, num){
+  const ep = EPISODES.find(e => e.num === num);
+  document.getElementById('player').src =
+    `https://www.youtube.com/embed/videoseries?list=PL_GZXNfsIFn08x5Nic4qJeFH4fkRUhzJh&index=${index}&rel=0&autoplay=1`;
+  document.getElementById('nowPlaying').innerHTML =
+    `Now playing: <b>Episode ${num} — ${esc(ep.title)}</b>`;
+  renderGrid(num);
+  document.querySelector('.player-wrap').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+renderGrid(1);
+
 function initMode(){
 const saved=localStorage.getItem('a1-dark');
 const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -93,8 +134,7 @@ try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
 }
 document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
 initMode();
-</script>
-<script>
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
