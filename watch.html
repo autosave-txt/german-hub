@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Watch & Listen — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#e9e7e2;--panel:#f7f6f3;--ink:#1e1e1e;--sub:#666;--muted:#888;
+--accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+--border:#dcd8d0;--card:#f0efeb;
+--shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
+}
+body.dark{
+--bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#b7b5ac;--muted:#93918a;
+--accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+--border:#333630;--card:#262a25;--shadow:0 1px 3px rgba(0,0,0,.3);
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .15s,color .15s}
+a{color:var(--accent)}
+button{font-family:inherit}
+
+.top-bar{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:100}
+.top-bar button,.top-bar a{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.home-link{width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink)!important;text-decoration:none!important}
+
+.wrap{max-width:900px;margin:0 auto;padding:70px 20px 80px}
+.top{margin-bottom:20px}
+.top .kicker{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.top h1{font-size:26px;font-weight:800;color:var(--accent-d);margin-top:4px}
+.top .sub{font-size:13.5px;color:var(--sub);margin-top:6px;max-width:640px}
+
+.note{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin:18px 0;box-shadow:var(--shadow);font-size:12.5px;color:var(--sub)}
+.note b{color:var(--accent-d)}
+
+.player-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-top:16px}
+.player-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+.tip{margin-top:18px;font-size:12.5px;color:var(--sub)}
+.tip b{color:var(--ink)}
+
+footer{margin-top:32px;font-size:11.5px;color:var(--muted)}
+</style>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="theme-color" content="#1b4332">
+</head>
+<body>
+<div class="top-bar">
+<a class="home-link" href="index.html" title="Back to home">🏠 Home</a>
+<button id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+<div class="wrap">
+<div class="top">
+<div class="kicker">Watch & Listen</div>
+<h1>A1 German Podcast</h1>
+<div class="sub">39 episodes from Learn German Podcast — each one has German and English lines built right into the video, so you get real spoken audio and both languages together without any extra setup.</div>
+</div>
+
+<div class="note">
+<b>How to get both languages at once:</b> the German phrases are shown as on-screen text baked right into each video. Tap the <b>CC / Subtitles</b> icon in the player controls to turn on English captions — with that on, you'll see the German text (always there) and the English translation (the caption) together, without needing any extra tool.
+</div>
+
+<div class="player-wrap">
+<iframe
+  src="https://www.youtube.com/embed/videoseries?list=PL_GZXNfsIFn08x5Nic4qJeFH4fkRUhzJh"
+  title="A1 German Podcast — Learn German Podcast"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+  loading="lazy">
+</iframe>
+</div>
+
+<div class="tip">
+<b>Tip:</b> tap the CC icon first to turn on English subtitles, then use the playlist icon (☰ top-right of the video, or swipe up on mobile) to move between all 39 episodes — captions usually stay on as you switch episodes.
+</div>
+
+<footer>Playlist: Learn German Podcast — A1 German Podcast. All video content and audio belongs to the original creator; this page only embeds their public YouTube playlist.</footer>
+</div>
+
+<script>
+function initMode(){
+const saved=localStorage.getItem('a1-dark');
+const prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+setMode(saved!==null?saved==='1':prefersDark);
+}
+function setMode(dark){
+document.body.classList.toggle('dark',dark);
+document.getElementById('modeBtn').textContent=dark?'☀️':'🌙';
+try{localStorage.setItem('a1-dark',dark?'1':'0');}catch(e){}
+}
+document.getElementById('modeBtn').onclick=()=>setMode(!document.body.classList.contains('dark'));
+initMode();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
