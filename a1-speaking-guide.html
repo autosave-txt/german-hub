@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A1 Speaking Test Guide — German Learning Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--panel:#fff;--ink:#1e1e1e;--sub:#777;--muted:#aaa;
+  --accent:#2d6a4f;--accent-l:#d8f3dc;--accent-d:#1b4332;
+  --border:#e4e0da;--card:#fafaf8;
+  --shadow:0 1px 3px rgba(0,0,0,.07);--radius:10px;
+  --model-bg:#edf6f0;
+}
+body.dark{
+  --bg:#171a17;--panel:#20241f;--ink:#eae7e0;--sub:#9a9990;--muted:#6b6a63;
+  --accent:#5cb583;--accent-l:#243d2f;--accent-d:#8fd6ac;
+  --border:#333630;--card:#262a25;--shadow:0 1px 3px rgba(0,0,0,.3);
+  --model-bg:#1f2d24;
+}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;transition:background .15s,color .15s}
+a{color:var(--accent)}
+.wrap{max-width:720px;margin:0 auto;padding:24px 18px 90px}
+.top-bar{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:10}
+.top-bar button,.top-bar a{height:38px;border-radius:50%;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);color:var(--ink);text-decoration:none}
+.top-bar a{width:auto;border-radius:99px;padding:0 14px;gap:6px;font-size:12.5px;font-weight:600}
+.mode-toggle{width:38px}
+
+.top{margin-bottom:6px;padding-top:8px}
+.top .kicker{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.top h1{font-size:22px;font-weight:800;color:var(--accent-d);margin-top:4px;line-height:1.25}
+.top .sub{font-size:13.5px;color:var(--sub);margin-top:6px}
+
+.section{margin-top:28px}
+.section h2{font-size:16px;font-weight:700;color:var(--accent-d);margin-bottom:8px}
+.section h3{font-size:14px;font-weight:700;color:var(--ink);margin:16px 0 6px}
+.section p,.section li{font-size:14.5px;color:var(--ink);margin-bottom:8px}
+.section ul{padding-left:18px;margin-bottom:10px}
+.section li{margin-bottom:5px}
+.note{font-size:13.5px;color:var(--sub);font-style:italic;margin:10px 0}
+
+.model{
+  background:var(--model-bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  margin:10px 0 14px;
+  font-size:14.5px;
+  line-height:1.6;
+}
+.model b{color:var(--accent-d)}
+.model .line{margin-bottom:3px}
+.model .en{color:var(--sub);font-size:13.5px}
+
+.alpha-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px 12px;
+  margin:10px 0 14px;
+  font-size:14px;
+}
+.alpha-grid div{display:flex;gap:8px}
+.alpha-grid .letter{font-weight:700;min-width:18px;color:var(--accent-d)}
+.alpha-grid .pron{color:var(--sub)}
+
+.vocab-list{margin:8px 0 14px}
+.vocab-row{
+  display:flex;
+  flex-direction:column;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+.vocab-row .de{font-weight:600;color:var(--accent-d)}
+.vocab-row .en{color:var(--sub);font-size:13.5px;margin-top:1px}
+
+.link-list a{display:block;font-size:13.5px;margin:4px 0;word-break:break-all}
+
+.day{margin-bottom:10px;font-size:14.5px}
+.day b{color:var(--accent-d)}
+
+hr{border:none;border-top:1px solid var(--border);margin:22px 0}
+
+footer{margin-top:30px;font-size:12px;color:var(--muted);line-height:1.5}
+
+@media(max-width:420px){
+  .wrap{padding:20px 14px 80px}
+  .top h1{font-size:20px}
+  .section p,.section li,.model{font-size:14px}
+  .alpha-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html">← Hub</a>
+  <button class="mode-toggle" id="modeBtn" title="Toggle dark mode">🌙</button>
+</div>
+
+<div class="wrap">
+  <div class="top">
+    <div class="kicker">Exam Guide</div>
+    <h1>A1 Speaking Test Guide</h1>
+    <p class="sub">Goethe-Zertifikat A1: Start Deutsch 1 — everything you need for the speaking exam in one place.</p>
+  </div>
+
+  <!-- 1 -->
+  <div class="section">
+    <h2>1. Official Exam Structure</h2>
+    <p>Group exam · max 4 candidates · 2 examiners · ≈ 15 minutes · <b>no preparation time</b>.</p>
+
+    <h3>Part 1 — Sich vorstellen (≈ 1 min per person)</h3>
+    <p>You introduce yourself from a keyword card (Name, Alter, Land, Wohnort, Sprachen, Beruf, Hobby). Then the examiner asks you to spell something and say a number.</p>
+
+    <h3>Part 2 — Fragen stellen und beantworten</h3>
+    <p>You get topic cards. You ask simple questions and answer the other candidates’ questions.</p>
+
+    <h3>Part 3 — Bitten formulieren</h3>
+    <p>You make simple polite requests to the other people using prompt cards.</p>
+
+    <p class="note">Key point: Part 1 is a short monologue from the card. Follow-ups are only spelling and numbers.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="section">
+    <h2>2. Official Examiner Instructions (Part 1)</h2>
+    <p>The oral examination is a group exam with a maximum of four candidates. It consists of three parts. The examination is conducted by two examiners. The moderator makes all the announcements and asks follow-up questions if necessary when an utterance is unclear or incomplete. The assessor evaluates the candidates’ performance and aligns the assessment with the moderator at the end.</p>
+    <p><b>Exam objective:</b> Give important personal information in the simplest form.</p>
+    <p><b>Exam format:</b> A sheet with keywords is visible to everyone.</p>
+    <p><b>Announcement:</b> “We would like to get to know each other. Tell us: Who are you? Here are a few words to help you. First I will introduce myself.”</p>
+    <p>Candidates introduce themselves one after another. At the end the examiner asks each person to spell something and give a number.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="section">
+    <h2>3. Official Materials</h2>
+    <p>Official sample video (real candidates, rated sehr gut / gut):</p>
+    <div class="link-list">
+      <a href="https://www.youtube.com/watch?v=O6m-GslH2kM" target="_blank" rel="noopener">youtube.com/watch?v=O6m-GslH2kM</a>
+    </div>
+    <p style="margin-top:10px">Official PDFs:</p>
+    <div class="link-list">
+      <a href="https://www.goethe.de/pro/relaunch/prf/materialien/A1_sd1/sd_1_modellsatz.pdf" target="_blank" rel="noopener">Modellsatz (model test)</a>
+      <a href="https://www.goethe.de/pro/relaunch/prf/materialien/A1_sd1/sd_1_uebungssatz01.pdf" target="_blank" rel="noopener">Übungssatz 01</a>
+      <a href="https://www.goethe.de/pro/relaunch/prf/materialien/A1_sd1/sd_1_uebungssatz02.pdf" target="_blank" rel="noopener">Übungssatz 02</a>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="section">
+    <h2>4. Part 1 — How to Answer the Card</h2>
+    <p><b>Ideal length:</b> 30–45 seconds. One piece of information per sentence. No stories.</p>
+    <ul>
+      <li>Do not talk longer than 45–50 seconds.</li>
+      <li>Do not explain your name or tell life stories.</li>
+      <li>Do not use complicated sentences.</li>
+    </ul>
+
+    <h3>Model answers (learn as fixed blocks)</h3>
+
+    <div class="model">
+      <b>Model 1</b><br>
+      <div class="line">Mein Name ist John. <span class="en">→ My name is John.</span></div>
+      <div class="line">Ich bin 27 Jahre alt. <span class="en">→ I am 27 years old.</span></div>
+      <div class="line">Ich komme aus der Türkei. <span class="en">→ I come from Turkey.</span></div>
+      <div class="line">Ich wohne in Istanbul. <span class="en">→ I live in Istanbul.</span></div>
+      <div class="line">Ich spreche Türkisch und ein bisschen Englisch. <span class="en">→ I speak Turkish and a little English.</span></div>
+      <div class="line">Ich bin Student. <span class="en">→ I am a student.</span></div>
+      <div class="line">Mein Hobby ist Fußball. <span class="en">→ My hobby is football.</span></div>
+    </div>
+
+    <div class="model">
+      <b>Model 2</b><br>
+      <div class="line">Ich heiße Anna Müller. <span class="en">→ My name is Anna Müller.</span></div>
+      <div class="line">Ich bin 32 Jahre alt. <span class="en">→ I am 32 years old.</span></div>
+      <div class="line">Ich komme aus Deutschland. <span class="en">→ I come from Germany.</span></div>
+      <div class="line">Ich wohne in Berlin. <span class="en">→ I live in Berlin.</span></div>
+      <div class="line">Ich spreche Deutsch und Englisch. <span class="en">→ I speak German and English.</span></div>
+      <div class="line">Ich bin Lehrerin. <span class="en">→ I am a teacher (female).</span></div>
+      <div class="line">Meine Hobbys sind Lesen und Sport. <span class="en">→ My hobbies are reading and sport.</span></div>
+    </div>
+
+    <div class="model">
+      <b>Model 3 — your template</b><br>
+      <div class="line">Mein Name ist _______________. <span class="en">→ My name is _______________.</span></div>
+      <div class="line">Ich bin _____ Jahre alt. <span class="en">→ I am _____ years old.</span></div>
+      <div class="line">Ich komme aus _______________. <span class="en">→ I come from _______________.</span></div>
+      <div class="line">Ich wohne in _______________. <span class="en">→ I live in _______________.</span></div>
+      <div class="line">Ich spreche _______________. <span class="en">→ I speak _______________.</span></div>
+      <div class="line">Ich bin _______________. <span class="en">→ I am a _______________.</span></div>
+      <div class="line">Mein Hobby ist _______________. <span class="en">→ My hobby is _______________.</span></div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="section">
+    <h2>5. German Alphabet with Pronunciation</h2>
+    <p>You will be asked to spell your name or a street. Learn the sound of every letter.</p>
+    <div class="alpha-grid">
+      <div><span class="letter">A</span><span class="pron">ah (father)</span></div>
+      <div><span class="letter">N</span><span class="pron">enn</span></div>
+      <div><span class="letter">B</span><span class="pron">bay</span></div>
+      <div><span class="letter">O</span><span class="pron">oh</span></div>
+      <div><span class="letter">C</span><span class="pron">tsay</span></div>
+      <div><span class="letter">P</span><span class="pron">pay</span></div>
+      <div><span class="letter">D</span><span class="pron">day</span></div>
+      <div><span class="letter">Q</span><span class="pron">koo</span></div>
+      <div><span class="letter">E</span><span class="pron">ay (say)</span></div>
+      <div><span class="letter">R</span><span class="pron">err (guttural)</span></div>
+      <div><span class="letter">F</span><span class="pron">eff</span></div>
+      <div><span class="letter">S</span><span class="pron">ess</span></div>
+      <div><span class="letter">G</span><span class="pron">gay</span></div>
+      <div><span class="letter">T</span><span class="pron">tay</span></div>
+      <div><span class="letter">H</span><span class="pron">hah</span></div>
+      <div><span class="letter">U</span><span class="pron">oo (boot)</span></div>
+      <div><span class="letter">I</span><span class="pron">ee (see)</span></div>
+      <div><span class="letter">V</span><span class="pron">fow</span></div>
+      <div><span class="letter">J</span><span class="pron">yot</span></div>
+      <div><span class="letter">W</span><span class="pron">vay</span></div>
+      <div><span class="letter">K</span><span class="pron">kah</span></div>
+      <div><span class="letter">X</span><span class="pron">iks</span></div>
+      <div><span class="letter">L</span><span class="pron">ell</span></div>
+      <div><span class="letter">Y</span><span class="pron">uepsilon</span></div>
+      <div><span class="letter">M</span><span class="pron">emm</span></div>
+      <div><span class="letter">Z</span><span class="pron">tset</span></div>
+    </div>
+    <p><b>Special letters</b><br>
+      Ä = A-Umlaut (like ‘e’ in bed)<br>
+      Ö = O-Umlaut (like ‘i’ in bird)<br>
+      Ü = U-Umlaut (like French ‘tu’)<br>
+      ß = Eszett / scharfes S (sharp s)
+    </p>
+    <p><b>Useful phrases</b><br>
+      Können Sie das bitte buchstabieren? → Can you please spell that?<br>
+      Wie ist Ihre Telefonnummer? → What is your phone number?<br>
+      Meine Telefonnummer ist … → My phone number is …
+    </p>
+  </div>
+
+  <!-- 6 -->
+  <div class="section">
+    <h2>6. Numbers 0–100</h2>
+    <p>
+      0 null · 1 eins · 2 zwei · 3 drei · 4 vier · 5 fünf<br>
+      6 sechs · 7 sieben · 8 acht · 9 neun · 10 zehn<br>
+      11 elf · 12 zwölf · 13 dreizehn · 14 vierzehn · 15 fünfzehn<br>
+      16 sechzehn · 17 siebzehn · 18 achtzehn · 19 neunzehn · 20 zwanzig<br>
+      21 einundzwanzig · 22 zweiundzwanzig<br>
+      30 dreißig · 40 vierzig · 50 fünfzig · 60 sechzig<br>
+      70 siebzig · 80 achtzig · 90 neunzig · 100 hundert
+    </p>
+  </div>
+
+  <!-- 7 -->
+  <div class="section">
+    <h2>7. Part 2 — Questions &amp; Answers (with English)</h2>
+    <p>You receive a topic card. Ask one question and answer one question. Keep every sentence short.</p>
+
+    <h3>Essen und Trinken (Food and Drink)</h3>
+    <p><b>Questions</b><br>
+      Was essen Sie gerne? → What do you like to eat?<br>
+      Was trinken Sie gerne? → What do you like to drink?<br>
+      Essen Sie Fleisch? → Do you eat meat?<br>
+      Was essen Sie zum Frühstück? → What do you eat for breakfast?
+    </p>
+    <p><b>Answers</b><br>
+      Ich esse gerne Pizza / Brot / Obst / Reis. → I like to eat pizza / bread / fruit / rice.<br>
+      Ich trinke gerne Wasser / Tee / Kaffee / Saft. → I like to drink water / tea / coffee / juice.<br>
+      Nein, ich esse kein Fleisch. → No, I don’t eat meat.<br>
+      Ja, ich esse gerne Fleisch. → Yes, I like to eat meat.<br>
+      Zum Frühstück esse ich Brot und Käse. → For breakfast I eat bread and cheese.
+    </p>
+
+    <h3>Freizeit / Hobbys (Free time / Hobbies)</h3>
+    <p><b>Questions</b><br>
+      Was machen Sie in Ihrer Freizeit? → What do you do in your free time?<br>
+      Haben Sie Hobbys? → Do you have hobbies?<br>
+      Spielen Sie Sport? → Do you play sports?
+    </p>
+    <p><b>Answers</b><br>
+      In meiner Freizeit spiele ich Fußball / lese ich / höre ich Musik. → In my free time I play football / I read / I listen to music.<br>
+      Ja, mein Hobby ist Musik / Sport / Lesen. → Yes, my hobby is music / sport / reading.<br>
+      Ja, ich spiele gerne Fußball. → Yes, I like to play football.<br>
+      Nein, ich spiele keinen Sport. → No, I don’t play any sport.
+    </p>
+
+    <h3>Wochenende (Weekend)</h3>
+    <p><b>Questions</b><br>
+      Was machen Sie am Wochenende? → What do you do at the weekend?<br>
+      Treffen Sie Freunde am Wochenende? → Do you meet friends at the weekend?
+    </p>
+    <p><b>Answers</b><br>
+      Am Wochenende treffe ich Freunde / bleibe ich zu Hause / gehe ich spazieren. → At the weekend I meet friends / I stay at home / I go for a walk.<br>
+      Ja, ich treffe oft Freunde. → Yes, I often meet friends.<br>
+      Nein, ich bleibe meistens zu Hause. → No, I usually stay at home.
+    </p>
+
+    <h3>Einkaufen (Shopping)</h3>
+    <p><b>Questions</b><br>
+      Wo kaufen Sie ein? → Where do you shop?<br>
+      Was kaufen Sie gerne? → What do you like to buy?
+    </p>
+    <p><b>Answers</b><br>
+      Ich kaufe im Supermarkt ein. → I shop at the supermarket.<br>
+      Ich kaufe online. → I shop online.<br>
+      Ich kaufe gerne Obst und Brot. → I like to buy fruit and bread.
+    </p>
+  </div>
+
+  <!-- 8 -->
+  <div class="section">
+    <h2>8. Part 3 — Making Requests (with English)</h2>
+    <p><b>Requests to memorise</b><br>
+      Können Sie bitte das Fenster öffnen? → Can you please open the window?<br>
+      Können Sie bitte die Tür schließen? → Can you please close the door?<br>
+      Geben Sie mir bitte das Wasser. → Please give me the water.<br>
+      Ein Glas Wasser, bitte. → A glass of water, please.<br>
+      Können Sie mir bitte helfen? → Can you please help me?<br>
+      Können Sie das bitte wiederholen? → Can you please repeat that?<br>
+      Haben Sie einen Stift? → Do you have a pen?<br>
+      Können Sie mir bitte das Buch geben? → Can you please give me the book?
+    </p>
+    <p><b>Responses</b><br>
+      Ja, gerne. → Yes, gladly.<br>
+      Natürlich. → Of course.<br>
+      Hier, bitte. → Here you are.<br>
+      Tut mir leid, ich kann nicht. → Sorry, I can’t.<br>
+      Einen Moment, bitte. → One moment, please.
+    </p>
+  </div>
+
+  <!-- 9 -->
+  <div class="section">
+    <h2>9. Full Practice Scripts (with English)</h2>
+    <p>Read these out loud every day. Record yourself.</p>
+
+    <h3>Script A — Full Part 1</h3>
+    <div class="model">
+      <div class="line">Mein Name ist John. <span class="en">→ My name is John.</span></div>
+      <div class="line">Ich bin 27 Jahre alt. <span class="en">→ I am 27 years old.</span></div>
+      <div class="line">Ich komme aus der Türkei. <span class="en">→ I come from Turkey.</span></div>
+      <div class="line">Ich wohne in Istanbul. <span class="en">→ I live in Istanbul.</span></div>
+      <div class="line">Ich spreche Türkisch und ein bisschen Englisch. <span class="en">→ I speak Turkish and a little English.</span></div>
+      <div class="line">Ich bin Student. <span class="en">→ I am a student.</span></div>
+      <div class="line">Mein Hobby ist Fußball. <span class="en">→ My hobby is football.</span></div>
+      <br>
+      <div class="line">(Examiner) Können Sie Ihren Namen bitte buchstabieren? <span class="en">→ Can you please spell your name?</span></div>
+      <div class="line">J-O-H-N.</div>
+      <div class="line">(Examiner) Wie ist Ihre Telefonnummer? <span class="en">→ What is your phone number?</span></div>
+      <div class="line">Null eins sieben, zwei drei vier, fünf sechs sieben acht. <span class="en">→ Zero one seven, two three four, five six seven eight.</span></div>
+    </div>
+
+    <h3>Script B — Part 2 short exchange</h3>
+    <div class="model">
+      <div class="line">A: Was essen Sie gerne? <span class="en">→ What do you like to eat?</span></div>
+      <div class="line">B: Ich esse gerne Pizza. <span class="en">→ I like to eat pizza.</span></div>
+      <div class="line">A: Und was trinken Sie gerne? <span class="en">→ And what do you like to drink?</span></div>
+      <div class="line">B: Ich trinke gerne Wasser. <span class="en">→ I like to drink water.</span></div>
+    </div>
+
+    <h3>Script C — Part 3 short exchange</h3>
+    <div class="model">
+      <div class="line">A: Können Sie bitte das Fenster öffnen? <span class="en">→ Can you please open the window?</span></div>
+      <div class="line">B: Ja, gerne. <span class="en">→ Yes, gladly.</span></div>
+      <div class="line">A: Geben Sie mir bitte das Wasser. <span class="en">→ Please give me the water.</span></div>
+      <div class="line">B: Hier, bitte. <span class="en">→ Here you are.</span></div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section">
+    <h2>10. Complete German–English Vocabulary</h2>
+    <p>All words and phrases used in this guide.</p>
+    <div class="vocab-list">
+      <div class="vocab-row"><span class="de">Ich heiße … / Mein Name ist …</span><span class="en">My name is …</span></div>
+      <div class="vocab-row"><span class="de">Ich bin … Jahre alt</span><span class="en">I am … years old</span></div>
+      <div class="vocab-row"><span class="de">Ich komme aus …</span><span class="en">I come from …</span></div>
+      <div class="vocab-row"><span class="de">Ich wohne in …</span><span class="en">I live in …</span></div>
+      <div class="vocab-row"><span class="de">Ich spreche …</span><span class="en">I speak …</span></div>
+      <div class="vocab-row"><span class="de">ein bisschen</span><span class="en">a little</span></div>
+      <div class="vocab-row"><span class="de">Ich bin Student / Studentin</span><span class="en">I am a student</span></div>
+      <div class="vocab-row"><span class="de">Ich bin … von Beruf</span><span class="en">I am a … by profession</span></div>
+      <div class="vocab-row"><span class="de">Mein Hobby ist …</span><span class="en">My hobby is …</span></div>
+      <div class="vocab-row"><span class="de">Meine Hobbys sind …</span><span class="en">My hobbies are …</span></div>
+      <div class="vocab-row"><span class="de">Lehrer / Lehrerin</span><span class="en">teacher (m/f)</span></div>
+      <div class="vocab-row"><span class="de">Mechaniker</span><span class="en">mechanic</span></div>
+      <div class="vocab-row"><span class="de">Fußball / Musik / Lesen / Sport</span><span class="en">football / music / reading / sport</span></div>
+      <div class="vocab-row"><span class="de">Türkei / Deutschland</span><span class="en">Turkey / Germany</span></div>
+      <div class="vocab-row"><span class="de">Türkisch / Englisch / Deutsch</span><span class="en">Turkish / English / German</span></div>
+      <div class="vocab-row"><span class="de">Was essen Sie gerne?</span><span class="en">What do you like to eat?</span></div>
+      <div class="vocab-row"><span class="de">Was trinken Sie gerne?</span><span class="en">What do you like to drink?</span></div>
+      <div class="vocab-row"><span class="de">Essen Sie Fleisch?</span><span class="en">Do you eat meat?</span></div>
+      <div class="vocab-row"><span class="de">Was essen Sie zum Frühstück?</span><span class="en">What do you eat for breakfast?</span></div>
+      <div class="vocab-row"><span class="de">Ich esse gerne …</span><span class="en">I like to eat …</span></div>
+      <div class="vocab-row"><span class="de">Ich trinke gerne …</span><span class="en">I like to drink …</span></div>
+      <div class="vocab-row"><span class="de">Pizza / Brot / Obst / Reis</span><span class="en">pizza / bread / fruit / rice</span></div>
+      <div class="vocab-row"><span class="de">Wasser / Tee / Kaffee / Saft</span><span class="en">water / tea / coffee / juice</span></div>
+      <div class="vocab-row"><span class="de">kein Fleisch / Käse</span><span class="en">no meat / cheese</span></div>
+      <div class="vocab-row"><span class="de">Was machen Sie in Ihrer Freizeit?</span><span class="en">What do you do in your free time?</span></div>
+      <div class="vocab-row"><span class="de">Haben Sie Hobbys?</span><span class="en">Do you have hobbies?</span></div>
+      <div class="vocab-row"><span class="de">Spielen Sie Sport?</span><span class="en">Do you play sports?</span></div>
+      <div class="vocab-row"><span class="de">In meiner Freizeit …</span><span class="en">In my free time …</span></div>
+      <div class="vocab-row"><span class="de">höre ich Musik</span><span class="en">I listen to music</span></div>
+      <div class="vocab-row"><span class="de">Was machen Sie am Wochenende?</span><span class="en">What do you do at the weekend?</span></div>
+      <div class="vocab-row"><span class="de">Treffen Sie Freunde?</span><span class="en">Do you meet friends?</span></div>
+      <div class="vocab-row"><span class="de">Am Wochenende …</span><span class="en">At the weekend …</span></div>
+      <div class="vocab-row"><span class="de">treffe ich Freunde</span><span class="en">I meet friends</span></div>
+      <div class="vocab-row"><span class="de">bleibe ich zu Hause</span><span class="en">I stay at home</span></div>
+      <div class="vocab-row"><span class="de">gehe ich spazieren</span><span class="en">I go for a walk</span></div>
+      <div class="vocab-row"><span class="de">oft / meistens</span><span class="en">often / usually</span></div>
+      <div class="vocab-row"><span class="de">Wo kaufen Sie ein?</span><span class="en">Where do you shop?</span></div>
+      <div class="vocab-row"><span class="de">Was kaufen Sie gerne?</span><span class="en">What do you like to buy?</span></div>
+      <div class="vocab-row"><span class="de">Ich kaufe im Supermarkt ein</span><span class="en">I shop at the supermarket</span></div>
+      <div class="vocab-row"><span class="de">Ich kaufe online</span><span class="en">I shop online</span></div>
+      <div class="vocab-row"><span class="de">Können Sie bitte …?</span><span class="en">Can you please …?</span></div>
+      <div class="vocab-row"><span class="de">das Fenster öffnen</span><span class="en">open the window</span></div>
+      <div class="vocab-row"><span class="de">die Tür schließen</span><span class="en">close the door</span></div>
+      <div class="vocab-row"><span class="de">Geben Sie mir bitte …</span><span class="en">Please give me …</span></div>
+      <div class="vocab-row"><span class="de">Ein Glas Wasser, bitte</span><span class="en">A glass of water, please</span></div>
+      <div class="vocab-row"><span class="de">Können Sie mir bitte helfen?</span><span class="en">Can you please help me?</span></div>
+      <div class="vocab-row"><span class="de">Können Sie das bitte wiederholen?</span><span class="en">Can you please repeat that?</span></div>
+      <div class="vocab-row"><span class="de">Haben Sie einen Stift?</span><span class="en">Do you have a pen?</span></div>
+      <div class="vocab-row"><span class="de">das Buch geben</span><span class="en">give the book</span></div>
+      <div class="vocab-row"><span class="de">Ja, gerne / Natürlich</span><span class="en">Yes, gladly / Of course</span></div>
+      <div class="vocab-row"><span class="de">Hier, bitte</span><span class="en">Here you are</span></div>
+      <div class="vocab-row"><span class="de">Tut mir leid, ich kann nicht</span><span class="en">Sorry, I can’t</span></div>
+      <div class="vocab-row"><span class="de">Einen Moment, bitte</span><span class="en">One moment, please</span></div>
+      <div class="vocab-row"><span class="de">Können Sie das bitte buchstabieren?</span><span class="en">Can you please spell that?</span></div>
+      <div class="vocab-row"><span class="de">Wie ist Ihre Telefonnummer?</span><span class="en">What is your phone number?</span></div>
+      <div class="vocab-row"><span class="de">Meine Telefonnummer ist …</span><span class="en">My phone number is …</span></div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section">
+    <h2>11. 10-Day Drill Plan</h2>
+    <div class="day"><b>Day 1–2:</b> Memorise your personal Part 1 introduction (7 sentences). Say it 20 times out loud each day.</div>
+    <div class="day"><b>Day 3:</b> Alphabet with pronunciation + numbers 0–100. Spell your full name and a phone number 15 times.</div>
+    <div class="day"><b>Day 4:</b> Record full Part 1 + spelling + number. Listen and fix every hesitation.</div>
+    <div class="day"><b>Day 5:</b> Learn all Part 2 question/answer blocks (Essen, Freizeit, Wochenende, Einkaufen).</div>
+    <div class="day"><b>Day 6:</b> Learn all Part 3 requests and responses.</div>
+    <div class="day"><b>Day 7:</b> Full simulation of all three parts using the scripts. Record it.</div>
+    <div class="day"><b>Day 8:</b> Watch the official sample video, then immediately repeat the same parts yourself.</div>
+    <div class="day"><b>Day 9:</b> Another full recorded simulation. Compare Day 7 vs Day 9.</div>
+    <div class="day"><b>Day 10:</b> Final run under exam conditions (no notes, timer, speak clearly).</div>
+    <p class="note"><b>Success criterion:</b> You can produce your Part 1 introduction, spell your name, give a number, ask and answer one simple question, and make one polite request without notes and without long pauses.</p>
+  </div>
+
+  <hr>
+  <footer>
+    All language stays inside A1 range and is based on the official Goethe Modellsatz, Übungssätze and the official sample video. Work the drill plan. This page contains every phrase you need for the speaking exam.
+  </footer>
+</div>
+
+<script>
+// Dark mode (same pattern as rest of site)
+const btn = document.getElementById('modeBtn');
+const saved = localStorage.getItem('gh-dark');
+if (saved === '1') { document.body.classList.add('dark'); btn.textContent = '☀️'; }
+btn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('gh-dark', isDark ? '1' : '0');
+  btn.textContent = isDark ? '☀️' : '🌙';
+});
+</script>
+</body>
+</html>
