@@ -1,5 +1,4 @@
-const CACHE_NAME = 'german-hub-v3';
-
+const CACHE_NAME = 'german-hub-v4';
 const PRECACHE_URLS = [
   "./",
   "manifest.json",
@@ -84,23 +83,38 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
+  const isAudio = event.request.url.endsWith('.mp3');
 
-      return fetch(event.request)
-        .then((response) => {
+  if (isAudio) {
+    // audio: cache-first, these never change
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((response) => {
           if (response && response.ok) {
             const clone = response.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           }
           return response;
-        })
-        .catch(() => {
-          if (event.request.mode === 'navigate') {
-            return caches.match('index.html');
-          }
         });
-    })
+      })
+    );
+    return;
+  }
+
+  // html/css/js: network-first, cache only as offline fallback
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        if (event.request.mode === 'navigate') return caches.match('index.html');
+      }))
   );
 });
