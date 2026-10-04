@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0d1117">
+<title>Day 1 Content · Practice / Progress Review</title>
+<style>
+:root{
+  --bg:#0d1117;--panel:#161b22;--panel2:#1c2333;--border:#30363d;
+  --text:#e6edf3;--muted:#9aa4b2;--blue:#58a6ff;--green:#3fb950;
+  --orange:#d29922;--red:#f85149;--shadow:0 12px 32px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5}
+button,a{font:inherit}
+a{color:inherit;text-decoration:none}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1000px;margin:auto;padding:.65rem .8rem;display:flex;align-items:center;gap:.5rem;overflow-x:auto}
+.brand{font-weight:850;white-space:nowrap;margin-right:auto} .brand span{color:var(--blue)}
+.pill{border:1px solid var(--border);background:var(--panel);color:var(--muted);border-radius:999px;padding:.42rem .7rem;white-space:nowrap;cursor:pointer}
+.pill:hover{border-color:var(--blue);color:var(--text)}
+main{max-width:1000px;margin:auto;padding:1rem .8rem 5rem}
+.hero{padding:1.1rem 0 .7rem}
+.kicker{font-size:.74rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+h1{font-size:clamp(2rem,8vw,3.6rem);line-height:1.02;margin:.18rem 0 .45rem;letter-spacing:-.04em}
+.subtitle{color:var(--muted);max-width:760px;margin:0}
+.scope{margin:1rem 0 1.5rem;border:1px solid #29496b;background:rgba(88,166,255,.08);border-radius:12px;padding:.85rem .95rem;color:#cdd9e5;font-size:.92rem}
+.section{margin:1.7rem 0;scroll-margin-top:80px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:.7rem;margin-bottom:.65rem}
+.section h2{font-size:1.22rem;margin:0}
+.section-tools{display:flex;gap:.4rem}
+.smallbtn{border:1px solid var(--border);background:var(--panel);border-radius:8px;color:var(--muted);padding:.38rem .6rem;cursor:pointer;font-size:.78rem}
+.smallbtn:hover{border-color:var(--blue);color:var(--text)}
+.rows{display:grid;gap:.52rem}
+.row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr) auto;gap:.75rem;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:.78rem .82rem}
+.de{font-weight:760;font-size:1rem;line-height:1.42}
+.en{color:var(--muted);font-size:.9rem;line-height:1.42}
+.speak{width:38px;height:38px;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.speak:hover{border-color:var(--blue)} .speak.playing{border-color:var(--green);color:var(--green)}
+.english-hidden .en{display:none}
+.english-hidden .row{grid-template-columns:1fr auto}
+.reference-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}
+.ref{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:.72rem .78rem;display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:center}
+.ref .de{font-size:.94rem} .ref .en{font-size:.84rem;margin-top:.15rem}
+.patterns{display:grid;gap:.5rem}
+.pattern{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:.75rem .8rem}
+.pattern-label{color:var(--muted);font-size:.78rem;margin-bottom:.2rem}
+.pattern-text{font-weight:760}
+.final{background:linear-gradient(180deg,rgba(63,185,80,.08),rgba(88,166,255,.05));border:1px solid #315640;border-radius:14px;padding:1rem}
+.final-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.final .de,.final .en{line-height:1.7}
+.note{font-size:.84rem;color:var(--muted);margin-top:.75rem}
+.audio-status{position:fixed;left:50%;bottom:14px;transform:translate(-50%,140%);z-index:100;background:#121923;border:1px solid #425066;border-radius:10px;padding:.55rem .75rem;font-size:.8rem;box-shadow:var(--shadow);transition:transform .18s ease;text-align:center;max-width:calc(100% - 24px)}
+.audio-status.show{transform:translate(-50%,0)}
+footer{color:var(--muted);text-align:center;font-size:.75rem;margin-top:2rem}
+@media(max-width:700px){
+  main{padding:.8rem .6rem 5rem}
+  .topbar-inner{padding:.55rem .55rem}
+  .row{grid-template-columns:minmax(0,1fr) auto;gap:.55rem;padding:.72rem}
+  .row .en{grid-column:1 / -1;padding-top:.5rem;border-top:1px solid var(--border)}
+  .english-hidden .row .en{display:none}
+  .reference-grid{grid-template-columns:1fr}
+  .final-grid{grid-template-columns:1fr}
+  .final .en{border-top:1px solid var(--border);padding-top:.8rem}
+  .section-head{align-items:center}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="mein_morgen_day1_github_pages.html"><span>Day 1</span> · Content</a>
+    <a class="pill" href="mein_morgen_day1_github_pages.html">← Mein Morgen</a>
+    <button class="pill" id="toggleEnglish">Hide English</button>
+  </div>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="kicker">Day 1 · Practice / Progress Review</div>
+    <h1>Day 1 Content</h1>
+    <p class="subtitle">Everything corrected from Session 1, with German and English together for review. No mistake examples.</p>
+  </section>
+
+  <div class="scope"><b>Scope:</b> corrected material actually covered in Day 1 / Session 1. The two harder items marked as recognition are included because you encountered them, but you do not need to produce them perfectly yet.</div>
+
+  <div id="content"></div>
+
+  <section class="section" id="chunks">
+    <div class="section-head"><h2>Fast chunk reference</h2></div>
+    <div class="reference-grid" id="chunkGrid"></div>
+  </section>
+
+  <section class="section" id="patterns">
+    <div class="section-head"><h2>Patterns we actually touched</h2></div>
+    <div class="patterns" id="patternGrid"></div>
+  </section>
+
+  <section class="section" id="final">
+    <div class="section-head">
+      <h2>Corrected end-of-session paragraph</h2>
+      <div class="section-tools"><button class="smallbtn" data-speak="Normalerweise wache ich um sieben Uhr auf. Zuerst schaue ich auf mein Handy, dann stehe ich auf. Danach gehe ich in die Küche. Meistens trinke ich Kaffee und esse zwei Eier zum Frühstück. Nach dem Frühstück gehe ich ins Badezimmer und dusche. Dann ziehe ich mich an und packe meine Tasche. Manchmal fahre ich mit dem Bus zur Arbeit, aber heute gehe ich zu Fuß zur Arbeit.">🔊 Play paragraph</button></div>
+    </div>
+    <div class="final">
+      <div class="final-grid">
+        <div class="de">Normalerweise wache ich um sieben Uhr auf. Zuerst schaue ich auf mein Handy, dann stehe ich auf. Danach gehe ich in die Küche. Meistens trinke ich Kaffee und esse zwei Eier zum Frühstück. Nach dem Frühstück gehe ich ins Badezimmer und dusche. Dann ziehe ich mich an und packe meine Tasche. Manchmal fahre ich mit dem Bus zur Arbeit, aber heute gehe ich zu Fuß zur Arbeit.</div>
+        <div class="en">Normally I wake up at seven. First I look at my phone, then I get up. After that I go into the kitchen. Usually I drink coffee and eat two eggs for breakfast. After breakfast I go into the bathroom and shower. Then I get dressed and pack my bag. Sometimes I go to work by bus, but today I walk to work.</div>
+      </div>
+      <div class="note"><b>Recognition only:</b> “Nach dem Duschen trockne ich mich ab.” and the Perfekt model “…heute habe ich keinen Kaffee getrunken.”</div>
+    </div>
+  </section>
+
+  <footer>Day 1 Content · Practice / Progress Review</footer>
+</main>
+
+<div class="audio-status" id="audioStatus"></div>
+
+<script>
+const DATA = {"sections": [["1 · Wake up, phone, get up", [["Morgens wache ich um sieben Uhr auf.", "In the morning I wake up at seven."], ["Heute wache ich um sieben Uhr auf.", "Today I wake up at seven."], ["Heute wache ich früh auf.", "Today I wake up early."], ["Zuerst schaue ich auf mein Handy.", "First I look at my phone."], ["Dann stehe ich auf.", "Then I get up."], ["Heute stehe ich um acht Uhr auf.", "Today I get up at eight."], ["Morgens stehe ich langsam auf.", "In the morning I get up slowly."], ["Normalerweise stehe ich um sieben Uhr auf.", "Normally I get up at seven."], ["Heute stehe ich später auf.", "Today I get up later."], ["Normalerweise wache ich um sieben Uhr auf, aber heute wache ich später auf.", "Normally I wake up at seven, but today I wake up later."]]], ["2 · Kitchen, water, coffee, breakfast", [["Danach gehe ich in die Küche.", "After that I go into the kitchen."], ["Ich gehe in die Küche.", "I go into the kitchen."], ["Ich bin in der Küche.", "I am in the kitchen."], ["In der Küche mache ich Kaffee.", "In the kitchen I make coffee."], ["Ich trinke ein Glas Wasser.", "I drink a glass of water."], ["Zuerst trinke ich ein Glas Wasser.", "First I drink a glass of water."], ["Dann mache ich Kaffee.", "Then I make coffee."], ["Ich trinke einen Kaffee.", "I drink a coffee."], ["Ich esse eine Banane.", "I eat a banana."], ["Zum Frühstück esse ich zwei Eier und Brot.", "For breakfast I eat two eggs and bread."], ["Heute esse ich zwei Eier zum Frühstück.", "Today I eat two eggs for breakfast."], ["Ich esse zwei Eier mit Brot.", "I eat two eggs with bread."], ["Ich trinke kein Wasser.", "I do not drink water."], ["Ich esse zwei Eier mit Brot, aber ich trinke kein Wasser.", "I eat two eggs with bread, but I do not drink water."], ["Morgens esse ich zwei Eier.", "In the morning I eat two eggs."]]], ["3 · Frequency, contrast and real variation", [["Morgens trinke ich meistens Kaffee.", "In the morning I usually drink coffee."], ["Meistens trinke ich morgens Kaffee.", "Usually I drink coffee in the morning."], ["Meistens esse ich zwei Eier zum Frühstück.", "Most of the time I eat two eggs for breakfast."], ["Meistens trinke ich Kaffee, aber manchmal trinke ich Tee.", "Most of the time I drink coffee, but sometimes I drink tea."], ["Manchmal frühstücke ich nicht.", "Sometimes I do not eat breakfast."], ["Normalerweise trinke ich Kaffee, aber heute trinke ich keinen Kaffee.", "Normally I drink coffee, but today I do not drink coffee."], ["Normalerweise trinke ich Kaffee, aber heute habe ich keinen Kaffee getrunken.", "Normally I drink coffee, but today I did not drink any coffee."]]], ["4 · Bathroom", [["Danach gehe ich ins Badezimmer.", "After that I go into the bathroom."], ["Ich bin im Badezimmer.", "I am in the bathroom."], ["Ich putze mir die Zähne.", "I brush my teeth."], ["Ich wasche mir das Gesicht.", "I wash my face."], ["Dann dusche ich.", "Then I shower."], ["Nach dem Duschen trockne ich mich ab.", "After showering I dry myself off. [recognition only]"], ["Nach dem Frühstück gehe ich ins Badezimmer und dusche.", "After breakfast I go into the bathroom and shower."]]], ["5 · Clothes and getting ready", [["Ich ziehe mich an.", "I get dressed."], ["Dann ziehe ich mich an.", "Then I get dressed."], ["Ich ziehe ein T-Shirt und eine Hose an.", "I put on a T-shirt and trousers."], ["Ich packe meine Tasche.", "I pack my bag."], ["Ich nehme mein Handy und meinen Schlüssel.", "I take my phone and my key."], ["Zum Schluss ziehe ich meine Schuhe an.", "Finally I put on my shoes."], ["Dann ziehe ich mich an und packe meine Tasche.", "Then I get dressed and pack my bag."]]], ["6 · Leaving home and going to work", [["Dann verlasse ich die Wohnung.", "Then I leave the apartment."], ["Ich gehe zur Arbeit.", "I go to work."], ["Manchmal nehme ich den Bus.", "Sometimes I take the bus."], ["Ich fahre mit dem Bus zur Arbeit.", "I go to work by bus."], ["Mit dem Bus fahre ich zur Arbeit.", "By bus, I go to work."], ["Manchmal fahre ich mit dem Bus zur Arbeit.", "Sometimes I go to work by bus."], ["Heute gehe ich zu Fuß zur Arbeit.", "Today I walk to work."], ["Um acht Uhr bin ich bei der Arbeit.", "At eight o’clock I am at work."], ["Manchmal gehe ich zu Fuß zur Arbeit, aber meistens nehme ich den Bus.", "Sometimes I walk to work, but usually I take the bus."], ["Normalerweise nehme ich den Bus, aber heute gehe ich zu Fuß zur Arbeit.", "Normally I take the bus, but today I walk to work."]]]], "chunks": [["in die Küche", "into the kitchen"], ["in der Küche", "in the kitchen"], ["ins Badezimmer", "into / to the bathroom"], ["im Badezimmer", "in the bathroom"], ["zum Frühstück", "for breakfast"], ["zur Arbeit", "to work"], ["nach dem Frühstück", "after breakfast"], ["danach", "after that"], ["zu Fuß", "on foot / walking"], ["mit dem Bus", "by bus"], ["ein Glas Wasser", "a glass of water"], ["eine Banane", "a banana"], ["einen Kaffee", "a coffee"], ["morgens", "in the mornings / generally in the morning"], ["am Morgen", "in the morning"]], "patterns": [["Movement → kitchen", "in die Küche"], ["Location → kitchen", "in der Küche"], ["Movement → bathroom", "ins Badezimmer = in das Badezimmer"], ["Location → bathroom", "im Badezimmer = in dem Badezimmer"], ["Negating the activity", "Ich frühstücke nicht."], ["Negating the noun", "Ich trinke keinen Kaffee. / Ich trinke kein Wasser."], ["Separable verb", "aufwachen → ich wache … auf · aufstehen → ich stehe … auf"]]};
+const content = document.getElementById('content');
+const chunkGrid = document.getElementById('chunkGrid');
+const patternGrid = document.getElementById('patternGrid');
+const toggleEnglish = document.getElementById('toggleEnglish');
+const audioStatus = document.getElementById('audioStatus');
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+DATA.sections.forEach((section,si)=>{
+  const [title,rows]=section;
+  const sec=document.createElement('section');
+  sec.className='section';
+  sec.id='s'+(si+1);
+  sec.innerHTML=`<div class="section-head"><h2>${esc(title)}</h2><div class="section-tools"><button class="smallbtn" data-section="${si}">🔊 Play section</button></div></div><div class="rows"></div>`;
+  const rowsEl=sec.querySelector('.rows');
+  rows.forEach(([de,en])=>{
+    const row=document.createElement('div');
+    row.className='row';
+    row.innerHTML=`<div class="de">${esc(de)}</div><div class="en">${esc(en)}</div><button class="speak" aria-label="Play German" data-speak="${esc(de)}">🔊</button>`;
+    rowsEl.appendChild(row);
+  });
+  content.appendChild(sec);
+});
+
+DATA.chunks.forEach(([de,en])=>{
+  const el=document.createElement('div');
+  el.className='ref';
+  el.innerHTML=`<div><div class="de">${esc(de)}</div><div class="en">${esc(en)}</div></div><button class="speak" aria-label="Play German" data-speak="${esc(de)}">🔊</button>`;
+  chunkGrid.appendChild(el);
+});
+
+DATA.patterns.forEach(([label,text])=>{
+  const el=document.createElement('div');
+  el.className='pattern';
+  el.innerHTML=`<div class="pattern-label">${esc(label)}</div><div class="pattern-text">${esc(text)}</div>`;
+  patternGrid.appendChild(el);
+});
+
+toggleEnglish.addEventListener('click',()=>{
+  document.body.classList.toggle('english-hidden');
+  toggleEnglish.textContent=document.body.classList.contains('english-hidden')?'Show English':'Hide English';
+});
+
+const remoteAudio = new Audio();
+remoteAudio.preload='none';
+let activeBtn=null;
+let playToken=0;
+
+function showStatus(msg,ms=2500){
+  audioStatus.textContent=msg; audioStatus.classList.add('show');
+  clearTimeout(showStatus.t); showStatus.t=setTimeout(()=>audioStatus.classList.remove('show'),ms);
+}
+function ttsUrl(text){
+  return 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=de&q='+encodeURIComponent(text);
+}
+function resetBtn(){
+  if(activeBtn){activeBtn.classList.remove('playing'); activeBtn.textContent='🔊';}
+  activeBtn=null;
+}
+function stopAudio(){
+  playToken++;
+  try{remoteAudio.pause();remoteAudio.currentTime=0;remoteAudio.removeAttribute('src');remoteAudio.load();}catch(e){}
+  resetBtn();
+}
+function splitText(text){
+  const parts=String(text).match(/[^.!?]+[.!?]?/g);
+  return (parts||[String(text)]).map(s=>s.trim()).filter(Boolean);
+}
+async function playParts(parts,btn,token){
+  for(const part of parts){
+    if(token!==playToken) return;
+    await new Promise((resolve,reject)=>{
+      remoteAudio.onended=resolve;
+      remoteAudio.onerror=reject;
+      remoteAudio.src=ttsUrl(part);
+      remoteAudio.load();
+      const p=remoteAudio.play();
+      if(p&&p.catch)p.catch(reject);
+    }).catch(()=>{throw new Error('audio');});
+  }
+}
+async function speak(text,btn){
+  if(activeBtn===btn){stopAudio();return;}
+  stopAudio();
+  const token=playToken;
+  activeBtn=btn;
+  if(btn){btn.classList.add('playing');btn.textContent='⏹';}
+  try{
+    await playParts(splitText(text),btn,token);
+    if(token===playToken) resetBtn();
+  }catch(e){
+    if(token===playToken){resetBtn();showStatus('Audio could not load. Check your connection and try again.');}
+  }
+}
+
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-speak]');
+  if(btn){speak(btn.dataset.speak,btn);return;}
+  const sb=e.target.closest('[data-section]');
+  if(sb){
+    const rows=DATA.sections[Number(sb.dataset.section)][1];
+    speak(rows.map(r=>r[0]).join(' '),sb);
+  }
+});
+</script>
+</body>
+</html>
